@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 330" data-material="frp">
+<path class="o" d="M0 310H44V330H0Z"/>
+<path class="o" d="M166 310H210V330H166Z"/>
+<path class="o" d="M6 150H38V310H6Z"/>
+<path class="o" d="M172 150H204V310H172Z"/>
+<path class="o" d="M2 140H42V150H2Z"/>
+<path class="o" d="M168 140H208V150H168Z"/>
+<path class="o" d="M2 140A103 103 0 0 1 208 140H172A67 67 0 0 0 38 140Z"/>
+<path class="d" d="M20 140A85 85 0 0 1 190 140"/>
+<path class="o" d="M93 31H117L112 77H98Z"/>
+<path class="d" d="M14 160V300M196 160V300"/>
+<path class="h" d="M10 120A96 96 0 0 1 60 56"/>
+</svg>

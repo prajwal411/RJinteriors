@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 260" data-material="grc">
+<path class="o" d="M4 6H98L51 67Z"/>
+<path class="o" d="M4 6L51 67L4 128Z"/>
+<path class="o2" d="M98 6V128L51 67Z"/>
+<path class="o2" d="M4 128H98L51 67Z"/>
+<path class="o" d="M102 6H196L149 67Z"/>
+<path class="o" d="M102 6L149 67L102 128Z"/>
+<path class="o2" d="M196 6V128L149 67Z"/>
+<path class="o2" d="M102 128H196L149 67Z"/>
+<path class="o" d="M4 132H98L51 193Z"/>
+<path class="o" d="M4 132L51 193L4 254Z"/>
+<path class="o2" d="M98 132V254L51 193Z"/>
+<path class="o2" d="M4 254H98L51 193Z"/>
+<path class="o" d="M102 132H196L149 193Z"/>
+<path class="o" d="M102 132L149 193L102 254Z"/>
+<path class="o2" d="M196 132V254L149 193Z"/>
+<path class="o2" d="M102 254H196L149 193Z"/>
+<path class="o" d="M0 254H200V260H0Z"/>
+</svg>

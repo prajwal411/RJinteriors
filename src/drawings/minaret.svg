@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 540" data-material="grc">
+<path class="o" d="M6 504H90V540H6Z"/>
+<path class="o" d="M10 494H86V504H10Z"/>
+<path class="o" d="M16 494L20 252H76L80 494Z"/>
+<path class="d" d="M34 494L36 252M62 494L60 252"/>
+<path class="o" d="M14 396H82V404H14Z"/>
+<path class="o" d="M16 316H80V324H16Z"/>
+<path class="o" d="M20 252L6 230H90L76 252Z"/>
+<path class="d" d="M13 241H83M27 252L22 241M37 252V241M48 252V241M59 252V241M69 252L74 241"/>
+<path class="o" d="M6 212H90V230H6Z"/>
+<path class="d" d="M12 228V214M18 228V214M24 228V214M30 228V214M36 228V214M42 228V214M48 228V214M54 228V214M60 228V214M66 228V214M72 228V214M78 228V214M84 228V214"/>
+<path class="o" d="M24 112H72V212H24Z"/>
+<path class="v" d="M41 192V164A7 7 0 0 1 55 164V192Z"/>
+<path class="o" d="M24 112L14 99H82L72 112Z"/>
+<path class="o" d="M14 87H82V99H14Z"/>
+<path class="d" d="M20 97V89M26 97V89M32 97V89M38 97V89M44 97V89M50 97V89M56 97V89M62 97V89M68 97V89M74 97V89"/>
+<path class="o" d="M26 58H70V87H26Z"/>
+<path class="v" d="M38 87V75A10 10 0 0 1 58 75V87Z"/>
+<path class="o" d="M22 58C20 46 32 38 40 30C45 25 47 20 48 14C49 20 51 25 56 30C64 38 76 46 74 58Z"/>
+<path class="d" d="M48 14V1"/>
+<path class="o" d="M45.4 7a2.6 2.6 0 1 0 5.2 0a2.6 2.6 0 1 0 -5.2 0Z"/>
+</svg>

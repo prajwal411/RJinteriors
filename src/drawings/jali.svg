@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 300" data-material="grc">
+<path class="o" d="M0 288H180V300H0Z"/>
+<path class="o" d="M8 14H172V288H8Z" mask="url(#mask-jali-holes)"/>
+<rect class="jl" x="18" y="32" width="144" height="240" fill="url(#pattern-jali-lines)"/>
+<path class="d" d="M18 32H162V272H18Z"/>
+</svg>

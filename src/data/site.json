@@ -1,0 +1,41 @@
+{
+  "name": "RJ Interiors & Constructions",
+  "shortName": "RJIC",
+  "url": "https://www.rjinteriors.in",
+  "address": {
+    "locality": "Bangalore",
+    "region": "Karnataka",
+    "country": "India",
+    "countryCode": "IN"
+  },
+  "phones": [
+    { "display": "+91 78921 42197", "tel": "+917892142197" },
+    { "display": "+91 99005 79417", "tel": "+919900579417" },
+    { "display": "+91 63633 85312", "tel": "+916363385312" }
+  ],
+  "emails": ["grcbanglore@gmail.com", "sandiil.k@rjinteriors.in"],
+  "formEndpoint": "",
+  "brands": [
+    { "name": "GRC Bangalore", "url": "https://www.grcbangalore.com/", "domain": "grcbangalore.com" },
+    { "name": "FRP Bangalore", "url": "https://www.frpbangalore.com/", "domain": "frpbangalore.com" },
+    { "name": "GRC Chennai", "url": "" },
+    { "name": "GRC Kochi", "url": "" }
+  ],
+  "areaServed": ["Karnataka", "Tamil Nadu", "Kerala"],
+  "knowsAbout": [
+    "Glass fibre reinforced concrete (GRC, GFRC)",
+    "Fibre reinforced plastic (FRP)",
+    "Architectural mouldings",
+    "Custom mould development",
+    "FRP storage tanks"
+  ],
+  "nav": [
+    { "key": "about", "label": "About", "href": "/about/" },
+    { "key": "products", "label": "Products", "href": "/products/" },
+    { "key": "manufacturing", "label": "Manufacturing", "href": "/manufacturing/" },
+    { "key": "industries", "label": "Industries", "href": "/industries/" },
+    { "key": "brands", "label": "Our brands", "href": "/brands/" },
+    { "key": "projects", "label": "Projects", "href": "/projects/" },
+    { "key": "contact", "label": "Contact", "href": "/contact/" }
+  ]
+}

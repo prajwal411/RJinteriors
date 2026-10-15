@@ -1,0 +1,36 @@
+<footer class="site-footer">
+  {{footer-cta}}
+  <div class="wrap site-footer__grid">
+    <div class="site-footer__about">
+      <p class="site-footer__name">RJ Interiors &amp; Constructions (RJIC)</p>
+      <p>Manufacturer of custom GRC and FRP architectural products. Manufacturing facility in {{site.address.locality}}, {{site.address.region}}, {{site.address.country}}.</p>
+    </div>
+    <div>
+      <h2 class="site-footer__heading">Call</h2>
+      <ul role="list">
+        {{phones}}
+      </ul>
+    </div>
+    <div>
+      <h2 class="site-footer__heading">Email</h2>
+      <ul role="list">
+        {{emails}}
+      </ul>
+    </div>
+    <nav aria-label="Footer">
+      <h2 class="site-footer__heading">Pages</h2>
+      <ul role="list">
+        {{footer-nav}}
+      </ul>
+    </nav>
+    <div>
+      <h2 class="site-footer__heading">Our brands</h2>
+      <ul role="list">
+        {{brand-links}}
+      </ul>
+    </div>
+  </div>
+  <div class="wrap site-footer__base">
+    <p>&copy; {{year}} RJ Interiors &amp; Constructions. All products manufactured in {{site.address.locality}}, {{site.address.region}}.</p>
+  </div>
+</footer>

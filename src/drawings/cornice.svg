@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 170" data-material="grc">
+<path class="x" d="M0 0H20V170H0Z"/>
+<path class="o" d="M20 16H164V22C186 22 184 48 208 48V52H212V78H176V82C176 92 166 96 156 96H128V100H20Z"/>
+<path class="o" d="M20 100H112C122 100 125 111 117 118C104 128 70 130 52 146C42 154 34 161 20 163Z"/>
+<path class="d" d="M105 110a6 6 0 1 0 12 0a6 6 0 1 0 -12 0ZM108.5 110a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0 -5 0Z"/>
+<path class="d" d="M24 108H100M164 22H28"/>
+</svg>

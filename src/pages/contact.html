@@ -1,0 +1,178 @@
+---
+title: Contact RJIC | Request a Quote for GRC and FRP Products
+description: Call, email or send an enquiry to RJ Interiors & Constructions, Bangalore, for quotes and advice on GRC and FRP products. Phone +91 78921 42197.
+path: /contact/
+nav: contact
+crumb: Contact
+cta: no
+bodyClass: page-contact
+headDrawing: jali
+---
+<header class="page-head">
+  <div class="jali-light" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="page-head__copy">
+      <h1>Contact us</h1>
+      <p class="lede">Call or email us, or use the form to request a quote. Drawings or photos, sizes, quantities and your site location help us reply with a useful answer.</p>
+    </div>
+    <div class="page-head__art" data-draw aria-hidden="true">{{head-drawing}}</div>
+  </div>
+</header>
+
+<section class="section section--flush">
+  <div class="wrap contact-layout">
+    <div class="enquiry" id="enquiry">
+      <h2 id="enquiry-title" data-enquiry-title>Request a quote</h2>
+      <p class="enquiry__intro">Fields marked optional can be left blank.</p>
+      <form class="form" data-enquiry-form data-endpoint="{{site.formEndpoint}}" action="mailto:{{site.emails.0}}" method="post" enctype="text/plain" novalidate aria-labelledby="enquiry-title">
+        <fieldset class="choice-group">
+          <legend>What do you need?</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="type" value="quote" checked><span>A quote</span></label>
+            <label class="choice"><input type="radio" name="type" value="advice"><span>Product or material advice</span></label>
+            <label class="choice"><input type="radio" name="type" value="references"><span>Details of similar projects</span></label>
+            <label class="choice"><input type="radio" name="type" value="other"><span>Something else</span></label>
+          </div>
+        </fieldset>
+
+        <div class="form__row form__row--2">
+          <div class="field">
+            <label for="f-name">Your name</label>
+            <input id="f-name" name="name" autocomplete="name" required aria-describedby="f-name-error">
+            <p class="field__error" id="f-name-error"></p>
+          </div>
+          <div class="field">
+            <label for="f-org">Company, practice or trust <span class="field__optional">(optional)</span></label>
+            <input id="f-org" name="organisation" autocomplete="organization">
+          </div>
+        </div>
+
+        <div class="form__row form__row--2">
+          <div class="field">
+            <label for="f-phone">Phone</label>
+            <input id="f-phone" name="phone" type="tel" autocomplete="tel" required aria-describedby="f-phone-error">
+            <p class="field__error" id="f-phone-error"></p>
+          </div>
+          <div class="field">
+            <label for="f-email">Email <span class="field__optional">(optional)</span></label>
+            <input id="f-email" name="email" type="email" autocomplete="email" aria-describedby="f-email-error">
+            <p class="field__error" id="f-email-error"></p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-location">Project location</label>
+          <p class="field__hint" id="f-location-hint">City or town, for example Bangalore, Chennai or Kochi</p>
+          <input id="f-location" name="location" autocomplete="address-level2" required aria-describedby="f-location-hint f-location-error">
+          <p class="field__error" id="f-location-error"></p>
+        </div>
+
+        <fieldset class="choice-group">
+          <legend>Material</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="material" value="GRC"><span>GRC</span></label>
+            <label class="choice"><input type="radio" name="material" value="FRP"><span>FRP</span></label>
+            <label class="choice"><input type="radio" name="material" value="Not sure" checked><span>Not sure</span></label>
+          </div>
+        </fieldset>
+
+        <div class="form__row form__row--2">
+          <div class="field">
+            <label for="f-product">Product <span class="field__optional">(optional)</span></label>
+            <select id="f-product" name="product">
+              <option value="">Choose a product</option>
+              <optgroup label="GRC">
+                <option>GRC jalis and decorative screens</option>
+                <option>Domes and minarets</option>
+                <option>Columns and capitals</option>
+                <option>Cornices and brackets</option>
+                <option>Arches, balusters and railings</option>
+                <option>Facade panels and cladding</option>
+                <option>Architectural fins and decorative elements</option>
+                <option>Planters, sculptures and custom GRC products</option>
+              </optgroup>
+              <optgroup label="FRP">
+                <option>FRP storage tanks and MS FRP tanks</option>
+                <option>FRP facade and cladding elements</option>
+                <option>FRP columns, corbels, capitals and cornices</option>
+                <option>FRP arches, gutters and decorative pots</option>
+                <option>Custom FRP products</option>
+              </optgroup>
+              <option>Something not listed</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-qty">Size and quantity <span class="field__optional">(optional)</span></label>
+            <p class="field__hint" id="f-qty-hint">For example, 12 panels of 1.2 m by 2.4 m</p>
+            <input id="f-qty" name="quantity" aria-describedby="f-qty-hint">
+          </div>
+        </div>
+
+        <div class="form__row form__row--2">
+          <div class="field">
+            <label for="f-timeline">When do you need it? <span class="field__optional">(optional)</span></label>
+            <select id="f-timeline" name="timeline">
+              <option value="">Not decided yet</option>
+              <option>Within a month</option>
+              <option>In 1 to 3 months</option>
+              <option>In 3 to 6 months</option>
+              <option>Later than 6 months</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-install">Do you need installation? <span class="field__optional">(optional)</span></label>
+            <select id="f-install" name="installation">
+              <option value="">Not sure yet</option>
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-message">Tell us about the project</label>
+          <p class="field__hint" id="f-message-hint">What you need, where it will go, and anything about the design you already know</p>
+          <textarea id="f-message" name="message" required aria-describedby="f-message-hint f-message-error"></textarea>
+          <p class="field__error" id="f-message-error"></p>
+        </div>
+
+        <input type="hidden" name="brand" value="">
+
+        <div class="form__submit">
+          <p class="form__note" data-mailto-note>Sending opens your email app with the details filled in, so you can attach drawings or photos before it goes.</p>
+          <button class="btn" type="submit" data-submit>Send quote request</button>
+          <p class="form__note">We use these details only to reply to you.</p>
+        </div>
+        <div class="form-status" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+
+    <aside class="contact-aside" aria-label="Contact details">
+      <div>
+        <h2>Call</h2>
+        <ul class="contact-list" role="list">
+          {{phones}}
+        </ul>
+      </div>
+      <div>
+        <h2>Email</h2>
+        <ul class="contact-list contact-list--email" role="list">
+          {{emails}}
+        </ul>
+      </div>
+      <div>
+        <h2>Manufacturing facility</h2>
+        <p>{{site.address.locality}}, {{site.address.region}}, {{site.address.country}}</p>
+      </div>
+      <div>
+        <h2>Helpful to include</h2>
+        <ul class="checklist" role="list">
+          <li>Drawings, sketches or photos</li>
+          <li>Dimensions and quantities</li>
+          <li>Site location and timeline</li>
+          <li>Whether you need installation</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</section>

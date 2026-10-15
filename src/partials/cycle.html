@@ -1,0 +1,102 @@
+<div class="cycle s1 s2 s3 s4 s5 s6 s7" data-cycle data-material="grc" data-stage="7">
+  <div class="cycle__bar">
+    <div class="cycle__tabs" role="group" aria-label="Choose a material">
+      <button class="cycle__tab" type="button" data-material="grc" aria-pressed="true">
+        <span class="cycle__code">GRC</span>
+        <span class="cycle__name">Glass fibre reinforced concrete</span>
+      </button>
+      <button class="cycle__tab" type="button" data-material="frp" aria-pressed="false">
+        <span class="cycle__code">FRP</span>
+        <span class="cycle__name">Fibre reinforced plastic</span>
+      </button>
+    </div>
+    <button class="cycle__play" type="button" data-play hidden>
+      <svg class="cycle__icon cycle__icon--pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2h3v12H4zM9 2h3v12H9z"/></svg>
+      <svg class="cycle__icon cycle__icon--play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z"/></svg>
+      <span data-play-label>Pause</span>
+    </button>
+  </div>
+
+  <div class="cycle__body">
+    <div class="cycle__stage">
+      {{> cycle-scene}}
+    </div>
+    <div class="cycle__lists">
+      <ol class="cycle__steps" data-steps="grc" role="list" aria-label="How GRC is made">
+        <li><button class="cycle__step" type="button" data-step="1" data-ms="2800">
+          <span class="cycle__n">1</span><span class="cycle__title">Prepare the mould</span>
+          <span class="cycle__desc"><span>The mould for your design is cleaned, closed and coated so the cast piece releases cleanly.</span></span>
+          <span class="cycle__progress" aria-hidden="true"></span>
+        </button></li>
+        <li><button class="cycle__step" type="button" data-step="2" data-ms="3000">
+          <span class="cycle__n">2</span><span class="cycle__title">Mix</span>
+          <span class="cycle__desc"><span>Cement, sand, water and alkali-resistant glass fibre are mixed into GRC.</span></span>
+          <span class="cycle__progress" aria-hidden="true"></span>
+        </button></li>
+        <li><button class="cycle__step" type="button" data-step="3" data-ms="3600">
+          <span class="cycle__n">3</span><span class="cycle__title">Cast</span>
+          <span class="cycle__desc"><span>The mix goes into the mould and is compacted so it fills every detail.</span></span>
+          <span class="cycle__progress" aria-hidden="true"></span>
+        </button></li>
+        <li><button class="cycle__step" type="button" data-step="4" data-ms="3000">
+          <span class="cycle__n">4</span><span class="cycle__title">Cure</span>
+          <span class="cycle__desc"><span>The piece is left in the mould until it is strong enough to handle.</span></span>
+          <span class="cycle__progress" aria-hidden="true"></span>
+        </button></li>
+        <li><button class="cycle__step" type="button" data-step="5" data-ms="2600">
+          <span class="cycle__n">5</span><span class="cycle__title">Demould</span>
+          <span class="cycle__desc"><span>The mould is opened and the cast piece comes out.</span></span>
+          <span class="cycle__progress" aria-hidden="true"></span>
+        </button></li>
+        <li><button class="cycle__step" type="button" data-step="6" data-ms="3000">
+          <span class="cycle__n">6</span><span class="cycle__title">Finish and check</span>
+          <span class="cycle__desc"><span>Edges are cleaned up and the piece is checked against the agreed size and finish.</span></span>
+          <span class="cycle__progress" aria-hidden="true"></span>
+        </button></li>
+        <li><button class="cycle__step" type="button" data-step="7" data-ms="4200">
+          <span class="cycle__n">7</span><span class="cycle__title">Supply and install</span>
+          <span class="cycle__desc"><span>Pieces cast from the same mould match, so a whole run fits together on site. We deliver, and install where installation is offered.</span></span>
+          <span class="cycle__progress" aria-hidden="true"></span>
+        </button></li>
+      </ol>
+      <ol class="cycle__steps" data-steps="frp" role="list" aria-label="How FRP is made" hidden>
+        <li><button class="cycle__step" type="button" data-step="1" data-ms="2800">
+          <span class="cycle__n">1</span><span class="cycle__title">Prepare the mould</span>
+          <span class="cycle__desc"><span>The mould is cleaned and coated with a release agent.</span></span>
+          <span class="cycle__progress" aria-hidden="true"></span>
+        </button></li>
+        <li><button class="cycle__step" type="button" data-step="2" data-ms="3000">
+          <span class="cycle__n">2</span><span class="cycle__title">Surface coat</span>
+          <span class="cycle__desc"><span>A surface coat goes in first. It becomes the finished face of the piece.</span></span>
+          <span class="cycle__progress" aria-hidden="true"></span>
+        </button></li>
+        <li><button class="cycle__step" type="button" data-step="3" data-ms="2800">
+          <span class="cycle__n">3</span><span class="cycle__title">Lay the glass fibre</span>
+          <span class="cycle__desc"><span>Glass fibre mat is laid into the mould.</span></span>
+          <span class="cycle__progress" aria-hidden="true"></span>
+        </button></li>
+        <li><button class="cycle__step" type="button" data-step="4" data-ms="3600">
+          <span class="cycle__n">4</span><span class="cycle__title">Add resin</span>
+          <span class="cycle__desc"><span>Resin is rolled into the fibre, and layers are built up to the thickness the piece needs.</span></span>
+          <span class="cycle__progress" aria-hidden="true"></span>
+        </button></li>
+        <li><button class="cycle__step" type="button" data-step="5" data-ms="3000">
+          <span class="cycle__n">5</span><span class="cycle__title">Cure</span>
+          <span class="cycle__desc"><span>The resin hardens into a strong, light shell.</span></span>
+          <span class="cycle__progress" aria-hidden="true"></span>
+        </button></li>
+        <li><button class="cycle__step" type="button" data-step="6" data-ms="3400">
+          <span class="cycle__n">6</span><span class="cycle__title">Release and trim</span>
+          <span class="cycle__desc"><span>The piece comes out of the mould, its edges are trimmed and it is checked.</span></span>
+          <span class="cycle__progress" aria-hidden="true"></span>
+        </button></li>
+        <li><button class="cycle__step" type="button" data-step="7" data-ms="4200">
+          <span class="cycle__n">7</span><span class="cycle__title">Supply and install</span>
+          <span class="cycle__desc"><span>Light pieces are easy to lift into place, even at roof level. We deliver, and install where installation is offered.</span></span>
+          <span class="cycle__progress" aria-hidden="true"></span>
+        </button></li>
+      </ol>
+      <p class="cycle__note">Typical stages. The exact method depends on the piece.</p>
+    </div>
+  </div>
+</div>

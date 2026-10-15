@@ -1,0 +1,183 @@
+/* The working cycle: how GRC and FRP pieces are made, stage by stage.
+   cycle.js sets data-material, data-stage (the stage playing now) and s1..s7 (every stage reached),
+   so parts that stay changed (a filled mould) key off s-classes, and moving parts key off data-stage. */
+
+.cycle { color: var(--lime); }
+.cycle__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; margin-bottom: clamp(1.5rem, 1rem + 1.5vw, 2.25rem); }
+.cycle__tabs { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.cycle__tab {
+  display: grid; justify-items: start; gap: 0.1rem;
+  min-width: 11rem; padding: 0.75rem 1.25rem 0.85rem;
+  background: transparent; color: var(--lime); cursor: pointer; text-align: left;
+  border: 2px solid rgb(255 244 232 / 0.28);
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.cycle__tab:hover { border-color: var(--lime); }
+@media (max-width: 40rem) {
+  .cycle__tabs { flex: 1 1 100%; flex-wrap: nowrap; }
+  .cycle__tab { flex: 1 1 0; min-width: 0; padding-inline: 0.9rem; }
+}
+.cycle__tab[aria-pressed="true"] { background: var(--lime); color: var(--ink); border-color: var(--lime); }
+.cycle__code { font-size: 1.75rem; line-height: 1; font-weight: 720; font-variation-settings: "SHRP" 100; letter-spacing: -0.01em; }
+.cycle__name { font-size: var(--text--1); line-height: 1.3; opacity: 0.85; }
+.cycle__play {
+  display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; padding: 0.5rem 1rem;
+  background: none; color: var(--lime); border: 2px solid rgb(255 244 232 / 0.28); cursor: pointer;
+  font-weight: 560; font-size: 0.9375rem;
+}
+.cycle__play:hover { border-color: var(--lime); }
+.cycle__icon { width: 0.9rem; height: 0.9rem; fill: currentColor; }
+.cycle__icon--play, .cycle.is-paused .cycle__icon--pause { display: none; }
+.cycle.is-paused .cycle__icon--play { display: block; }
+.cycle :focus-visible { outline-color: var(--ochre); }
+
+.cycle__body { display: grid; gap: 2rem 3.5rem; align-items: start; }
+@media (min-width: 64rem) { .cycle__body { grid-template-columns: 7fr 5fr; } }
+.cycle__stage {
+  position: relative; overflow: hidden;
+  background:
+    radial-gradient(ellipse 60% 50% at 72% 100%, rgb(255 140 90 / 0.45), transparent 70%),
+    linear-gradient(180deg, #24163F 0%, #34184C 55%, #6A2559 100%);
+  border-bottom: 3px solid var(--pink);
+}
+.cy-scene { display: block; width: 100%; height: auto; transition: opacity 0.3s ease; }
+
+.cycle__steps { display: grid; counter-reset: none; }
+.cycle__steps[hidden] { display: none; }
+.cycle__step {
+  position: relative; display: grid; grid-template-columns: 2.75rem 1fr; align-items: baseline;
+  width: 100%; padding: 0.85rem 0; text-align: left; cursor: pointer;
+  background: none; border: 0; border-top: 1px solid rgb(255 244 232 / 0.16); color: inherit;
+}
+.cycle__steps li:last-child .cycle__step { border-bottom: 1px solid rgb(255 244 232 / 0.16); }
+.cycle__n { font-size: 1.375rem; line-height: 1; font-weight: 300; font-variation-settings: "SHRP" 100; transition: color 0.3s ease, font-weight 0.3s ease; }
+.cycle__title { font-size: 1.125rem; font-weight: 600; font-variation-settings: "SHRP" 100; line-height: 1.3; }
+.cycle__step:hover .cycle__title { text-decoration: underline; text-decoration-color: var(--ochre); text-underline-offset: 0.25em; }
+.cycle__desc { grid-column: 2; display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.45s var(--ease-out, ease); }
+.cycle__desc > span { overflow: hidden; color: var(--on-ink-soft); font-size: 0.9375rem; line-height: 1.5; }
+.cycle__step.is-active .cycle__desc, html:not(.js) .cycle__desc { grid-template-rows: 1fr; }
+.cycle__step.is-active .cycle__desc > span { padding-top: 0.4rem; }
+.cycle__step.is-active .cycle__n { color: var(--ochre); font-weight: 640; }
+.cycle__progress {
+  position: absolute; left: 0; top: -1px; height: 3px; width: calc(var(--p, 0) * 100%);
+  background: var(--pink); pointer-events: none;
+}
+.cycle__note { margin-top: 1rem; font-size: var(--text--1); color: var(--on-ink-soft); }
+
+/* ---------- Scene drawing ---------- */
+.cy-scene * { transform-box: view-box; }
+.cy-ln { fill: none; stroke: var(--lime); stroke-opacity: 0.5; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.cy-floor { stroke-opacity: 0.85; stroke-width: 2; }
+.cy-eq { fill: #3A2560; stroke: var(--lime); stroke-opacity: 0.8; stroke-width: 1.6; stroke-linejoin: round; }
+.cy-wall { fill: #301C4C; stroke: var(--lime); stroke-opacity: 0.3; stroke-width: 1.4; }
+.cy-hatch { fill: url(#pattern-hatch); stroke: var(--lime); stroke-width: 1.6; stroke-linejoin: round; }
+.cy-hub { fill: var(--lime); }
+.cy-ghost { fill: none; stroke: var(--lime); stroke-width: 1.4; stroke-dasharray: 4 4; stroke-opacity: 0.55; transition: opacity 0.6s ease; }
+.cy-slot { fill: url(#pattern-grc); fill-opacity: 0; stroke: var(--lime); stroke-opacity: 0.6; stroke-width: 1.2; stroke-dasharray: 3 3; transition: fill-opacity 0.8s ease; }
+.cy-spark { fill: var(--ochre); opacity: 0; }
+.cy-dim { fill: none; stroke: var(--ochre); stroke-width: 1.4; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.cy-check { opacity: 0; scale: 0.4; transform-box: fill-box; transform-origin: center; transition: opacity 0.3s ease, scale 0.45s cubic-bezier(0.3, 1.6, 0.5, 1); }
+.cy-check circle { fill: var(--ochre); }
+.cy-check path { fill: none; stroke: var(--ink); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.cy-clock { opacity: 0; transition: opacity 0.4s ease; }
+.cy-hand { stroke: var(--ochre); stroke-width: 2.4; stroke-linecap: round; transform-origin: 436px 104px; }
+
+.cy-grc, .cy-frp { transition: opacity 0.35s ease; }
+.cycle[data-material="grc"] .cy-frp, .cycle[data-material="frp"] .cy-grc { opacity: 0; visibility: hidden; }
+.cy-balcony, .cy-drum-roof { opacity: 0.4; transition: opacity 0.5s ease; }
+.cycle[data-material="grc"] .cy-balcony, .cycle[data-material="frp"] .cy-drum-roof { opacity: 1; }
+
+/* GRC */
+.g-cement { fill: #B3ADA4; }
+.g-sand { fill: #CDB98C; }
+.g-fibre { stroke: var(--lime); stroke-width: 1.3; stroke-linecap: round; }
+.g-mix { opacity: 0; translate: 0 -46px; transform-origin: 100px 118px; transition: opacity 0.5s ease, translate 0.9s cubic-bezier(0.3, 1.3, 0.5, 1); }
+.g-paddle { transform-origin: 100px 118px; }
+.g-drum { transform-origin: 100px 150px; transition: rotate 1s cubic-bezier(0.65, 0, 0.35, 1); }
+.g-stream { fill: none; stroke: #B3ADA4; stroke-width: 7; stroke-linecap: round; stroke-dasharray: 0.07 0.025; opacity: 0; transition: opacity 0.3s ease; }
+.g-wet { fill: #8E877E; }
+.g-cured { fill: url(#pattern-grc); opacity: 0; transition: opacity 2.2s ease 0.3s; }
+.g-fill { transform: translateY(128px); transition: transform 2.3s cubic-bezier(0.45, 0, 0.3, 1) 1.1s; }
+.g-piece { fill: none; stroke: var(--ink); stroke-width: 1.6; opacity: 0; transition: opacity 0.5s ease 0.5s; }
+.g-coat { fill: none; stroke: var(--ochre); stroke-width: 2.6; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
+.g-mould-l, .g-mould-r { opacity: 0; transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.5s ease; }
+.g-mould-l { transform: translateX(-90px); }
+.g-mould-r { transform: translateX(90px); }
+.g-move { transform-origin: 320px 262px; transition: transform 1.9s cubic-bezier(0.65, 0, 0.35, 1) 0.3s; }
+
+.cycle.s1 :is(.g-mould-l, .g-mould-r) { transform: none; opacity: 1; }
+.cycle.s2 .g-mix { opacity: 1; translate: 0 0; }
+.cycle.s3 .g-fill { transform: none; }
+.cycle.s4 .g-mix { opacity: 0; }
+.cycle.s4 .g-cured { opacity: 1; }
+.cycle.s5 .g-mould-l { transform: translateX(-74px); opacity: 0.4; }
+.cycle.s5 .g-mould-r { transform: translateX(74px); opacity: 0.4; }
+.cycle.s5 .g-piece { opacity: 1; }
+.cycle.s7 .g-move { transform: translate(202px, -34px) scale(0.6); }
+.cycle[data-material="grc"].s7 .cy-slot { fill-opacity: 1; stroke: var(--ink); stroke-opacity: 1; stroke-dasharray: none; transition-delay: 2.1s; }
+
+.cycle[data-stage="1"] .g-coat { animation: cy-coat 2.2s ease 0.9s forwards; }
+.cycle[data-stage="2"] .g-mix { animation: cy-spin 1.2s linear infinite 0.7s; }
+.cycle:is([data-stage="2"], [data-stage="3"]) .g-paddle { animation: cy-spin 1.2s linear infinite; }
+.cycle[data-stage="3"] .g-drum { rotate: 30deg; }
+.cycle[data-stage="3"] .g-stream { opacity: 1; transition-delay: 0.9s; animation: cy-flow 0.45s linear infinite; }
+.cycle[data-stage="3"] .g-jitter { animation: cy-jitter 0.08s linear infinite 1.2s; }
+.cycle[data-material="grc"][data-stage="4"] .cy-clock,
+.cycle[data-material="frp"][data-stage="5"] .cy-clock { opacity: 1; }
+.cycle[data-material="grc"][data-stage="4"] .cy-hand,
+.cycle[data-material="frp"][data-stage="5"] .cy-hand { animation: cy-spin 1.3s linear infinite; }
+.cycle[data-stage="6"] .cy-dim { stroke-dashoffset: 0; transition: stroke-dashoffset 1s ease 0.3s; }
+.cycle[data-stage="6"] .cy-check { opacity: 1; scale: 1; transition-delay: 1.4s; }
+.cycle[data-stage="6"] .cy-spark { animation: cy-twinkle 1.1s ease-in-out infinite 0.4s; }
+
+/* FRP */
+.f-resin-pool { fill: var(--ochre); fill-opacity: 0.7; }
+.f-roll { transform-origin: 148px 228px; }
+.f-mat { fill: none; stroke: var(--lime); stroke-width: 5; stroke-dasharray: 3 3; opacity: 0; transition: opacity 0.4s ease; }
+.f-mould { opacity: 0; transform: translateX(-70px); transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.5s ease; }
+.f-release { fill: none; stroke: var(--ochre); stroke-width: 2.6; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
+.f-coat, .f-fibre, .f-resin { fill: none; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.f-coat { stroke: #7FC4BC; stroke-width: 3.5; }
+.f-fibre { stroke: var(--lime); stroke-width: 3; stroke-dasharray: 1; }
+.f-resin { stroke: var(--ochre); stroke-opacity: 0.6; stroke-width: 5; }
+.f-shell { fill: none; stroke: var(--gel); stroke-width: 9; opacity: 0; transition: opacity 1.4s ease 0.5s; }
+.f-gun { opacity: 0; translate: -30px -24px; transition: opacity 0.4s ease, translate 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.f-dot { fill: #A9DCD6; opacity: 0; }
+.f-roller { opacity: 0; transform-origin: 320px 196px; transition: opacity 0.3s ease; }
+.f-flip { transform-origin: 320px 196px; transition: transform 1.9s cubic-bezier(0.65, 0, 0.35, 1) 0.3s; }
+.f-move { transform-origin: 320px 150px; transition: transform 1.9s cubic-bezier(0.65, 0, 0.35, 1) 0.3s; }
+
+.cycle.s1 .f-mould { transform: none; opacity: 1; }
+.cycle.s2 .f-coat { stroke-dashoffset: 0; transition: stroke-dashoffset 1.8s ease 0.8s; }
+.cycle.s3 .f-fibre { stroke-dashoffset: 0; transition: stroke-dashoffset 1.6s ease 0.6s; }
+.cycle.s4 .f-resin { stroke-dashoffset: 0; stroke-width: 8; transition: stroke-dashoffset 2.6s ease 0.4s, stroke-width 2.6s ease 0.4s; }
+.cycle.s5 :is(.f-coat, .f-fibre, .f-resin) { opacity: 0; transition: opacity 1.4s ease 0.5s; }
+.cycle.s5 .f-shell { opacity: 1; }
+.cycle.s6 .f-mould { opacity: 0.4; }
+.cycle.s6 .f-flip { transform: translateY(-46px) rotate(180deg); }
+.cycle.s7 .f-move { transform: translate(245px, -54px) scale(0.4); }
+.cycle[data-material="frp"].s7 .cy-drum-roof .cy-ghost { opacity: 0; transition-delay: 2s; }
+
+.cycle[data-stage="1"] .f-release { animation: cy-coat 2.2s ease 0.9s forwards; }
+.cycle[data-stage="2"] .f-gun { opacity: 1; translate: 0 0; }
+.cycle[data-stage="2"] .f-dot { animation: cy-spray 0.8s linear infinite; animation-delay: calc(var(--n) * -0.09s + 0.7s); }
+.cycle[data-stage="3"] .f-mat { opacity: 1; }
+.cycle[data-stage="3"] .f-roll { animation: cy-spin 1.6s linear infinite reverse; }
+.cycle[data-stage="4"] .f-roller { opacity: 1; animation: cy-roll 3.2s cubic-bezier(0.65, 0, 0.35, 1) 0.3s both; }
+
+/* Instant jumps between states, pausing and switching material */
+.cycle.is-resetting .cy-scene, .cycle.is-resetting .cy-scene * { transition: none !important; animation: none !important; }
+.cycle.is-paused .cy-scene * { animation-play-state: paused !important; }
+.cycle.is-switching .cy-scene { opacity: 0; }
+
+@keyframes cy-coat { 0% { opacity: 1; stroke-dashoffset: 1; } 60% { opacity: 1; stroke-dashoffset: 0; } 100% { opacity: 0; stroke-dashoffset: 0; } }
+@keyframes cy-spin { to { rotate: 360deg; } }
+@keyframes cy-flow { to { stroke-dashoffset: -0.095; } }
+@keyframes cy-jitter { 0%, 100% { translate: -1.2px 0; } 50% { translate: 1.2px 0; } }
+@keyframes cy-twinkle { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+@keyframes cy-spray { 0% { translate: 0 0; opacity: 0.9; } 100% { translate: calc(62px + var(--n) * 3px) calc(28px + var(--n) * 4px); opacity: 0; } }
+@keyframes cy-roll { 0% { rotate: 0deg; } 50% { rotate: -180deg; } 100% { rotate: 0deg; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .cy-scene, .cy-scene * { transition: none !important; animation: none !important; }
+}

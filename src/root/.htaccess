@@ -1,0 +1,21 @@
+# Apache / cPanel hosting. Other static hosts (Netlify, Cloudflare Pages, Vercel)
+# pick up 404.html on their own and ignore this file.
+
+ErrorDocument 404 /404.html
+
+# Cache fonts and images for a year, CSS and JS for a week
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType text/javascript "access plus 1 week"
+</IfModule>
+
+# Optional: send every visitor to https://www.rjinteriors.in once SSL is active.
+# <IfModule mod_rewrite.c>
+#   RewriteEngine On
+#   RewriteCond %{HTTPS} off [OR]
+#   RewriteCond %{HTTP_HOST} !^www\. [NC]
+#   RewriteRule ^ https://www.rjinteriors.in%{REQUEST_URI} [L,R=301]
+# </IfModule>

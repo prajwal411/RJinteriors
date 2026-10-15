@@ -1,0 +1,13 @@
+{
+  "name": "rjinteriors-website",
+  "private": true,
+  "description": "Website for RJ Interiors & Constructions (www.rjinteriors.in)",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --serve"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

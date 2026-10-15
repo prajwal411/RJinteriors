@@ -1,0 +1,110 @@
+<svg class="cy-scene" viewBox="0 52 640 304" aria-hidden="true" focusable="false">
+  <defs>
+    <clipPath id="cy-grc-clip"><path d="M301 158H339V165.26H330.56C328.44 170.09 328.44 174.93 330.56 179.77C345.33 199.12 343.22 228.14 332.67 240.23L334.78 245.07H339V262H301V245.07H305.22L307.33 240.23C296.78 228.14 294.67 199.12 309.44 179.77C311.56 174.93 311.56 170.09 309.44 165.26H301Z"/></clipPath>
+    <clipPath id="cy-drum-clip"><circle cx="100" cy="118" r="35"/></clipPath>
+  </defs>
+
+  <!-- Workshop -->
+  <path class="cy-ln cy-floor" d="M0 340H640"/>
+  <path class="cy-eq" d="M206 270H434V280H206Z"/>
+  <path class="cy-ln" d="M220 280V340M420 280V340M220 312H420"/>
+
+  <!-- Site: the building where pieces are installed -->
+  <g class="cy-site">
+    <path class="cy-wall" d="M500 122H625V340H500Z"/>
+    <path class="cy-eq" d="M494 116H631V122H494Z"/>
+    <path class="cy-ln" d="M515 150H540V200H515ZM585 150H610V200H585ZM530 266H560V340H530ZM580 266H610V300H580Z"/>
+    <g class="cy-drum-roof">
+      <path class="cy-eq" d="M540 96H590V116H540Z"/>
+      <path class="cy-ln" d="M552 102V116M565 102V116M578 102V116"/>
+      <path class="cy-ghost" d="M540 96A25 25 0 0 1 590 96"/>
+    </g>
+    <g class="cy-balcony">
+      <path class="cy-eq" d="M455 228H592V236H455Z"/>
+      <path class="cy-eq" d="M455 160H592V166H455Z"/>
+      <path class="cy-ln" d="M459 166V228M588 166V228"/>
+      <path class="cy-slot" d="M468.6 165.6H491.4V169.95H486.33C485.07 172.86 485.07 175.76 486.33 178.66C495.2 190.27 493.93 207.68 487.6 214.94L488.87 217.84H491.4V228H468.6V217.84H471.13L472.4 214.94C466.07 207.68 464.8 190.27 473.67 178.66C474.93 175.76 474.93 172.86 473.67 169.95H468.6ZM552.6 165.6H575.4V169.95H570.33C569.07 172.86 569.07 175.76 570.33 178.66C579.2 190.27 577.93 207.68 571.6 214.94L572.87 217.84H575.4V228H552.6V217.84H555.13L556.4 214.94C550.07 207.68 548.8 190.27 557.67 178.66C558.93 175.76 558.93 172.86 557.67 169.95H552.6Z"/>
+    </g>
+  </g>
+
+  <!-- GRC: mixer, two-part mould, cast baluster -->
+  <g class="cy-grc">
+    <g class="g-station">
+      <path class="cy-ln" d="M100 150L62 340M100 150L138 340M74 280H126"/>
+      <g class="g-drum">
+        <path class="cy-eq" d="M60 118a40 40 0 1 0 80 0a40 40 0 1 0 -80 0Z"/>
+        <path class="cy-eq" d="M126 90L140 76L156 92L142 106Z"/>
+        <g clip-path="url(#cy-drum-clip)"><g class="g-mix"><circle class="g-cement" cx="129.75" cy="118.01" r="2.06"/><circle class="g-sand" cx="106.5" cy="143.67" r="2.45"/><path class="g-fibre" d="M90.02 138.83L84.28 144.39"/><circle class="g-cement" cx="75.28" cy="111.18" r="2.62"/><circle class="g-sand" cx="106.21" cy="104.07" r="2.2"/><path class="g-fibre" d="M89.29 92.33L97.17 93.67"/><circle class="g-cement" cx="91.45" cy="98.6" r="3.08"/><circle class="g-sand" cx="103.83" cy="107.83" r="2.42"/><path class="g-fibre" d="M124.53 102.46L121.03 109.66"/><circle class="g-cement" cx="73.83" cy="104.16" r="3.05"/><circle class="g-sand" cx="87.53" cy="130.91" r="2.94"/><path class="g-fibre" d="M91.64 125.31L96.4 131.75"/><circle class="g-cement" cx="84.84" cy="125.31" r="3.1"/><circle class="g-sand" cx="75.23" cy="108.66" r="3"/><path class="g-fibre" d="M115.88 119.91L114.36 127.77"/><circle class="g-cement" cx="79.91" cy="116.89" r="1.91"/><circle class="g-sand" cx="106.11" cy="114.07" r="2.18"/><path class="g-fibre" d="M89.8 138.04L82.02 139.92"/><circle class="g-cement" cx="87.44" cy="116.82" r="2.25"/><circle class="g-sand" cx="96.08" cy="136.3" r="2.28"/><path class="g-fibre" d="M90.19 133.88L87.39 141.38"/><circle class="g-cement" cx="103.1" cy="147.35" r="2.33"/><circle class="g-sand" cx="116.11" cy="99.27" r="2.61"/><path class="g-fibre" d="M80.33 112.44L75.85 119.08"/><circle class="g-cement" cx="118.14" cy="110.76" r="2.73"/><circle class="g-sand" cx="99.83" cy="141.75" r="2.16"/></g></g>
+        <path class="cy-ln g-paddle" d="M100 86V150M68 118H132"/>
+        <circle class="cy-hub" cx="100" cy="150" r="5"/>
+      </g>
+      <path class="g-stream" pathLength="1" d="M160 108C214 110 268 120 304 134Q318 140 320 158"/>
+    </g>
+    <g class="g-bench">
+      <g class="g-move">
+        <g clip-path="url(#cy-grc-clip)">
+          <rect class="g-fill g-wet" x="296" y="142" width="48" height="128"/>
+          <rect class="g-fill g-cured" x="296" y="142" width="48" height="128"/>
+        </g>
+        <path class="g-piece" d="M301 158H339V165.26H330.56C328.44 170.09 328.44 174.93 330.56 179.77C345.33 199.12 343.22 228.14 332.67 240.23L334.78 245.07H339V262H301V245.07H305.22L307.33 240.23C296.78 228.14 294.67 199.12 309.44 179.77C311.56 174.93 311.56 170.09 309.44 165.26H301Z"/>
+      </g>
+      <path class="g-coat" pathLength="1" d="M301 158H339V165.26H330.56C328.44 170.09 328.44 174.93 330.56 179.77C345.33 199.12 343.22 228.14 332.67 240.23L334.78 245.07H339V262H301V245.07H305.22L307.33 240.23C296.78 228.14 294.67 199.12 309.44 179.77C311.56 174.93 311.56 170.09 309.44 165.26H301Z"/>
+      <g class="g-jitter">
+        <path class="cy-hatch g-mould-l" d="M262 142H314V158H301V165.26H309.44C311.56 170.09 311.56 174.93 309.44 179.77C294.67 199.12 296.78 228.14 307.33 240.23L305.22 245.07H301V262H320V270H262Z"/>
+        <path class="cy-hatch g-mould-r" d="M378 142H326V158H339V165.26H330.56C328.44 170.09 328.44 174.93 330.56 179.77C345.33 199.12 343.22 228.14 332.67 240.23L334.78 245.07H339V262H320V270H378Z"/>
+      </g>
+      <g class="g-dims"><path class="cy-dim" pathLength="1" d="M352 158H366M352 262H366M360 158V262"/></g>
+      <path class="cy-spark" d="M296 179L297.96 184.04L303 186L297.96 187.96L296 193L294.04 187.96L289 186L294.04 184.04ZM346 231L347.4 234.6L351 236L347.4 237.4L346 241L344.6 237.4L341 236L344.6 234.6ZM300 246L301.12 248.88L304 250L301.12 251.12L300 254L298.88 251.12L296 250L298.88 248.88Z"/>
+    </g>
+  </g>
+
+  <!-- FRP: open mould, surface coat, glass fibre, resin, cured shell -->
+  <g class="cy-frp">
+    <g class="f-station">
+      <path class="cy-eq" d="M70 290H130L124 340H76Z"/>
+      <path class="cy-ln" d="M76 290C76 270 124 270 124 290"/>
+      <path class="f-resin-pool" d="M72 298H128L127 306H73Z"/>
+      <path class="cy-ln" d="M62 196V340M138 196V340"/>
+      <path class="cy-eq" d="M52 210H148V246H52Z"/>
+      <g class="f-roll">
+        <circle class="cy-eq" cx="148" cy="228" r="18"/>
+        <path class="cy-ln" d="M148 210V246M130 228H166"/>
+      </g>
+      <path class="f-mat" d="M166 228L210 252"/>
+    </g>
+    <g class="f-bench">
+      <path class="cy-hatch f-mould" d="M250 196H258A62 62 0 0 0 382 196H390V270H250Z"/>
+      <path class="f-release" pathLength="1" d="M258.5 196A61.5 61.5 0 0 0 381.5 196"/>
+      <g class="f-move">
+        <g class="f-flip">
+          <path class="f-coat" pathLength="1" d="M260 196A60 60 0 0 0 380 196"/>
+          <path class="f-fibre" pathLength="1" d="M263.5 196A56.5 56.5 0 0 0 376.5 196"/>
+          <path class="f-resin" pathLength="1" d="M264 196A56 56 0 0 0 376 196"/>
+          <path class="f-shell" d="M262.5 196A57.5 57.5 0 0 0 377.5 196"/>
+        </g>
+      </g>
+      <g class="f-gun">
+        <path class="cy-eq" d="M204 128L232 140L228 150L200 138Z"/>
+        <path class="cy-ln" d="M210 141L204 160"/>
+        <g class="f-spray" transform="translate(236 150)"><circle class="f-dot" style="--n:0" cx="0" cy="0" r="1.8"/><circle class="f-dot" style="--n:1" cx="0" cy="0" r="1.87"/><circle class="f-dot" style="--n:2" cx="0" cy="0" r="2.35"/><circle class="f-dot" style="--n:3" cx="0" cy="0" r="2.45"/><circle class="f-dot" style="--n:4" cx="0" cy="0" r="1.53"/><circle class="f-dot" style="--n:5" cx="0" cy="0" r="2.38"/><circle class="f-dot" style="--n:6" cx="0" cy="0" r="1.49"/><circle class="f-dot" style="--n:7" cx="0" cy="0" r="1.89"/><circle class="f-dot" style="--n:8" cx="0" cy="0" r="1.58"/></g>
+      </g>
+      <g class="f-roller">
+        <path class="cy-ln" d="M271 196L300 178"/>
+        <circle class="cy-eq" cx="271" cy="196" r="7"/>
+      </g>
+      <path class="cy-spark f-trim" d="M262 144L263.68 148.32L268 150L263.68 151.68L262 156L260.32 151.68L256 150L260.32 148.32ZM378 144L379.68 148.32L384 150L379.68 151.68L378 156L376.32 151.68L372 150L376.32 148.32Z"/>
+    </g>
+  </g>
+
+  <!-- Shared: curing clock and the quality check -->
+  <g class="cy-clock">
+    <circle class="cy-eq" cx="436" cy="104" r="20"/>
+    <path class="cy-ln" d="M436 88V91M436 117V120M420 104H423M449 104H452"/>
+    <path class="cy-hand" d="M436 104V92"/>
+    <circle class="cy-hub" cx="436" cy="104" r="2.5"/>
+  </g>
+  <g class="cy-check">
+    <circle cx="372" cy="146" r="13"/>
+    <path d="M365 146L370 151L379 141"/>
+  </g>
+</svg>

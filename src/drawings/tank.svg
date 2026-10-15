@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 270" data-material="frp">
+<path class="o" d="M0 256H170V270H0Z"/>
+<path class="o2" d="M14 240H156V256H14Z"/>
+<path class="o" d="M16 64H154V240H16Z"/>
+<path class="o" d="M16 64C16 44 50 30 85 30C120 30 154 44 154 64Z"/>
+<path class="o" d="M70 22H100V33H70Z"/>
+<path class="o" d="M66 18H104V22H66Z"/>
+<path class="d" d="M16 122Q85 130 154 122M16 182Q85 190 154 182M16 64Q85 72 154 64"/>
+<path class="o" d="M154 196H164V206H154Z"/>
+<path class="o" d="M164 190H170V212H164Z"/>
+<path class="h" d="M32 78V230"/>
+</svg>
