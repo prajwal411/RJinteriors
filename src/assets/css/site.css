@@ -648,13 +648,6 @@
   }
   .empty p { max-width: 56ch; color: var(--ink-soft); }
   .empty .actions { margin-top: 1rem; }
-  .project-list { display: grid; gap: 4rem; }
-  .project { display: grid; gap: 1.5rem 3rem; background: var(--ruled); padding-top: 1.5rem; }
-  .project__text > * + * { margin-top: 1rem; }
-  .project__facts { display: grid; gap: 0.5rem; }
-  .project__facts > div { display: grid; grid-template-columns: 8rem 1fr; gap: 1rem; }
-  .project__facts dt { font-weight: 600; }
-  @media (min-width: 64rem) { .project { grid-template-columns: 7fr 5fr; } }
 
   /* 404 */
   .not-found .actions { margin-top: 2rem; }
@@ -716,8 +709,8 @@
   /* Material bars pour; rules are drawn */
   .motion .material__bar { transform-origin: left center; transition: transform 1.1s var(--ease-in-out) var(--d, 0ms); }
   .motion .material__bar:not(.in-view) { transform: scaleX(0); }
-  .motion :is(.step, .industry, .brand, .about-grid > section, .project) { transition: background-size 1s var(--ease-in-out) var(--d, 0ms); }
-  .motion :is(.step, .industry, .brand, .about-grid > section, .project):not(.in-view) { background-size: 0% 2px; }
+  .motion :is(.step, .industry, .brand, .about-grid > section) { transition: background-size 1s var(--ease-in-out) var(--d, 0ms); }
+  .motion :is(.step, .industry, .brand, .about-grid > section):not(.in-view) { background-size: 0% 2px; }
 
   /* Map: coast drawn, land settles, markers set, routes flow from the factory */
   .map__pulse { fill: none; stroke: var(--ochre-deep); stroke-width: 2.5; opacity: 0; transform-box: fill-box; transform-origin: center; }

@@ -1,0 +1,73 @@
+{
+  "sectors": {
+    "retail": "Retail and commercial",
+    "hospitality": "Hospitality and events",
+    "worship": "Places of worship",
+    "healthcare": "Healthcare",
+    "public": "Education and public buildings",
+    "residential": "Residential",
+    "offices": "Offices and industry"
+  },
+  "work": {
+    "jali": {
+      "label": "Jali screens",
+      "href": "/products/#jalis",
+      "drawing": "jali",
+      "short": "jali screens"
+    },
+    "column": {
+      "label": "Columns and capitals",
+      "href": "/products/#columns",
+      "drawing": "column",
+      "short": "columns"
+    },
+    "cornice": {
+      "label": "Cornices and brackets",
+      "href": "/products/#cornices",
+      "drawing": "cornice",
+      "short": "cornices"
+    },
+    "arch": {
+      "label": "Arches",
+      "href": "/products/#arches-balustrades",
+      "drawing": "arch",
+      "short": "arches"
+    },
+    "balustrade": {
+      "label": "Balustrades and railings",
+      "href": "/products/#arches-balustrades",
+      "drawing": "balustrade",
+      "short": "balustrades"
+    },
+    "panel": {
+      "label": "Facade panels and cladding",
+      "href": "/products/#facade-panels",
+      "drawing": "panel",
+      "short": "cladding"
+    },
+    "fins": {
+      "label": "Facade fins",
+      "href": "/products/#fins",
+      "drawing": "fins",
+      "short": "fins"
+    },
+    "ornament": {
+      "label": "Decorative elements",
+      "href": "/products/#fins",
+      "drawing": "corbel",
+      "short": "ornament"
+    },
+    "dome": {
+      "label": "Domes",
+      "href": "/products/#domes-minarets",
+      "drawing": "dome",
+      "short": "domes"
+    },
+    "custom": {
+      "label": "Sculpture and custom pieces",
+      "href": "/products/#planters-custom",
+      "drawing": "mould",
+      "short": "custom pieces"
+    }
+  }
+}

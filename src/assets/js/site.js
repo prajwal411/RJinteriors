@@ -55,7 +55,7 @@
   }
 
   // Reveal as things scroll into view. Items revealed together are staggered in reading order.
-  const REVEAL = '[data-draw], [data-cure], [data-map], .material__bar, .step, .industry, .brand, .about-grid > section, .project, .journey';
+  const REVEAL = '[data-draw], [data-cure], [data-map], .material__bar, .step, .industry, .brand, .about-grid > section, .journey, .pcard, .pphoto';
   const reveal = (el) => {
     if (el.classList.contains('in-view')) return;
     el.classList.add('in-view');

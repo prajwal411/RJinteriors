@@ -1,0 +1,67 @@
+<header class="page-head project-head">
+  <div class="jali-light" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="page-head__copy">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/projects/">Projects</a></nav>
+      <h1>{{project.name}}</h1>
+      <p class="lede">{{project.summary}}</p>
+      <dl class="pfacts">
+        {{project-facts}}
+      </dl>
+    </div>
+    {{project-cover}}
+  </div>
+</header>
+
+<section class="section case" aria-labelledby="about-title">
+  <div class="wrap case__grid">
+    <div class="case__details">
+      <h2 class="case__heading" id="about-title">About the project</h2>
+      <div class="case__about">
+        {{project-about}}
+      </div>
+      {{project-work}}
+      <div class="actions case__actions">
+        <a class="btn" href="/contact/?type=quote#enquiry">Request a quote</a>
+        <a class="text-link" href="/contact/?type=references#enquiry">Ask about work like this</a>
+      </div>
+    </div>
+    <div class="case__photos">
+      <h2 class="visually-hidden" data-nocure>Photos</h2>
+      {{project-gallery}}
+    </div>
+  </div>
+</section>
+
+<section class="section section--cement more" aria-labelledby="more-title">
+  <div class="wrap">
+    <div class="more__head">
+      <h2 id="more-title">More projects</h2>
+      <a class="text-link" href="/projects/">See all {{project-count}} projects</a>
+    </div>
+    <ul class="pgrid pgrid--related" role="list">
+      {{project-related}}
+    </ul>
+    <nav class="pager" aria-label="Previous and next project">
+      {{project-pager}}
+    </nav>
+  </div>
+</section>
+
+<dialog class="lightbox" aria-label="Photos of {{project.name}}">
+  <figure class="lightbox__figure">
+    <img class="lightbox__img" src="data:," alt="">
+    <figcaption class="lightbox__caption"></figcaption>
+  </figure>
+  <p class="lightbox__count" aria-live="polite"></p>
+  <button class="lightbox__btn lightbox__close" type="button" data-close>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    <span>Close</span>
+  </button>
+  <button class="lightbox__btn lightbox__step lightbox__prev" type="button" data-step="-1" aria-label="Previous photo">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4l-8 8 8 8"/></svg>
+  </button>
+  <button class="lightbox__btn lightbox__step lightbox__next" type="button" data-step="1" aria-label="Next photo">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4l8 8-8 8"/></svg>
+  </button>
+</dialog>

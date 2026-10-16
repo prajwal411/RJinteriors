@@ -10,7 +10,7 @@
 //   {{helper}}                      output of a helper defined below (nav, phones, ...)
 //   {{site.key}} / {{page.key}}     escaped value from src/data/site.json or the page's front matter
 
-import { readFile, writeFile, mkdir, readdir, rm, cp } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, readdir, rm, cp, open } from 'node:fs/promises';
 import { watch } from 'node:fs';
 import { createServer } from 'node:http';
 import path from 'node:path';
@@ -45,6 +45,24 @@ function parsePage(raw) {
   return { meta, body: m ? raw.slice(m[0].length) : raw };
 }
 
+// Width and height of a WebP image, read from its header
+async function webpSize(file) {
+  const handle = await open(file).catch(() => {
+    throw new Error(`Missing image ${path.relative(root, file)}. Run: python tools/project-images.py`);
+  });
+  const buf = Buffer.alloc(30);
+  await handle.read(buf, 0, 30, 0);
+  await handle.close();
+  const chunk = buf.toString('ascii', 12, 16);
+  if (chunk === 'VP8X') return [1 + buf.readUIntLE(24, 3), 1 + buf.readUIntLE(27, 3)];
+  if (chunk === 'VP8 ') return [buf.readUInt16LE(26) & 0x3fff, buf.readUInt16LE(28) & 0x3fff];
+  if (chunk === 'VP8L') {
+    const bits = buf.readUInt32LE(21);
+    return [(bits & 0x3fff) + 1, ((bits >> 14) & 0x3fff) + 1];
+  }
+  throw new Error(`Not a WebP image: ${file}`);
+}
+
 function parseArgs(str) {
   const args = {};
   for (const [, k, v] of str.matchAll(/(\w+)=("[^"]*"|\S+)/g)) args[k] = v.replace(/^"|"$/g, '');
@@ -55,6 +73,8 @@ async function build() {
   const started = Date.now();
   const site = JSON.parse(await readFile(path.join(SRC, 'data', 'site.json'), 'utf8'));
   const projects = JSON.parse(await readFile(path.join(SRC, 'data', 'projects.json'), 'utf8'));
+  const types = JSON.parse(await readFile(path.join(SRC, 'data', 'project-types.json'), 'utf8'));
+  const templates = await readDir(path.join(SRC, 'templates'), '.html');
   const partials = await readDir(path.join(SRC, 'partials'), '.html');
   const drawings = await readDir(path.join(SRC, 'drawings'), '.svg');
   const layout = await readFile(path.join(SRC, 'layout.html'), 'utf8');
@@ -63,6 +83,23 @@ async function build() {
   const today = new Date().toISOString().slice(0, 10);
 
   const absolute = (p) => site.url.replace(/\/$/, '') + p;
+
+  // Projects: URLs, labels and the photo files made by tools/project-images.py
+  for (const p of projects) {
+    p.url = `/projects/${p.id}/`;
+    p.sectorLabel = types.sectors[p.sector];
+    if (!p.sectorLabel) throw new Error(`Unknown sector "${p.sector}" for project ${p.id}`);
+    for (const item of p.work) {
+      if (!types.work[item.type]) throw new Error(`Unknown work type "${item.type}" for project ${p.id}`);
+    }
+    p.images = [];
+    for (const [i, photo] of (p.photos || []).entries()) {
+      const base = `/assets/img/projects/${p.id}/${i + 1}`;
+      const [fw, fh] = await webpSize(path.join(SRC, `${base}.webp`));
+      const [tw, th] = await webpSize(path.join(SRC, `${base}-thumb.webp`));
+      p.images.push({ alt: photo.alt, full: { src: `${base}.webp`, w: fw, h: fh }, thumb: { src: `${base}-thumb.webp`, w: tw, h: th } });
+    }
+  }
 
   function drawing(name, args) {
     const svg = drawings[name];
@@ -75,6 +112,37 @@ async function build() {
     const body = inner.replace(/<path /g, '<path pathLength="1" ');
     return `<svg class="${cls}" viewBox="0 0 ${w} ${h}" style="--w:${w};--h:${h}" ` +
       `preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">${body.trim()}</svg>`;
+  }
+
+  // A responsive <img> for a project photo
+  function img(image, { sizes, priority = false, alt = image.alt }) {
+    const srcset = image.thumb.w < image.full.w
+      ? `${image.thumb.src} ${image.thumb.w}w, ${image.full.src} ${image.full.w}w`
+      : `${image.full.src} ${image.full.w}w`;
+    return `<img src="${image.thumb.src}" srcset="${srcset}" sizes="${sizes}" width="${image.full.w}" height="${image.full.h}" ` +
+      `alt="${esc(alt)}" ${priority ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`;
+  }
+
+  // One project in a grid. The photo is decorative here; the project page describes each photo.
+  // Cards in the main grid are named for view transitions: filtering moves them into place, and opening
+  // one carries its photo into the arch at the top of the project page.
+  function projectCard(p, { lead = false, heading = 'h2', named = false } = {}) {
+    const media = p.images.length
+      ? img(p.images[0], { alt: '', sizes: lead ? '(min-width: 72rem) 50rem, 92vw' : '(min-width: 72rem) 25rem, (min-width: 40rem) 46vw, 92vw' })
+      : `<span class="pcard__drawing">${drawing(p.drawing || 'column', { material: 'line' })}</span>`;
+    const work = [...new Set(p.work.map((item) => types.work[item.type].short))];
+    const workText = work.length > 1 ? `${work.slice(0, -1).join(', ')} and ${work.at(-1)}` : work[0] || '';
+    return `<li class="pcard${lead ? ' pcard--lead' : ''}" data-sector="${p.sector}"${named ? ` style="view-transition-name: card-${p.id}"` : ''}>
+  <a class="pcard__link" href="${p.url}">
+    <span class="pcard__media"${named ? ` style="view-transition-name: photo-${p.id}"` : ''}>${media}</span>
+    <span class="pcard__body">
+      <${heading} class="pcard__name" data-nocure>${esc(p.name)}</${heading}>
+      ${p.location ? `<span class="pcard__place">${esc(p.location)}</span>` : ''}
+      ${workText ? `<span class="pcard__work">${esc(workText.charAt(0).toUpperCase() + workText.slice(1))}</span>` : ''}
+    </span>
+    <span class="pcard__sector">${esc(p.sectorLabel)}</span>
+  </a>
+</li>`;
   }
 
   const helpers = {
@@ -103,7 +171,61 @@ async function build() {
       .map((name) => `<link rel="stylesheet" href="/assets/css/${name}.css">`).join('\n'),
     scripts: (ctx) => (ctx.page.scripts || '').split(/\s+/).filter(Boolean)
       .map((name) => `<script src="/assets/js/${name}.js" defer></script>`).join('\n'),
-    projects: (ctx) => (projects.length ? renderProjects(projects) : render(partials['projects-empty'], ctx)),
+    projects: (ctx) => (projects.length
+      ? `<ul class="pgrid" role="list">\n${projects.map((p, i) => projectCard(p, { lead: i === 0, named: true })).join('\n')}\n</ul>`
+      : render(partials['projects-empty'], ctx)),
+    'project-count': () => String(projects.length),
+    'project-filters': () => {
+      const counts = {};
+      for (const p of projects) counts[p.sector] = (counts[p.sector] || 0) + 1;
+      const button = (key, label, n, pressed) =>
+        `<button type="button" data-sector="${key}" aria-pressed="${pressed}">${esc(label)} <span class="pfilter__n">${n}</span></button>`;
+      return [button('all', 'All', projects.length, true),
+        ...Object.entries(types.sectors).filter(([key]) => counts[key]).map(([key, label]) => button(key, label, counts[key], false)),
+      ].join('\n');
+    },
+    // Project pages
+    'project-cover': ({ project: p }) => (p.images.length
+      ? `<figure class="pcover" style="view-transition-name: photo-${p.id}">${img(p.images[0], { sizes: '(min-width: 52rem) 30vw, 88vw', priority: true })}</figure>`
+      : `<div class="page-head__art" data-draw aria-hidden="true">${drawing(p.drawing || 'column', {})}</div>`),
+    'project-facts': ({ project: p }) => [
+      p.location && ['Location', esc(p.location)],
+      ['Sector', `<a href="/projects/?sector=${p.sector}">${esc(p.sectorLabel)}</a>`],
+      p.images.length && ['Photos', String(p.images.length)],
+    ].filter(Boolean).map(([term, value]) => `<div><dt>${term}</dt><dd>${value}</dd></div>`).join('\n'),
+    'project-about': ({ project: p }) => p.description.map((para) => `<p>${esc(para)}</p>`).join('\n'),
+    'project-work': ({ project: p }) => (p.work.length
+      ? `<h2 class="case__heading">What we made</h2>\n<ul class="work" role="list">\n${p.work.map((item) => {
+        const t = types.work[item.type];
+        return `<li class="work__item">
+  <span class="work__art" data-draw aria-hidden="true">${drawing(t.drawing, { material: 'line' })}</span>
+  <span class="work__text"><a class="work__label" href="${t.href}">${esc(t.label)}</a><span class="work__note">${esc(item.note)}</span></span>
+</li>`;
+      }).join('\n')}\n</ul>`
+      : ''),
+    'project-gallery': ({ project: p }) => (p.images.length
+      ? `<ul class="pgallery${p.images.length === 1 ? ' pgallery--single' : ''}" role="list">\n${p.images.map((image, i) => `<li class="pphoto">
+  <a class="pphoto__link" href="${image.full.src}" data-lightbox="${i}" data-w="${image.full.w}" data-h="${image.full.h}">
+    <span class="visually-hidden">View larger: </span>${img(image, { sizes: p.images.length === 1 ? '(min-width: 64rem) 46rem, 92vw' : '(min-width: 64rem) 23rem, (min-width: 34rem) 46vw, 92vw' })}
+    <span class="pphoto__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6"/></svg></span>
+  </a>
+</li>`).join('\n')}\n</ul>`
+      : '<p class="pgallery__empty">Photos of this project aren\'t on the website yet. <a href="/contact/?type=references#enquiry">Ask us about it</a> when you get in touch.</p>'),
+    'project-related': ({ project: p }) => {
+      const others = projects.filter((q) => q !== p && q.images.length);
+      const index = projects.indexOf(p);
+      const near = (q) => Math.abs(projects.indexOf(q) - index);
+      const picks = [...others.filter((q) => q.sector === p.sector).sort((a, b) => near(a) - near(b)),
+        ...others.filter((q) => q.sector !== p.sector).sort((a, b) => near(a) - near(b))].slice(0, 3);
+      return picks.map((q) => projectCard(q, { heading: 'h3' })).join('\n');
+    },
+    'project-pager': ({ project: p }) => {
+      const i = projects.indexOf(p);
+      const prev = projects[(i - 1 + projects.length) % projects.length];
+      const next = projects[(i + 1) % projects.length];
+      return `<a class="pager__link pager__link--prev" href="${prev.url}"><span class="pager__dir">Previous project</span><span class="pager__name">${esc(prev.name)}</span></a>
+<a class="pager__link pager__link--next" href="${next.url}"><span class="pager__dir">Next project</span><span class="pager__name">${esc(next.name)}</span></a>`;
+    },
     canonical: (ctx) => absolute(ctx.page.path),
     robots: (ctx) => (ctx.page.robots ? `<meta name="robots" content="${esc(ctx.page.robots)}">` : ''),
     jsonld: (ctx) => jsonLd(site, ctx.page, absolute),
@@ -133,13 +255,11 @@ async function build() {
   await cp(path.join(SRC, 'root'), OUT, { recursive: true });
 
   const sitemap = [];
-  for (const [file, raw] of Object.entries(pageFiles)) {
-    const { meta, body } = parsePage(raw);
-    const page = { file, bodyClass: '', ...meta };
-    const ctx = { site, page };
+  async function writePage(page, body, extra = {}) {
+    const ctx = { site, page, ...extra };
     // Motion hooks: headings "cure" and plates draw themselves as they scroll into view
     const content = render(body, ctx)
-      .replace(/<h([12])(?=[\s>])/g, '<h$1 data-cure')
+      .replace(/<h([12])(?=[\s>])(?![^>]*\bdata-nocure)/g, '<h$1 data-cure')
       .replace(/<(div|figure) class="plate/g, '<$1 data-draw class="plate');
     const html = render(layout, ctx).replace('<!-- content -->', () => content);
     const target = page.path.endsWith('/')
@@ -150,6 +270,29 @@ async function build() {
     if (page.sitemap !== 'no') sitemap.push(page.path);
   }
 
+  for (const [file, raw] of Object.entries(pageFiles)) {
+    const { meta, body } = parsePage(raw);
+    await writePage({ file, bodyClass: '', ...meta }, body);
+  }
+
+  // One page per project, from src/templates/project.html
+  for (const p of projects) {
+    const place = p.location ? `, ${p.location}` : '';
+    const firstWork = p.work[0] && types.work[p.work[0].type];
+    await writePage({
+      file: `project ${p.id}`,
+      path: p.url,
+      nav: 'projects',
+      bodyClass: 'page-project',
+      title: `${p.name}${place} | Projects | RJIC`,
+      description: `${p.summary} ${p.name}${place}: a project by RJ Interiors & Constructions, Bangalore.`,
+      trail: [{ name: 'Projects', path: '/projects/' }, { name: p.name, path: p.url }],
+      ctaDrawing: firstWork ? firstWork.drawing : 'dome',
+      styles: 'projects',
+      scripts: 'projects',
+    }, templates.project, { project: p });
+  }
+
   sitemap.sort((a, b) => a.length - b.length || a.localeCompare(b));
   await writeFile(path.join(OUT, 'sitemap.xml'),
     '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
@@ -157,26 +300,7 @@ async function build() {
     '\n</urlset>\n');
   await writeFile(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${absolute('/sitemap.xml')}\n`);
 
-  console.log(`Built ${Object.keys(pageFiles).length} pages into dist/ in ${Date.now() - started} ms`);
-}
-
-// Verified projects only. Each entry in src/data/projects.json becomes one listing.
-function renderProjects(projects) {
-  if (!projects.length) return '';
-  return `<ol class="project-list" role="list">\n${projects.map((p) => `<li class="project" id="${esc(p.id)}">
-  ${p.image ? `<figure class="project__image"><img src="${esc(p.image.src)}" alt="${esc(p.image.alt)}" width="${p.image.width}" height="${p.image.height}" loading="lazy" decoding="async"></figure>` : ''}
-  <div class="project__text">
-    <h2 class="project__title">${esc(p.name)}</h2>
-    <dl class="project__facts">
-      <div><dt>Location</dt><dd>${esc(p.location)}</dd></div>
-      <div><dt>Sector</dt><dd>${esc(p.sector)}</dd></div>
-      <div><dt>Products</dt><dd>${esc(p.products)}</dd></div>
-      <div><dt>Our scope</dt><dd>${esc(p.scope)}</dd></div>
-      ${p.completed ? `<div><dt>Completed</dt><dd>${esc(p.completed)}</dd></div>` : ''}
-    </dl>
-    ${p.summary ? `<p>${esc(p.summary)}</p>` : ''}
-  </div>
-</li>`).join('\n')}\n</ol>`;
+  console.log(`Built ${Object.keys(pageFiles).length + projects.length} pages into dist/ in ${Date.now() - started} ms`);
 }
 
 function jsonLd(site, page, absolute) {
@@ -203,13 +327,11 @@ function jsonLd(site, page, absolute) {
   const graph = [org];
   if (page.path === '/') {
     graph.push({ '@type': 'WebSite', '@id': absolute('/#website'), url: absolute('/'), name: site.name, publisher: { '@id': org['@id'] } });
-  } else if (page.crumb) {
+  } else if (page.trail || page.crumb) {
+    const trail = [{ name: 'Home', path: '/' }, ...(page.trail || [{ name: page.crumb, path: page.path }])];
     graph.push({
       '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: absolute('/') },
-        { '@type': 'ListItem', position: 2, name: page.crumb, item: absolute(page.path) },
-      ],
+      itemListElement: trail.map((step, i) => ({ '@type': 'ListItem', position: i + 1, name: step.name, item: absolute(step.path) })),
     });
   }
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2).replace(/</g, '\\u003c');

@@ -1,1 +1,905 @@
-[]
+[
+  {
+    "id": "courtyard-by-marriott-bengaluru",
+    "name": "Courtyard by Marriott",
+    "location": "Bengaluru",
+    "sector": "hospitality",
+    "summary": "Arches, columns, cornices, a balustrade and jali screens for a hotel facade.",
+    "description": [
+      "A classical front for the Courtyard by Marriott hotel in Bengaluru. Tall arched openings run along the ground floor between full-height columns, and the entrance porch is topped with a moulded cornice and a balustrade.",
+      "Beside the hotel sign, a row of geometric jali screens stands in front of the glazing, adding pattern while letting light through to the floors behind."
+    ],
+    "work": [
+      {
+        "type": "arch",
+        "note": "Arched openings along the ground floor and at the entrance porch"
+      },
+      {
+        "type": "column",
+        "note": "Full-height round columns between the arches"
+      },
+      {
+        "type": "cornice",
+        "note": "Moulded cornice and frieze around the porch"
+      },
+      {
+        "type": "balustrade",
+        "note": "Balustrade along the top of the porch"
+      },
+      {
+        "type": "jali",
+        "note": "Geometric jali screens in front of the glazing"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Courtyard Marriott – Bengaluru/cym2.jpg",
+        "alt": "Entrance porch of Courtyard by Marriott with a large arch, columns, cornice and balustrade"
+      },
+      {
+        "source": "Courtyard Marriott – Bengaluru/cmy3.jpg",
+        "alt": "Arched openings and round columns along the ground floor of the hotel"
+      },
+      {
+        "source": "Courtyard Marriott – Bengaluru/cym.jpg",
+        "alt": "Geometric jali screens beside the Courtyard by Marriott sign and green wall"
+      }
+    ]
+  },
+  {
+    "id": "1-mg-lido-mall-bengaluru",
+    "name": "1 MG-Lido Mall",
+    "location": "Bengaluru",
+    "sector": "retail",
+    "summary": "Fluted Corinthian columns and carved ornamental panels for a mall facade.",
+    "description": [
+      "A classical treatment for the facade of 1 MG-Lido Mall. Fluted columns with Corinthian capitals rise past two floors of glazing, set against the building's beige walls.",
+      "Between the columns, carved panels with a shell-and-scroll motif sit above and below the windows, and a white cornice runs along the top of the ground floor."
+    ],
+    "work": [
+      {
+        "type": "column",
+        "note": "Fluted columns with Corinthian capitals, rising past two floors"
+      },
+      {
+        "type": "ornament",
+        "note": "Carved shell-and-scroll panels above and below the windows"
+      },
+      {
+        "type": "cornice",
+        "note": "White cornice along the top of the ground floor"
+      }
+    ],
+    "photos": [
+      {
+        "source": "1 MG Lido Mall/mg1.jpg",
+        "crop": {
+          "bottom": 0.84
+        },
+        "alt": "Fluted columns and carved panels on the facade of 1 MG-Lido Mall"
+      },
+      {
+        "source": "1 MG Lido Mall/mg2.jpg",
+        "crop": {
+          "bottom": 0.74
+        },
+        "alt": "Close view of Corinthian capitals and carved panels between the windows"
+      },
+      {
+        "source": "1 MG Lido Mall/mg3.jpg",
+        "crop": {
+          "bottom": 0.855
+        },
+        "alt": "Column rising past two floors of glazing, with carved panels beside it"
+      },
+      {
+        "source": "1 MG Lido Mall/mg4.jpg",
+        "crop": {
+          "bottom": 0.855
+        },
+        "alt": "Corner of the mall with columns, a cornice and a carved panel"
+      },
+      {
+        "source": "1 MG Lido Mall/mg5.jpg",
+        "alt": "Fluted column with a Corinthian capital beside the shopfront"
+      }
+    ]
+  },
+  {
+    "id": "royal-convention-centre-mysuru",
+    "name": "Royal Convention Centre",
+    "location": "Mysuru",
+    "sector": "hospitality",
+    "summary": "A full-width jali screen across the front of a convention centre.",
+    "description": [
+      "A full-width jali screen with a star pattern covers the upper front of the Royal Convention Centre in Mysuru. In the evening the hall's lights shine through it, so the pattern glows from inside.",
+      "White pilaster panels frame the entrance and carry the centre's name."
+    ],
+    "work": [
+      {
+        "type": "jali",
+        "note": "Star-pattern jali screen across the upper front"
+      },
+      {
+        "type": "panel",
+        "note": "White pilaster panels around the entrance"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Royal Convention Hall – Mysore/royal1.jpg",
+        "crop": {
+          "bottom": 0.765
+        },
+        "alt": "Star-pattern jali screen on the Royal Convention Centre, lit from inside at dusk"
+      },
+      {
+        "source": "Royal Convention Hall – Mysore/royal2.jpg",
+        "crop": {
+          "bottom": 0.765
+        },
+        "alt": "Front of the Royal Convention Centre with the jali screen across the upper floor"
+      }
+    ]
+  },
+  {
+    "id": "aero-one-devanahalli",
+    "name": "Aero One",
+    "location": "Devanahalli, Bengaluru",
+    "sector": "residential",
+    "summary": "Full-height jali screens running up a residential tower.",
+    "description": [
+      "Bands of white jali screens run the full height of Aero One, a residential tower in Devanahalli. Two continuous bands on each face climb from the podium to the roof between the rows of windows.",
+      "The geometric pattern breaks up the height of the tower and stands out against its darker walls."
+    ],
+    "work": [
+      {
+        "type": "jali",
+        "note": "Two full-height bands of geometric jali on each face of the tower"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Aero One – Devanahalli/aero2.jpg",
+        "alt": "Aero One tower with two white jali bands rising from the podium to the roof"
+      },
+      {
+        "source": "Aero One – Devanahalli/aero1.jpg",
+        "alt": "View up the corner of the tower showing the jali bands"
+      },
+      {
+        "source": "Aero One – Devanahalli/aero3.jpg",
+        "alt": "Close view of the jali bands between rows of windows"
+      },
+      {
+        "source": "Aero One – Devanahalli/aero4.jpg",
+        "alt": "Jali band rising beside the balconies, seen from the podium"
+      }
+    ]
+  },
+  {
+    "id": "kbn-hospital-kalaburagi",
+    "name": "KBN Hospital",
+    "location": "Kalaburagi",
+    "sector": "healthcare",
+    "summary": "Arched jali panels across a hospital facade and its entrance gateway.",
+    "description": [
+      "Tall jali panels with pointed-arch tops run between the windows across the main facade of KBN Hospital, part of Khaja Bandanawaz University in Kalaburagi. Repeated floor after floor, they give the long white front a regular rhythm.",
+      "Matching jali panels and white cladding finish the entrance gateway."
+    ],
+    "work": [
+      {
+        "type": "jali",
+        "note": "Pointed-arch jali panels between the windows, repeated on every floor"
+      },
+      {
+        "type": "panel",
+        "note": "White cladding and a jali panel on the entrance gateway"
+      }
+    ],
+    "photos": [
+      {
+        "source": "KBN Hospital – Kalburgi/kbn2.jpg",
+        "alt": "Front of KBN Hospital with arched jali panels on both wings"
+      },
+      {
+        "source": "KBN Hospital – Kalburgi/kbn1.jpg",
+        "alt": "Side wing of the hospital with jali panels between the windows"
+      },
+      {
+        "source": "KBN Hospital – Kalburgi/kbn3.jpg",
+        "alt": "Entrance gateway with white cladding and a jali panel"
+      }
+    ]
+  },
+  {
+    "id": "bismilla-green-masjid",
+    "name": "Bismilla Green Masjid",
+    "location": "",
+    "sector": "worship",
+    "summary": "Large square-grid jali screens and calligraphy for a masjid.",
+    "description": [
+      "Large jali screens with a square grid wrap the upper floors of Bismilla Green Masjid, filtering light and air into the building while screening it from the street.",
+      "At the front, Arabic calligraphy stands out in relief from the stone-coloured cladding."
+    ],
+    "work": [
+      {
+        "type": "jali",
+        "note": "Square-grid jali screens across the upper floors"
+      },
+      {
+        "type": "custom",
+        "note": "Arabic calligraphy in relief on the front facade"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Bismilla Green Masjid/bgm1.jpg",
+        "alt": "Square-grid jali screen on the projecting front of the masjid, with calligraphy on the facade"
+      },
+      {
+        "source": "Bismilla Green Masjid/bgm2.jpg",
+        "alt": "Jali screens along the side of Bismilla Green Masjid"
+      },
+      {
+        "source": "Bismilla Green Masjid/bgm3.jpg",
+        "alt": "Entrance of the masjid with jali screens above"
+      }
+    ]
+  },
+  {
+    "id": "indian-tiffin-club",
+    "name": "Indian Tiffin Club",
+    "location": "",
+    "sector": "hospitality",
+    "summary": "Full-height jali screens wrapping a restaurant building.",
+    "description": [
+      "White jali screens with a block pattern wrap the front and corners of the Indian Tiffin Club building, rising the full height of the facade.",
+      "The screens frame open balconies hung with lanterns and planting, giving the restaurant a light, patterned front."
+    ],
+    "work": [
+      {
+        "type": "jali",
+        "note": "Block-pattern jali screens over the full height of the front and corners"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Indian Tiffen Club/indian1.jpg",
+        "alt": "Indian Tiffin Club building faced with full-height white jali screens"
+      },
+      {
+        "source": "Indian Tiffen Club/indian3.jpg",
+        "alt": "The restaurant's jali facade seen from the street through trees"
+      }
+    ]
+  },
+  {
+    "id": "regal-jewellers-bengaluru",
+    "name": "Regal Jewellers",
+    "location": "Bengaluru",
+    "sector": "retail",
+    "summary": "A facade of arched fins framing a jewellery showroom's signage.",
+    "description": [
+      "The front of the Regal Jewellers showroom is made up of vertical fins with looped, arch-shaped profiles. The arches overlap at different heights across the facade, giving it depth and movement.",
+      "The fins frame the large sign panel and the window band above it."
+    ],
+    "work": [
+      {
+        "type": "fins",
+        "note": "Vertical fins with arch-shaped profiles across the facade"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Regal Jewellers – Bangalore/regal2.jpg",
+        "alt": "Regal Jewellers showroom with arched fins across the facade"
+      },
+      {
+        "source": "Regal Jewellers – Bangalore/regal1.jpg",
+        "alt": "Arched fins around the Regal Jewellers sign"
+      }
+    ]
+  },
+  {
+    "id": "infant-jesus-shrine",
+    "name": "Infant Jesus Shrine",
+    "location": "",
+    "sector": "worship",
+    "summary": "An entrance arch with sculpted angels for a shrine.",
+    "description": [
+      "The entrance arch of the Infant Jesus Shrine. Kneeling angels in relief sit at either side of the arch, which is carried on tall pillars and topped with a cross.",
+      "The shrine's name and inscriptions in English and Tamil are set into the arch and the pillars."
+    ],
+    "work": [
+      {
+        "type": "arch",
+        "note": "Entrance arch carried on two tall pillars"
+      },
+      {
+        "type": "custom",
+        "note": "Kneeling angels in relief and inscribed panels"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Infant Jesus Church/infant1.jpg",
+        "crop": {
+          "bottom": 0.8
+        },
+        "alt": "Entrance arch of the Infant Jesus Shrine with kneeling angels"
+      },
+      {
+        "source": "Infant Jesus Church/infant3.jpg",
+        "crop": {
+          "bottom": 0.88
+        },
+        "alt": "The shrine's entrance arch seen from the side"
+      }
+    ]
+  },
+  {
+    "id": "harrow-international-school",
+    "name": "Harrow International School",
+    "location": "Bengaluru",
+    "sector": "public",
+    "summary": "Balustrades, window surrounds and cornices for a red-brick school campus.",
+    "description": [
+      "White balustrades, window surrounds and cornices set off the red-brick buildings of Harrow International School.",
+      "The balustrades follow the stepped garden terraces and the main stairs, and white columns and pediments mark the entrances."
+    ],
+    "work": [
+      {
+        "type": "balustrade",
+        "note": "Balustrades along the terraces and stairs"
+      },
+      {
+        "type": "cornice",
+        "note": "Cornices and window surrounds on the brick facades"
+      },
+      {
+        "type": "column",
+        "note": "Columns and pediments at the entrances"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Horow International School/harrow1.jpg",
+        "alt": "White balustrades on the terraces in front of the red-brick school building"
+      },
+      {
+        "source": "Horow International School/harrow2.jpg",
+        "alt": "Balustrades stepping down beside the main stairs"
+      }
+    ]
+  },
+  {
+    "id": "veterinary-college-athani",
+    "name": "Veterinary College",
+    "location": "Athani",
+    "sector": "public",
+    "summary": "Domes, cornices and window hoods for a college building.",
+    "description": [
+      "The long red-and-white main building of the Veterinary College at Athani is crowned by a central dome, with smaller domes at the corners.",
+      "White cornices, window hoods and brackets pick out each floor against the red walls, and a columned porch marks the entrance."
+    ],
+    "work": [
+      {
+        "type": "dome",
+        "note": "A central dome and smaller corner domes"
+      },
+      {
+        "type": "cornice",
+        "note": "Cornices, window hoods and brackets on every floor"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Veterinary College – Athani/veterinarycollage.jpg",
+        "alt": "Main building of the Veterinary College, Athani, with its central and corner domes"
+      },
+      {
+        "source": "Veterinary College – Athani/vc2.png",
+        "alt": "Entrance porch and wing of the college with white cornices and window hoods"
+      }
+    ]
+  },
+  {
+    "id": "venkatamma-ramaiah-kalyana-soudha",
+    "name": "Venkatamma Ramaiah Kalyana Soudha",
+    "location": "",
+    "sector": "hospitality",
+    "summary": "Facade and interior mouldings for a wedding and function hall.",
+    "description": [
+      "A function hall with a classical white front. Cornices, framed wall panels and pilasters run around the outside, and a jali screen lines the entrance porch beneath the lit name board.",
+      "Inside the hall, pilasters and mouldings frame tall windows under a coloured-glass roof."
+    ],
+    "work": [
+      {
+        "type": "cornice",
+        "note": "Cornices around the front and inside the hall"
+      },
+      {
+        "type": "panel",
+        "note": "Framed wall panels and pilasters on the facade"
+      },
+      {
+        "type": "jali",
+        "note": "Jali screen inside the entrance porch"
+      },
+      {
+        "type": "column",
+        "note": "Pilasters framing the windows inside the hall"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Venkatamma Ramaiah Kalyana Soudha/vrks1.jpg",
+        "alt": "Front of Venkatamma Ramaiah Kalyana Soudha at dusk"
+      },
+      {
+        "source": "Venkatamma Ramaiah Kalyana Soudha/vrks2.jpg",
+        "alt": "Inside the hall, with mouldings around the windows under a coloured-glass roof"
+      },
+      {
+        "source": "Venkatamma Ramaiah Kalyana Soudha/vrks3.jpg",
+        "alt": "Pilasters and window surrounds along the hall wall"
+      }
+    ]
+  },
+  {
+    "id": "princess-golf",
+    "name": "Princess Golf",
+    "location": "",
+    "sector": "hospitality",
+    "summary": "Carved window surrounds, pilasters and colonnades for an event venue.",
+    "description": [
+      "Classical detailing inside and out. In the hall, tall arched windows sit in carved surrounds between pilasters, under a deep moulded cornice.",
+      "Outside, a colonnade with ornate capitals runs along the verandah, and paired square columns mark the corners of the building."
+    ],
+    "work": [
+      {
+        "type": "arch",
+        "note": "Carved surrounds around the arched windows in the hall"
+      },
+      {
+        "type": "column",
+        "note": "Pilasters, a verandah colonnade and paired corner columns"
+      },
+      {
+        "type": "cornice",
+        "note": "Deep moulded cornice along the hall walls"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Princess Golf/princess2.jpg",
+        "alt": "Arched window with a carved surround between pilasters, inside the hall"
+      },
+      {
+        "source": "Princess Golf/princess4.jpg",
+        "alt": "The hall, with arched windows and pilasters along the wall"
+      },
+      {
+        "source": "Princess Golf/princess5.jpg",
+        "alt": "Paired columns with ornate capitals at the corner of the building"
+      },
+      {
+        "source": "Princess Golf/princess6.jpg",
+        "alt": "Bases of the paired square columns"
+      },
+      {
+        "source": "Princess Golf/princess3.jpg",
+        "alt": "Colonnade along the verandah"
+      }
+    ]
+  },
+  {
+    "id": "tdp-office",
+    "name": "TDP Office",
+    "location": "",
+    "sector": "offices",
+    "summary": "Columns, a pediment and a moulded cornice for a classical office building.",
+    "description": [
+      "A single-storey office in a classical style. Fluted columns with capitals line the verandah, and a pediment marks the main front.",
+      "A deep cornice and frieze run all the way around the roofline, and square columns carry the pergola in the garden."
+    ],
+    "work": [
+      {
+        "type": "column",
+        "note": "Fluted verandah columns and square pergola columns"
+      },
+      {
+        "type": "cornice",
+        "note": "Pediment, cornice and frieze around the roofline"
+      }
+    ],
+    "photos": [
+      {
+        "source": "TDP Office/tdpoffice1.jpg",
+        "alt": "Front of the TDP Office with columns, pediment and pergola"
+      },
+      {
+        "source": "TDP Office/tdpoffice2.jpg",
+        "alt": "Verandah colonnade and cornice along the side of the building"
+      },
+      {
+        "source": "TDP Office/tdpoffice4.jpg",
+        "alt": "Corner of the building with the pediment and cornice"
+      },
+      {
+        "source": "TDP Office/tdpoffice3.jpg",
+        "alt": "The office and its pergola in the garden"
+      }
+    ]
+  },
+  {
+    "id": "shriram-greenfield-bidarahalli",
+    "name": "Shriram Greenfield",
+    "location": "Bidarahalli, Bengaluru",
+    "sector": "residential",
+    "summary": "Tall decorative panels up the corners of residential towers.",
+    "description": [
+      "Tall decorative panels with a flowing leaf pattern run up the corners and edges of the residential towers at Shriram Greenfield, from the lower floors to the roof.",
+      "Against the pale walls, the dark openings of the pattern give each tower a strong vertical line."
+    ],
+    "work": [
+      {
+        "type": "jali",
+        "note": "Leaf-pattern panels running the full height of the tower corners"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Shriram Greenfield – Bidarahalli/sriram2.jpg",
+        "alt": "Shriram Greenfield tower with leaf-pattern panels up its corners"
+      },
+      {
+        "source": "Shriram Greenfield – Bidarahalli/sriram1.jpg",
+        "alt": "Tower seen from below, with decorative panels along each edge"
+      },
+      {
+        "source": "Shriram Greenfield – Bidarahalli/sriram3.jpg",
+        "alt": "Leaf-pattern panels on the tower against a blue sky"
+      }
+    ]
+  },
+  {
+    "id": "commercial-complex-malleswaram",
+    "name": "Commercial Complex",
+    "location": "Malleswaram, Bengaluru",
+    "sector": "retail",
+    "summary": "Jali screens wrapping two projecting bays of a commercial building.",
+    "description": [
+      "Two projecting bays on the front of this commercial building in Malleswaram are wrapped in white jali screens with a star pattern.",
+      "The screens shade the floors behind them while letting air through, and stand out behind the trees that line the street."
+    ],
+    "work": [
+      {
+        "type": "jali",
+        "note": "Star-pattern jali screens wrapping two projecting bays"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Commercial Complex – Malleswaram/complex1.jpg",
+        "crop": {
+          "bottom": 0.87
+        },
+        "alt": "Two jali-clad bays on the front of the commercial complex"
+      },
+      {
+        "source": "Commercial Complex – Malleswaram/racecourse2.jpg",
+        "crop": {
+          "bottom": 0.85
+        },
+        "alt": "The jali bays seen through the trees on the street"
+      }
+    ]
+  },
+  {
+    "id": "aayakar-bhavan-kochi",
+    "name": "Aayakar Bhavan",
+    "location": "Kochi",
+    "sector": "public",
+    "summary": "Tall columns and brackets for an Income Tax office building.",
+    "description": [
+      "Slender dark columns with capitals rise several floors up the front of Aayakar Bhavan, the Income Tax building in Kochi, framing the windows between them.",
+      "Matching columns stand at the glazed entrance, and brackets line the underside of the projecting cornice at the top."
+    ],
+    "work": [
+      {
+        "type": "column",
+        "note": "Slender columns rising several floors, and at the entrance"
+      },
+      {
+        "type": "cornice",
+        "note": "Brackets beneath the top cornice"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Aiykar Bhavan – Kochi/income2.jpg",
+        "alt": "Tall dark columns rising up the front of Aayakar Bhavan"
+      },
+      {
+        "source": "Aiykar Bhavan – Kochi/income1.jpg",
+        "alt": "Aayakar Bhavan, Kochi, with columns up the facade"
+      },
+      {
+        "source": "Aiykar Bhavan – Kochi/income3.jpg",
+        "alt": "Columns at the glazed entrance above a green wall"
+      },
+      {
+        "source": "Aiykar Bhavan – Kochi/income4.jpg",
+        "alt": "A column rising past the windows to the brackets under the cornice"
+      }
+    ]
+  },
+  {
+    "id": "arabian-gold-diamonds-kochi",
+    "name": "Arabian Gold & Diamonds",
+    "location": "Kochi",
+    "sector": "retail",
+    "summary": "A lit showroom facade with stepped frames and jali side panels.",
+    "description": [
+      "A showroom front for AGD Gold & Diamonds in Kochi. Stepped frames surround the brand panel and the entrance below it.",
+      "Jali panels on either side are lit from behind, so the pattern glows at night."
+    ],
+    "work": [
+      {
+        "type": "panel",
+        "note": "Stepped frames around the brand panel and entrance"
+      },
+      {
+        "type": "jali",
+        "note": "Backlit jali panels on both sides"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Arabian Gold & Diamond – Kochi/agd.jpg",
+        "crop": {
+          "top": 0.06,
+          "bottom": 0.909
+        },
+        "alt": "AGD Gold & Diamonds showroom at night with lit frames and jali panels"
+      }
+    ]
+  },
+  {
+    "id": "basil-wood-international-gunjur",
+    "name": "Basil Wood International (ISKCON)",
+    "location": "Gunjur, Bengaluru",
+    "sector": "public",
+    "summary": "Vertical fins and ochre cladding for a new institutional building.",
+    "description": [
+      "A new building at Gunjur, Bengaluru. The upper floor is wrapped in closely spaced vertical fins that shade the glazing behind them.",
+      "Ochre-coloured cladding covers the ground floor and the deep frame around the fins."
+    ],
+    "work": [
+      {
+        "type": "fins",
+        "note": "Closely spaced vertical fins around the upper floor"
+      },
+      {
+        "type": "panel",
+        "note": "Ochre cladding on the ground floor and frame"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Basil Wood International – Gunjur (ISKCON)/basil.jpg",
+        "crop": {
+          "bottom": 0.76
+        },
+        "alt": "Building with vertical fins wrapping the upper floor and ochre cladding below"
+      }
+    ]
+  },
+  {
+    "id": "iskcon-temple-coimbatore",
+    "name": "ISKCON Temple",
+    "location": "Coimbatore",
+    "sector": "worship",
+    "summary": "A custom jali panel with a gilded peacock.",
+    "description": [
+      "A custom jali panel for the ISKCON temple in Coimbatore. A radiating floral pattern fills the panel, with leaf motifs in the corners.",
+      "At its centre is a gilded peacock."
+    ],
+    "work": [
+      {
+        "type": "jali",
+        "note": "Radiating floral jali with corner motifs"
+      },
+      {
+        "type": "custom",
+        "note": "Gilded peacock at the centre"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Coimbatore ISKCON/iskcon-temple.jpg",
+        "alt": "White jali panel with a radiating floral pattern and a gilded peacock at its centre"
+      }
+    ]
+  },
+  {
+    "id": "renaissance-race-course-road",
+    "name": "Renaissance Hotel",
+    "location": "Race Course Road, Bengaluru",
+    "sector": "hospitality",
+    "summary": "Decorative screen panels set into a hotel's boundary wall.",
+    "description": [
+      "Three large decorative panels with a pattern of overlapping circles are set into the stone-clad boundary wall along Race Course Road.",
+      "Each panel sits in its own frame, turning a long plain wall into a feature along the pavement."
+    ],
+    "work": [
+      {
+        "type": "jali",
+        "note": "Three framed screen panels with a circle pattern"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Renaissance – Race Course Road/racecourse3.jpg",
+        "alt": "Three framed screen panels with a circle pattern in the boundary wall"
+      }
+    ]
+  },
+  {
+    "id": "manyavar-jayanagar",
+    "name": "Manyavar",
+    "location": "Jayanagar 4th Block, Bengaluru",
+    "sector": "retail",
+    "summary": "An orange fluted facade for a clothing store.",
+    "description": [
+      "A bright orange fluted facade for the Manyavar store in Jayanagar 4th Block. Vertical flutes run the full height of the upper floors, edged with a gold-finished trim.",
+      "Below, fluted pilasters frame the display windows of the shopfront."
+    ],
+    "work": [
+      {
+        "type": "panel",
+        "note": "Fluted cladding on the upper floors and around the shopfront"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Manyavar – Jayanagar 4th Block/manyavar.jpg",
+        "alt": "Manyavar store with an orange fluted facade above the shopfront"
+      }
+    ]
+  },
+  {
+    "id": "janatha-bazar-basavana-bagewadi",
+    "name": "Janatha Bazar",
+    "location": "Basavana Bagewadi",
+    "sector": "retail",
+    "summary": "A colonnade of tall columns and balustrades for a market building.",
+    "description": [
+      "A long colonnade of tall columns runs along the front of the Janatha Bazar building in Basavana Bagewadi, carrying the upper verandah.",
+      "Balustrades follow the entrance stairs and the edge of the upper floor."
+    ],
+    "work": [
+      {
+        "type": "column",
+        "note": "Tall columns along the full length of the front"
+      },
+      {
+        "type": "balustrade",
+        "note": "Balustrades on the stairs and the upper verandah"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Janatha Bazar – Basavanabagevadi/Janatha2.jpg",
+        "alt": "Entrance stairs with a balustrade between tall columns"
+      },
+      {
+        "source": "Janatha Bazar – Basavanabagevadi/JanathaB1.jpg",
+        "alt": "Colonnade along the front of the Janatha Bazar building"
+      }
+    ]
+  },
+  {
+    "id": "saree-manufacturer-office-dharmavaram",
+    "name": "Saree Manufacturer's Office",
+    "location": "Dharmavaram, Andhra Pradesh",
+    "sector": "offices",
+    "summary": "Paired columns, a cornice and a carved cartouche for an office front.",
+    "description": [
+      "A columned front for the office of a saree manufacturer in Dharmavaram. Paired fluted columns carry a deep entablature with a dentil cornice, and a carved cartouche marks the centre.",
+      "The photo was taken while work on the rest of the facade was still under way."
+    ],
+    "work": [
+      {
+        "type": "column",
+        "note": "Paired fluted columns across the front"
+      },
+      {
+        "type": "cornice",
+        "note": "Entablature with a dentil cornice"
+      },
+      {
+        "type": "ornament",
+        "note": "Carved cartouche at the centre"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Dharmavaram Saree Manufacturer Office – Dharmavaram/dar1.jpg",
+        "crop": {
+          "bottom": 0.925
+        },
+        "alt": "Office front with paired fluted columns, a dentil cornice and a carved cartouche"
+      }
+    ]
+  },
+  {
+    "id": "cmh-hospital-kolar",
+    "name": "CMH Hospital",
+    "location": "Kolar",
+    "sector": "healthcare",
+    "summary": "Brackets and mouldings along a hospital facade.",
+    "description": [
+      "Rows of white brackets run beneath the window hoods and the parapet of CMH Hospital in Kolar, giving the long facade a regular rhythm.",
+      "Matching mouldings edge the parapet and the entrance porch."
+    ],
+    "work": [
+      {
+        "type": "cornice",
+        "note": "Brackets under the window hoods and parapet, and parapet mouldings"
+      }
+    ],
+    "photos": [
+      {
+        "source": "CMH Hospital – Kolar/cmh-hospital.jpg",
+        "alt": "CMH Hospital facade with rows of white brackets under the window hoods"
+      }
+    ]
+  },
+  {
+    "id": "victoria-hospital-bengaluru",
+    "name": "Victoria Hospital",
+    "location": "Bengaluru",
+    "sector": "healthcare",
+    "summary": "An arched window surround, pilasters and cornices for a hospital building.",
+    "description": [
+      "Classical details for a building at Victoria Hospital in Bengaluru: an arched surround over the windows, and pilasters and cornice bands on the white facade.",
+      "A moulded fascia runs around the entrance porch."
+    ],
+    "work": [
+      {
+        "type": "arch",
+        "note": "Arched surround over the windows"
+      },
+      {
+        "type": "column",
+        "note": "Pilasters on the facade"
+      },
+      {
+        "type": "cornice",
+        "note": "Cornice bands and the moulded porch fascia"
+      }
+    ],
+    "photos": [
+      {
+        "source": "Victoria Hospital – Bengaluru/victoriahospital.jpg",
+        "alt": "Hospital building with an arched window surround, pilasters and an entrance porch"
+      }
+    ]
+  },
+  {
+    "id": "sandur-manganese-iron-ores",
+    "name": "Sandur Manganese & Iron Ores",
+    "location": "",
+    "sector": "offices",
+    "summary": "Classical facade elements for a company office building.",
+    "description": [
+      "Classical facade elements for an office building for Sandur Manganese & Iron Ores."
+    ],
+    "work": [],
+    "drawing": "column",
+    "photos": []
+  }
+]
