@@ -1,0 +1,20 @@
+---
+# Deployment for cPanel Git Version Control (BigRock hosting).
+#
+# The pages are assembled from src/ into dist/ by build.mjs, and dist/ is not
+# in the repository (see .gitignore). So each deployment builds the site on the
+# server with Node.js 20 or newer, then copies dist/ into the document root.
+#
+# DEPLOYPATH is the document root of the account's primary domain. If
+# rjinteriors.in is an addon domain, change it to that domain's document root,
+# as listed under Domains in cPanel (for example $HOME/rjinteriors.in/).
+deployment:
+  tasks:
+    - export DEPLOYPATH=$HOME/public_html/
+    # Node.js from PATH, or one installed by cPanel's "Setup Node.js App" (CloudLinux)
+    - NODE=; for n in node /opt/alt/alt-nodejs*/root/usr/bin/node; do if "$n" -e "process.exit(Number(process.versions.node.split('.')[0] < 20))" 2>/dev/null; then NODE=$n; break; fi; done
+    - if [ -z "$NODE" ]; then echo "Deployment stopped, Node.js 20 or newer was not found on this server" >&2; exit 1; fi
+    - $NODE build.mjs || exit 1
+    - /bin/mkdir -p "$DEPLOYPATH"
+    # dist/. rather than dist/* so hidden files such as .htaccess are copied too
+    - /bin/cp -R dist/. "$DEPLOYPATH"
