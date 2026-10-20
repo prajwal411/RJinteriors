@@ -114,6 +114,7 @@
     'frp-bangalore': 'FRP Bangalore',
     'grc-chennai': 'GRC Chennai',
     'grc-kochi': 'GRC Kochi',
+    'gfrc-innovation': 'GFRC Innovation',
   };
 
   const title = document.querySelector('[data-enquiry-title]');

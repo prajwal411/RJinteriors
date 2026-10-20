@@ -19,7 +19,8 @@
     { "name": "GRC Bangalore", "url": "https://www.grcbangalore.com/", "domain": "grcbangalore.com" },
     { "name": "FRP Bangalore", "url": "https://www.frpbangalore.com/", "domain": "frpbangalore.com" },
     { "name": "GRC Chennai", "url": "" },
-    { "name": "GRC Kochi", "url": "" }
+    { "name": "GRC Kochi", "url": "" },
+    { "name": "GFRC Innovation", "url": "" }
   ],
   "areaServed": ["Karnataka", "Tamil Nadu", "Kerala"],
   "knowsAbout": [

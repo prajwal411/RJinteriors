@@ -1,6 +1,6 @@
 # rjinteriors.in
 
-Website for RJ Interiors & Constructions (RJIC), the Bangalore manufacturer of GRC and FRP architectural products behind GRC Bangalore, FRP Bangalore, GRC Chennai and GRC Kochi.
+Website for RJ Interiors & Constructions (RJIC), the Bangalore manufacturer of GRC and FRP architectural products behind GRC Bangalore, FRP Bangalore, GRC Chennai, GRC Kochi and GFRC Innovation.
 
 It is a static site. A small build script (`build.mjs`, no dependencies) assembles the pages from shared templates into plain HTML in `dist/`.
 
