@@ -1,20 +1,31 @@
 ---
 # Deployment for cPanel Git Version Control (BigRock hosting).
 #
-# The pages are assembled from src/ into dist/ by build.mjs, and dist/ is not
-# in the repository (see .gitignore). So each deployment builds the site on the
-# server with Node.js 20 or newer, then copies dist/ into the document root.
+# build.mjs assembles the site from src/ into dist/: the HTML pages (index.html
+# is the home page, the SVG drawings are inlined into them), assets/ (CSS,
+# JavaScript, fonts, images), 404.html, robots.txt, sitemap.xml and .htaccess.
+# dist/ is not in the repository (see .gitignore), so each deployment builds it
+# on the server with Node.js 20 or newer and copies only the contents of dist/
+# into the document root. src/, tools/, build.mjs and the original photos stay
+# in the repository.
 #
-# DEPLOYPATH is the document root of the account's primary domain. If
-# rjinteriors.in is an addon domain, change it to that domain's document root,
-# as listed under Domains in cPanel (for example $HOME/rjinteriors.in/).
+# The document root is asked from cPanel for DOMAIN, so the files land in the
+# folder the domain is actually served from. If cPanel can't answer, it falls
+# back to $HOME/public_html. The deployment log names the folder used.
 deployment:
   tasks:
-    - export DEPLOYPATH=$HOME/public_html/
-    # Node.js from PATH, or one installed by cPanel's "Setup Node.js App" (CloudLinux)
-    - NODE=; for n in node /opt/alt/alt-nodejs*/root/usr/bin/node; do if "$n" -e "process.exit(Number(process.versions.node.split('.')[0] < 20))" 2>/dev/null; then NODE=$n; break; fi; done
+    - DOMAIN=rjinteriors.in
+    # Node.js from PATH, cPanel's ea-nodejs packages, or CloudLinux's "Setup Node.js App"
+    - NODE=; for n in node /opt/cpanel/ea-nodejs*/bin/node /opt/alt/alt-nodejs*/root/usr/bin/node; do if "$n" -e "process.exit(Number(process.versions.node.split('.')[0] < 20))" 2>/dev/null; then NODE=$n; break; fi; done
     - if [ -z "$NODE" ]; then echo "Deployment stopped, Node.js 20 or newer was not found on this server" >&2; exit 1; fi
+    # The same as npm run build. build.mjs has no dependencies, so there is nothing to install.
     - $NODE build.mjs || exit 1
+    - DEPLOYPATH=$(uapi --output=json DomainInfo single_domain_data domain=$DOMAIN 2>/dev/null | $NODE -e "let s='';process.stdin.on('data',(c)=>{s+=c}).on('end',()=>{try{const j=JSON.parse(s);process.stdout.write((j.result||j).data.documentroot||'')}catch{}})")
+    - case "$DEPLOYPATH" in "$HOME"/*) ;; *) echo "cPanel did not report a document root for $DOMAIN, using $HOME/public_html"; DEPLOYPATH=$HOME/public_html ;; esac
     - /bin/mkdir -p "$DEPLOYPATH"
     # dist/. rather than dist/* so hidden files such as .htaccess are copied too
-    - /bin/cp -R dist/. "$DEPLOYPATH"
+    - /bin/cp -R dist/. "$DEPLOYPATH/"
+    - if [ ! -f "$DEPLOYPATH/index.html" ]; then echo "Deployment stopped, index.html did not reach $DEPLOYPATH" >&2; exit 1; fi
+    - echo "Deployed dist/ to $DEPLOYPATH for $DOMAIN"
+    # An index.php left in the document root (such as a test page) can be shown in place of index.html
+    - if [ -e "$DEPLOYPATH/index.php" ]; then echo "Warning, $DEPLOYPATH/index.php is not part of this site and may be shown instead of index.html. Delete it in cPanel File Manager." >&2; fi
