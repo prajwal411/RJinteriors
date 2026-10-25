@@ -120,7 +120,7 @@
     return {
       kind: 'product', link, svg, name: link.dataset.name, bay: Number(link.dataset.bay),
       side: link.dataset.side === 'frp' ? 1 : -1, material: link.dataset.side.toUpperCase(),
-      frp: svg.classList.contains('m-frp'), vw: box.width, vh: box.height, scale: 0,
+      frp: svg.classList.contains('m-frp'), vw: box.width, vh: box.height, scale: 0, tag: 0, tagAt: 0, tagged: false,
     };
   });
   const piece = (side, bay) => products.find((p) => p.material === side && p.bay === bay);
@@ -764,7 +764,9 @@
       const b = (tr.sy - tl.sy) / gw;
       const c = (bl.sx - tl.sx) / 72;
       const d = (bl.sy - tl.sy) / 72;
-      ctx.globalAlpha = 0.5 * fog(tl.z) * clamp((380 - tl.z) / 60, 0, 1);
+      // they fade in from the far end, and out before they loom up beside you
+      ctx.globalAlpha = 0.5 * fog(tl.z) * clamp((380 - tl.z) / 60, 0, 1) * clamp((Math.min(tl.z, tr.z) - 22) / 26, 0, 1);
+      if (ctx.globalAlpha <= 0.01) return;
       ctx.setTransform(DPR * a, DPR * b, DPR * c, DPR * d, DPR * (tl.sx + c * 72), DPR * (tl.sy + d * 72));
       ctx.fillText(ch, 0, 0);
     });
@@ -825,26 +827,14 @@
     fillShape([[x0, EYE - PLINTH, p.d - 3], [x1, EYE - PLINTH, p.d - 3], [x1, EYE - PLINTH, p.d + 3], [x0, EYE - PLINTH, p.d + 3]], '#4A2C6E');
     fillShape([[xi, EYE - PLINTH, p.d - 3], [xi, EYE - PLINTH, p.d + 3], [xi, EYE, p.d + 3], [xi, EYE, p.d - 3]], '#241339');
     fillShape([[x0, EYE - PLINTH, p.d - 3], [x1, EYE - PLINTH, p.d - 3], [x1, EYE, p.d - 3], [x0, EYE, p.d - 3]], '#33204F');
+    // a stripe in the material's colour along the plinth
+    fillShape([[x0, EYE - PLINTH, p.d - 3], [x1, EYE - PLINTH, p.d - 3], [x1, EYE - PLINTH + 0.6, p.d - 3], [x0, EYE - PLINTH + 0.6, p.d - 3]], p.material === 'GRC' ? STONE : GEL);
     // finished pieces; the far ones come out of the haze as you walk towards them
     if (p.cast) blit(p.cast, p, base.sx, base.sy, p.ps * base.k);
     const w = p.pw * base.k;
     const h = p.ph * base.k;
-    // name on the plinth, once you start walking
-    const front = pt(p.x, EYE - PLINTH / 2, p.d - 3);
-    const size = 1.7 * (front ? front.k : 0);
-    if (front && size > 7 && cam.d > START + 4) {
-      ctx.globalAlpha = alpha * clamp((cam.d - START - 4) / 14, 0, 1);
-      ctx.font = `640 ${size.toFixed(1)}px Geologica, system-ui, sans-serif`;
-      ctx.textAlign = 'right';
-      ctx.textBaseline = 'middle';
-      ctx.fillStyle = SAND;
-      ctx.fillText(p.name, front.sx + size * 0.2, front.sy);
-      ctx.textAlign = 'left';
-      ctx.fillStyle = OCHRE;
-      ctx.fillText(p.material, front.sx + size * 0.6, front.sy);
-      ctx.textBaseline = 'alphabetic';
-    }
     ctx.globalAlpha = 1;
+    p.rect = { x: base.sx - w / 2, y: base.sy - h, w, h, frame: frameNo }; // where its tag ties on
     const bottom = pt(p.x, EYE, p.d - 3);
     hits.push({ p, x: base.sx - w / 2 - 4, y: base.sy - h - 4, w: w + 8, h: (bottom ? bottom.sy : base.sy) - base.sy + h + 8 });
   };
@@ -1004,17 +994,158 @@
       ctx.lineWidth = Math.max(1, 0.35 * hook.k);
       ctx.beginPath(); ctx.arc(hook.sx, hook.sy + hook.k * 0.9, hook.k * 0.9, -0.2, Math.PI * 1.1); ctx.stroke();
     }
-    const front = pt(0, EYE - 3, d - 6);
-    if (front && front.k > 3) {
-      ctx.font = `640 ${(2 * front.k).toFixed(1)}px Geologica, system-ui, sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillStyle = SAND;
-      ctx.fillText(name, front.sx, front.sy);
-      ctx.textBaseline = 'alphabetic';
-    }
+    if (name !== stageTag.name) { stageTag.name = name; stageTag.at = now; } // a new piece: the tag swings
+    stageTag.item = item;
+    stageTag.rect = { x: base.sx - (item.vw * m) / 2, y: y - item.vh * m, w: item.vw * m, h: item.vh * m, frame: frameNo };
     ctx.globalAlpha = 1;
     glows.push([0, EYE - 30, d, 30, 'rgba(255, 200, 150, 0.16)']);
+  };
+
+  // ---------- Name tags ----------
+  // The pieces at the bay you have stopped at each get a tag, like the ones tied to finished pieces in the
+  // yard. Tags stay up where they are easy to read and are tied to their piece by a string ending in an
+  // arrow. They swing in as you arrive and fade as you walk on.
+  let frameNo = 0;
+  const stageTag = { v: 0, at: 0, name: '', item: null, rect: null };
+  const tagShape = (x, y, w, h, side) => {
+    const n = Math.min(h * 0.42, 16); // the pointed end, towards the piece
+    const c = 6; // the site's chamfered corner
+    ctx.beginPath();
+    if (side < 0) {
+      ctx.moveTo(x + n, y); ctx.lineTo(x + w - c, y); ctx.lineTo(x + w, y + c); ctx.lineTo(x + w, y + h);
+      ctx.lineTo(x + n, y + h); ctx.lineTo(x, y + h * 0.66); ctx.lineTo(x, y + h * 0.34);
+    } else {
+      ctx.moveTo(x + c, y); ctx.lineTo(x + w - n, y); ctx.lineTo(x + w, y + h * 0.34); ctx.lineTo(x + w, y + h * 0.66);
+      ctx.lineTo(x + w - n, y + h); ctx.lineTo(x, y + h); ctx.lineTo(x, y + c);
+    }
+    ctx.closePath();
+  };
+  // side: -1 when the piece is on the left (the tag points left), 1 on the right. lo and hi bound the tag.
+  const drawTag = ({ side, kicker, material, name, rect, v, at, lo, hi, marked }, now) => {
+    const small = W < 600;
+    const nameSize = small ? 15 : clamp(W / 64, 17, 26);
+    const kickSize = small ? 9.5 : clamp(W / 140, 10, 12.5);
+    const padX = small ? 9 : 15;
+    const padY = small ? 7 : 10;
+    const point = small ? 13 : 16;
+    const kickFont = `700 ${kickSize}px Geologica, system-ui, sans-serif`;
+    const nameFont = `680 ${nameSize}px Geologica, system-ui, sans-serif`;
+    ctx.font = kickFont;
+    const kickW = ctx.measureText(kicker).width;
+    const chipW = ctx.measureText(material).width + 10;
+    ctx.font = nameFont;
+    const nameW = ctx.measureText(name).width;
+    const arrowW = ctx.measureText(' ›').width;
+    const w = point + padX * 2 + Math.max(kickW + 6 + chipW, nameW + arrowW);
+    const h = padY * 2 + kickSize + 6 + nameSize;
+    // beside the piece, between it and the middle, if there is room; otherwise straight above it
+    let x = side < 0 ? rect.x + rect.w + 18 : rect.x - 18 - w;
+    if (side < 0 ? x + w > hi : x < lo) x = rect.x + rect.w / 2 - w / 2;
+    x = clamp(x, lo, Math.max(lo, hi - w));
+    const shown = ease(clamp(v, 0, 1));
+    const y = Math.max(12, H * 0.07) - (1 - shown) * 12;
+    const hx = side < 0 ? x + point * 0.62 : x + w - point * 0.62;
+    const hy = y + h / 2;
+    // the string ties on at the top of the piece, or at its inner side when the top is above the tag
+    let tx = rect.x + rect.w / 2;
+    let ty = rect.y + Math.min(8, rect.h * 0.1);
+    if (ty < y + h + 26) {
+      tx = side < 0 ? rect.x + rect.w * 0.82 : rect.x + rect.w * 0.18;
+      ty = clamp(y + h + 50, rect.y + rect.h * 0.15, rect.y + rect.h * 0.7);
+    }
+    // it leaves the hole sideways and drops onto the piece, so the arrow points down at it
+    const cx = ty > hy ? tx : (hx + tx) / 2;
+    const cy = ty > hy ? hy : (hy + ty) / 2;
+    ctx.globalAlpha = shown;
+    // the string, drawn out from the tag to the piece (the first part of the curve, up to s)
+    const s = clamp((v - 0.3) / 0.7, 0, 1);
+    if (s > 0) {
+      const ax = hx + (cx - hx) * s;
+      const ay = hy + (cy - hy) * s;
+      const ex = ax + (cx + (tx - cx) * s - ax) * s;
+      const ey = ay + (cy + (ty - cy) * s - ay) * s;
+      ctx.strokeStyle = OCHRE;
+      ctx.lineWidth = small ? 1.4 : 1.8;
+      ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(hx, hy); ctx.quadraticCurveTo(ax, ay, ex, ey); ctx.stroke();
+      // arrowhead along the end of the string
+      const angle = Math.atan2(ey - ay, ex - ax);
+      const size = small ? 7 : 9;
+      ctx.fillStyle = OCHRE;
+      ctx.beginPath();
+      ctx.moveTo(ex, ey);
+      ctx.lineTo(ex - Math.cos(angle - 0.45) * size, ey - Math.sin(angle - 0.45) * size);
+      ctx.lineTo(ex - Math.cos(angle + 0.45) * size, ey - Math.sin(angle + 0.45) * size);
+      ctx.closePath();
+      ctx.fill();
+      if (s === 1 && motion) {
+        const pulse = (now * 0.9) % 1;
+        ctx.globalAlpha = shown * (1 - pulse) * 0.8;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.arc(tx, ty, 4 + pulse * 12, 0, TAU); ctx.stroke();
+        ctx.globalAlpha = shown;
+      }
+    }
+    // the tag, hanging from its hole and settling after it swings in
+    const t = now - at;
+    const swing = motion ? side * 0.16 * Math.exp(-t * 2.8) * Math.cos(t * 8) : 0;
+    ctx.save();
+    ctx.translate(hx, hy);
+    ctx.rotate(swing);
+    ctx.translate(-hx, -hy);
+    // a soft offset shadow (a blurred one costs too much on phones)
+    tagShape(x + 2, y + 6, w, h, side);
+    ctx.fillStyle = 'rgba(8, 4, 18, 0.38)';
+    ctx.fill();
+    tagShape(x, y, w, h, side);
+    ctx.fillStyle = SAND;
+    ctx.fill();
+    if (marked) { ctx.strokeStyle = OCHRE; ctx.lineWidth = 2.5; ctx.stroke(); }
+    dot(hx, hy, small ? 3.4 : 4.2, '#1A1030');
+    ctx.strokeStyle = OCHRE;
+    ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.arc(hx, hy, small ? 4.6 : 5.6, 0, TAU); ctx.stroke();
+    const textX = side < 0 ? x + point + padX : x + padX;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'top';
+    ctx.font = kickFont;
+    ctx.fillStyle = 'rgba(36, 20, 58, 0.62)';
+    ctx.fillText(kicker, textX, y + padY);
+    const chipX = textX + kickW + 6;
+    ctx.fillStyle = material === 'GRC' ? STONE : GEL;
+    rrect(chipX, y + padY - 2, chipW, kickSize + 4, 2);
+    ctx.fill();
+    ctx.strokeStyle = INK;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.fillStyle = INK;
+    ctx.fillText(material, chipX + 5, y + padY);
+    ctx.font = nameFont;
+    ctx.fillText(name, textX, y + padY + kickSize + 6);
+    ctx.fillStyle = '#E2702E';
+    ctx.fillText(' ›', textX + nameW, y + padY + kickSize + 6);
+    ctx.textBaseline = 'alphabetic';
+    ctx.restore();
+    ctx.globalAlpha = 1;
+    return { x, y, w, h };
+  };
+  const drawTags = (now) => {
+    const gap = W < 600 ? 5 : 16;
+    for (const p of products) {
+      if (p.tag < 0.02 || !p.rect || p.rect.frame !== frameNo) continue;
+      const box = drawTag({
+        side: p.side, kicker: `BAY 0${p.bay + 1}`, material: p.material, name: p.name, rect: p.rect, v: p.tag, at: p.tagAt,
+        lo: p.side < 0 ? 12 : W / 2 + gap, hi: p.side < 0 ? W / 2 - gap : W - 12, marked: p === (focused || hover),
+      }, now);
+      if (p.tag > 0.5) hits.push({ p, ...box });
+    }
+    const r = stageTag.rect;
+    if (stageTag.v > 0.02 && r && r.frame === frameNo) {
+      drawTag({
+        side: -1, kicker: 'NOW MAKING', material: stageTag.item.material, name: stageTag.item.name, rect: r, v: stageTag.v, at: stageTag.at,
+        lo: Math.min(r.x + r.w + 18, W - 200), hi: W - 12, marked: false,
+      }, now);
+    }
   };
 
   // ---------- Light ----------
@@ -1162,10 +1293,26 @@
     walker.step += cross(walker, 24, 11, false) * 0.95;
     forklift.roll += cross(forklift, 30, 9, true) / 1.6;
     crane.d = 250 + 210 * ease(wave(now / 60));
+    // tags for the bay you are stopping at (none at the entrance, where the words are, or at the casting bay)
+    let active = -1;
+    let best = 30;
+    for (let bay = 0; bay < BAYS && cam.d < STOP - 50; bay++) {
+      const off = Math.abs(Z0 + bay * GAP - cam.d - 75);
+      if (off < best) { best = off; active = bay; }
+    }
+    const ready = motion ? clamp((cam.d - START - 30) / 16, 0, 1) : 0;
+    const rate = 1 - Math.exp(-dt * 5);
+    for (const p of products) {
+      const want = p === focused ? 1 : p.bay === active ? ready : 0;
+      p.tag += (want - p.tag) * rate;
+      if (p.tag > 0.05 && !p.tagged) { p.tagged = true; p.tagAt = now; } else if (p.tag < 0.02) p.tagged = false;
+    }
+    stageTag.v += ((motion && cam.d > STOP - 50 ? 1 : 0) - stageTag.v) * rate;
   };
 
   const draw = (now) => {
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    frameNo++;
     // beside the words at the entrance, the aisle opens up right of centre, then straightens as you walk
     CX = W * (0.5 + (wide ? 0.14 : 0) * (1 - ease(clamp((cam.d - START) / 60, 0, 1))));
     cosY = Math.cos(cam.yaw); sinY = Math.sin(cam.yaw);
@@ -1195,6 +1342,7 @@
     const dark = motion ? 0.6 * (1 - clamp((now - intro - 0.3) / 2.6, 0, 1)) : 0;
     if (dark > 0.01) { ctx.fillStyle = `rgba(8, 4, 18, ${dark})`; ctx.fillRect(0, 0, W, H); }
     drawLight(now);
+    drawTags(now);
     // the piece under the pointer, or the one focused from the keyboard
     const marked = hits.find((hit) => hit.p === (focused || hover));
     if (marked) {
@@ -1266,7 +1414,7 @@
     } else if (walked > 8) {
       const bay = clamp(Math.round((cam.d + 80 - Z0) / GAP), 0, BAYS - 1);
       text = `Bay ${bay + 1} of ${BAYS}`;
-      pair = products.filter((p) => p.bay === bay).map((p) => `${p.material} ${p.name.toLowerCase()}`).join(' · ');
+      pair = '';
     }
     const label = focused ? `${focused.name} in ${focused.material}, press Enter to open` : '';
     if (label) pair = label;
