@@ -6,106 +6,111 @@ nav: home
 bodyClass: page-home
 ctaDrawing: dome
 styles: home cycle
-scripts: home cycle
+scripts: home walk cycle
 ---
-<section class="hero on-dark" aria-labelledby="hero-title">
-  <div class="jali-light" aria-hidden="true"></div>
-  <div class="wrap hero__grid">
-    <div class="hero__copy">
+<section class="walk on-dark" data-walk aria-labelledby="hero-title">
+  <div class="walk__view">
+    <canvas class="walk__canvas" aria-hidden="true"></canvas>
+    <div class="walk__copy">
+      <p class="hero__kicker">GRC and FRP manufacturer, Bangalore</p>
       <h1 class="hero__title" id="hero-title"><span class="w" style="--wi:0"><span>Your</span></span> <span class="w" style="--wi:1"><span>design,</span></span> <span class="w" style="--wi:2"><span>cast</span></span> <span class="w" style="--wi:3"><span>in</span></span> <span class="w" style="--wi:4"><span>GRC</span></span> <span class="w" style="--wi:5"><span>and</span></span> <span class="w" style="--wi:6"><span>FRP</span></span></h1>
       <p class="hero__lede">RJ Interiors &amp; Constructions (RJIC) makes architectural products to order at our facility in Bangalore. Jalis, domes, columns, facade panels, FRP tanks or anything you can draw: we develop the mould, make the piece and deliver it to your site.</p>
-      <div class="actions hero__actions">
+      <div class="actions hero__actions walk__actions">
         <a class="btn" href="/contact/?type=quote#enquiry">Request a quote</a>
         <a class="text-link" href="#how">See how it's made</a>
       </div>
+      <ul class="hero__facts" role="list">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 21V10l6 4V10l6 4V5h4v16zM2 21h20"/></svg>Made at our Bangalore facility</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h7v14H3zM14 5h7v14h-7zM10 8H8v8h2M14 8h2v8h-2"/></svg>Custom moulds for your design</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6h12v10H2zM14 9h4l4 4v3h-8"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>Supply, and installation where offered</li>
+      </ul>
     </div>
 
-    <div class="stage" data-stage-player data-phase="show" aria-hidden="true">
-      <div class="stage__sun"></div>
-      <span class="stage__bar"></span>
-      <div class="stage__hook"><svg viewBox="0 0 20 40"><path d="M10 0V22M10 22c-6 0-7 8-2 10s7-2 7-5"/></svg></div>
-      <div class="stage__piece">
-        <div class="stage__outline">{{drawing dome material=line}}</div>
-        <div class="stage__cast">{{drawing dome}}</div>
-      </div>
-      <div class="stage__plinth"></div>
-      <p class="stage__caption"><span class="stage__now">Now making</span><span class="stage__name">GRC dome</span></p>
+    <div class="walk__hud">
+      <a class="walk__skip text-link" href="#after-walk">Skip the walk</a>
+      <p class="walk__now" aria-hidden="true"><span class="walk__bay">Scroll to walk through the factory</span><span class="walk__pair"></span></p>
+      <a class="btn walk__quote" href="/contact/?type=quote#enquiry">Request a quote</a>
+      <span class="walk__progress" aria-hidden="true"></span>
     </div>
-    <ul class="hero__facts" role="list">
-      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 21V10l6 4V10l6 4V5h4v16zM2 21h20"/></svg>Made at our Bangalore facility</li>
-      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h7v14H3zM14 5h7v14h-7zM10 8H8v8h2M14 8h2v8h-2"/></svg>Custom moulds for your design</li>
-      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6h12v10H2zM14 9h4l4 4v3h-8"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>Supply, and installation where offered</li>
+
+    <!-- The pieces in the aisle, bay by bay, GRC on the left and FRP on the right. walk.js paints each
+         drawing onto the canvas; the links are here for keyboards, screen readers and search engines. -->
+    <ul class="walk__list visually-hidden" role="list" aria-label="Products along the factory aisle">
+      <li><a href="/products/#domes-minarets" data-bay="0" data-side="grc" data-name="Dome">Dome in GRC{{drawing dome}}</a></li>
+      <li><a href="/products/#frp-tanks" data-bay="0" data-side="frp" data-name="Tank">Tank in FRP{{drawing tank}}</a></li>
+      <li><a href="/products/#jalis" data-bay="1" data-side="grc" data-name="Jali">Jali in GRC{{drawing jali}}</a></li>
+      <li><a href="/products/#frp-arches-gutters" data-bay="1" data-side="frp" data-name="Arch">Arch in FRP{{drawing arch}}</a></li>
+      <li><a href="/products/#columns" data-bay="2" data-side="grc" data-name="Column">Column in GRC{{drawing column}}</a></li>
+      <li><a href="/products/#frp-planters" data-bay="2" data-side="frp" data-name="Planter">Planter in FRP{{drawing planter material=frp}}</a></li>
+      <li><a href="/products/#domes-minarets" data-bay="3" data-side="grc" data-name="Minaret">Minaret in GRC{{drawing minaret}}</a></li>
+      <li><a href="/products/#frp-columns" data-bay="3" data-side="frp" data-name="Corbel">Corbel in FRP{{drawing corbel}}</a></li>
+      <li><a href="/products/#facade-panels" data-bay="4" data-side="grc" data-name="Facade panel">Facade panel in GRC{{drawing panel}}</a></li>
+      <li><a href="/products/#frp-arches-gutters" data-bay="4" data-side="frp" data-name="Pot">Pot in FRP{{drawing pot}}</a></li>
+      <li><a href="/products/#fins" data-bay="5" data-side="grc" data-name="Fins">Fins in GRC{{drawing fins}}</a></li>
+      <li><a href="/products/#frp-facade" data-bay="5" data-side="frp" data-name="Facade panel">Facade panel in FRP{{drawing panel material=frp}}</a></li>
+      <li><a href="/products/#arches-balustrades" data-bay="6" data-side="grc" data-name="Balustrade">Balustrade in GRC{{drawing balustrade}}</a></li>
+      <li><a href="/products/#frp-columns" data-bay="6" data-side="frp" data-name="Cornice">Cornice in FRP{{drawing cornice material=frp}}</a></li>
+      <li><a href="/products/#cornices" data-bay="7" data-side="grc" data-name="Cornice">Cornice in GRC{{drawing cornice}}</a></li>
+      <li><a href="/products/#frp-custom" data-bay="7" data-side="frp" data-name="Custom work">Custom work in FRP{{drawing mould material=frp}}</a></li>
     </ul>
-    <template id="stage-pieces">
-      <div data-name="GRC dome">{{drawing dome}}</div>
-      <div data-name="GRC jali screen">{{drawing jali}}</div>
-      <div data-name="FRP storage tank">{{drawing tank}}</div>
-      <div data-name="GRC column">{{drawing column}}</div>
-      <div data-name="FRP arch">{{drawing arch}}</div>
-      <div data-name="GRC minaret">{{drawing minaret}}</div>
-    </template>
   </div>
 </section>
 
-<section class="conveyor" aria-label="Some of the products we make">
-  <div class="conveyor__beam" aria-hidden="true"></div>
-  <div class="conveyor__gate" aria-hidden="true"></div>
-  <div class="conveyor__machine" aria-hidden="true"><div class="conveyor__rollers"></div></div>
-  <div class="conveyor__pool" aria-hidden="true"></div>
-  <div class="conveyor__belt">
-    <div class="conveyor__layer conveyor__layer--lit">
-      <div class="conveyor__move">
-        <ul class="conveyor__track" role="list">
-          <li><a class="piece" href="/products/#domes-minarets">{{drawing minaret}}<span class="piece__label">Minaret<span class="visually-hidden"> in</span> <span class="piece__mat">GRC</span></span></a></li>
-          <li><a class="piece" href="/products/#jalis">{{drawing jali}}<span class="piece__label">Jali<span class="visually-hidden"> in</span> <span class="piece__mat">GRC</span></span></a></li>
-          <li><a class="piece" href="/products/#frp-tanks">{{drawing tank}}<span class="piece__label">Tank<span class="visually-hidden"> in</span> <span class="piece__mat">FRP</span></span></a></li>
-          <li><a class="piece" href="/products/#columns">{{drawing column}}<span class="piece__label">Column<span class="visually-hidden"> in</span> <span class="piece__mat">GRC</span></span></a></li>
-          <li><a class="piece" href="/products/#arches-balustrades">{{drawing balustrade}}<span class="piece__label">Balustrade<span class="visually-hidden"> in</span> <span class="piece__mat">GRC</span></span></a></li>
-          <li><a class="piece" href="/products/#frp-arches-gutters">{{drawing pot}}<span class="piece__label">Pot<span class="visually-hidden"> in</span> <span class="piece__mat">FRP</span></span></a></li>
-          <li><a class="piece" href="/products/#domes-minarets">{{drawing dome}}<span class="piece__label">Dome<span class="visually-hidden"> in</span> <span class="piece__mat">GRC</span></span></a></li>
-          <li><a class="piece" href="/products/#fins">{{drawing fins}}<span class="piece__label">Fins<span class="visually-hidden"> in</span> <span class="piece__mat">GRC</span></span></a></li>
-          <li><a class="piece" href="/products/#frp-arches-gutters">{{drawing arch}}<span class="piece__label">Arch<span class="visually-hidden"> in</span> <span class="piece__mat">FRP</span></span></a></li>
-          <li><a class="piece" href="/products/#frp-planters">{{drawing planter material=frp}}<span class="piece__label">Planter<span class="visually-hidden"> in</span> <span class="piece__mat">FRP</span></span></a></li>
-          <li><a class="piece" href="/products/#frp-columns">{{drawing corbel}}<span class="piece__label">Corbel<span class="visually-hidden"> in</span> <span class="piece__mat">FRP</span></span></a></li>
-          <li><a class="piece" href="/products/#facade-panels">{{drawing panel}}<span class="piece__label">Facade panel<span class="visually-hidden"> in</span> <span class="piece__mat">GRC</span></span></a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section mats-sec" aria-labelledby="materials-title">
+<section class="section mats-sec" id="after-walk" aria-labelledby="materials-title">
   <div class="wrap">
     <div class="section-head">
       <h2 id="materials-title">Two materials, one factory</h2>
       <p>Both can take almost any shape. Where the piece goes decides which one suits it best, and we help you choose.</p>
     </div>
-    <div class="mats">
-      <article class="mat mat--grc" aria-labelledby="mat-grc">
-        <div class="mat__art" data-draw>{{drawing column}}</div>
-        <div class="mat__body">
-          <h3 class="mat__title" id="mat-grc"><span class="mat__code">GRC</span><span class="mat__name">Glass fibre reinforced concrete</span></h3>
-          <p>Cement and sand reinforced with alkali-resistant glass fibre, cast in thin sections. It has the look of stone but weighs far less than solid concrete.</p>
-          <ul class="mat__traits" role="list">
-            <li>Stone-like finish</li>
-            <li>Holds fine detail</li>
-            <li>Light for its size</li>
-          </ul>
-          <p class="mat__links"><a class="text-link" href="/products/#grc">GRC products</a><a class="text-link" href="#how" data-show-cycle="grc">How GRC is made</a></p>
-        </div>
+    <div class="duo" data-duo>
+      <article class="duo__side duo__side--grc" data-side="grc" aria-labelledby="mat-grc">
+        <h3 class="duo__title" id="mat-grc"><span class="duo__code">GRC</span><span class="duo__name">Glass fibre reinforced concrete</span></h3>
+        <p>Cement and sand reinforced with alkali-resistant glass fibre, cast in thin sections. It has the look of stone but weighs far less than solid concrete.</p>
+        <h4 class="duo__label">Made from</h4>
+        <ul class="duo__recipe" role="list">
+          <li style="--i:0">Cement</li>
+          <li style="--i:1">Sand</li>
+          <li style="--i:2">Water</li>
+          <li style="--i:3">Alkali-resistant glass fibre</li>
+        </ul>
+        <h4 class="duo__label">Why choose it</h4>
+        <ul class="duo__traits" role="list">
+          <li>Stone-like finish</li>
+          <li>Holds fine detail</li>
+          <li>Light for its size</li>
+        </ul>
+        <p class="duo__links"><a class="text-link" href="/products/#grc">GRC products</a><a class="text-link" href="#how" data-show-cycle="grc">How GRC is made</a></p>
       </article>
-      <article class="mat mat--frp" aria-labelledby="mat-frp">
-        <div class="mat__art" data-draw>{{drawing tank}}</div>
-        <div class="mat__body">
-          <h3 class="mat__title" id="mat-frp"><span class="mat__code">FRP</span><span class="mat__name">Fibre reinforced plastic</span></h3>
-          <p>Resin reinforced with glass fibre, built up in a mould. It is light, water-tight and resists corrosion, so it suits tanks and planters as well as mouldings for high places.</p>
-          <ul class="mat__traits" role="list">
-            <li>Light to lift and fix</li>
-            <li>Water-tight</li>
-            <li>Resists corrosion</li>
-          </ul>
-          <p class="mat__links"><a class="text-link" href="/products/#frp">FRP products</a><a class="text-link" href="#how" data-show-cycle="frp">How FRP is made</a></p>
+
+      <!-- The same arch in both materials; the handle (a range input) moves the line between them -->
+      <figure class="duo__bay">
+        <div class="duo__tags" aria-hidden="true"><span>GRC</span><span>FRP</span></div>
+        <div class="duo__compare">
+          <div class="duo__sun" aria-hidden="true"></div>
+          <div class="duo__art duo__art--grc" data-draw>{{drawing arch material=grc}}</div>
+          <div class="duo__art duo__art--frp" data-draw>{{drawing arch}}</div>
+          <span class="duo__handle" aria-hidden="true"></span>
+          <input class="duo__range" type="range" min="0" max="100" value="50" aria-label="Compare the arch in GRC, on the left, and FRP, on the right">
         </div>
+        <figcaption class="duo__caption">The same arch, made in each. Drag the line to compare.</figcaption>
+      </figure>
+
+      <article class="duo__side duo__side--frp" data-side="frp" aria-labelledby="mat-frp">
+        <h3 class="duo__title" id="mat-frp"><span class="duo__code">FRP</span><span class="duo__name">Fibre reinforced plastic</span></h3>
+        <p>Resin reinforced with glass fibre, built up in a mould. It is light, water-tight and resists corrosion, so it suits tanks and planters as well as mouldings for high places.</p>
+        <h4 class="duo__label">Made from</h4>
+        <ul class="duo__recipe" role="list">
+          <li style="--i:0">Surface coat</li>
+          <li style="--i:1">Glass fibre mat</li>
+          <li style="--i:2">Resin</li>
+        </ul>
+        <h4 class="duo__label">Why choose it</h4>
+        <ul class="duo__traits" role="list">
+          <li>Light to lift and fix</li>
+          <li>Water-tight</li>
+          <li>Resists corrosion</li>
+        </ul>
+        <p class="duo__links"><a class="text-link" href="/products/#frp">FRP products</a><a class="text-link" href="#how" data-show-cycle="frp">How FRP is made</a></p>
       </article>
     </div>
   </div>

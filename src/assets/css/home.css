@@ -1,25 +1,50 @@
-/* Home page. Dark hero with a casting stage, a conveyor through a lit inspection gate, the two materials,
-   the working cycle, a filterable product range, the ordering journey, sectors and brands. */
+/* Home page. A walk down the factory aisle (drawn by walk.js), the two materials, the working cycle,
+   a filterable product range, the ordering journey, sectors and brands. */
 
-/* ---------- Hero ---------- */
-.hero {
-  position: relative; overflow: hidden; background: var(--sky);
-  padding-block: clamp(2.5rem, 1.5rem + 4vw, 4.5rem) clamp(3rem, 2rem + 4vw, 5rem);
+/* ---------- The factory walk ----------
+   The view holds still while the page scrolls under it, so scrolling walks down the aisle. Without the
+   script, or with reduced motion, it is one view of the aisle with the words over it. */
+.walk { position: relative; }
+.walk__view {
+  position: relative; overflow: hidden; isolation: isolate;
+  height: max(32rem, calc(100svh - var(--header-h)));
+  background: var(--sky);
 }
-.hero__grid { position: relative; display: grid; gap: 2.5rem 3rem; align-items: center; }
-@media (min-width: 64rem) {
-  .hero__grid {
-    grid-template-columns: 7fr 5fr; grid-template-areas: "copy stage" "facts stage";
-    min-height: min(38rem, calc(100svh - var(--header-h) - 7rem));
-  }
-  .hero__copy { grid-area: copy; align-self: end; }
-  .stage { grid-area: stage; }
-  .hero__facts { grid-area: facts; align-self: start; }
+/* about six screens of scrolling, so the walk is unhurried */
+.walk.is-live { height: calc(max(32rem, calc(100svh - var(--header-h))) + 600svh); }
+.walk.is-live .walk__view { position: sticky; top: var(--header-h); }
+.walk__canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.walk__view.is-pointing .walk__canvas { cursor: pointer; }
+.walk__view::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(120% 95% at 50% 46%, transparent 55%, rgb(10 5 20 / 0.55));
 }
+
+/* The words stand at the entrance; walk.js slides them away as you start walking.
+   On wide screens they sit in a column on the left and the aisle opens up to their right. */
+.walk__copy {
+  position: absolute; inset: 0 0 4.5rem; z-index: 2;
+  display: grid; align-content: center; justify-items: center; text-align: center;
+  padding: 1.5rem var(--gutter);
+  pointer-events: none;
+}
+.walk.is-live .walk__copy { will-change: transform, opacity; }
+.walk.is-walking .walk__copy { visibility: hidden; }
+.walk__copy::before {
+  content: ""; position: absolute; z-index: -1; left: 50%; top: 50%;
+  width: min(74rem, 140vw); height: 100%; translate: -50% -50%;
+  background: radial-gradient(closest-side, rgb(22 12 40 / 0.92) 55%, rgb(22 12 40 / 0.7) 75%, transparent);
+}
+.walk__copy a { pointer-events: auto; }
+.hero__kicker {
+  display: inline-flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem;
+  font-size: clamp(0.6875rem, 0.62rem + 0.3vw, 0.875rem); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ochre);
+}
+.hero__kicker::before { content: ""; width: 1.75rem; height: 2px; background: currentColor; }
 .hero__title {
-  font-size: clamp(2.75rem, 1.2rem + 5.6vw, 5.75rem);
+  margin-inline: auto; max-width: 11ch;
+  font-size: clamp(2.5rem, 1.6rem + 3.6vw, 4.25rem);
   line-height: 0.98; letter-spacing: -0.032em; font-weight: 700;
-  max-width: 11ch;
 }
 .hero__title .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.1em; margin-bottom: -0.1em; }
 .hero__title .w > span {
@@ -27,269 +52,164 @@
   background: linear-gradient(180deg, #FFF6EC 35%, #FFC3A0 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
-.hero__lede { margin-top: clamp(1.25rem, 1rem + 1vw, 1.75rem); max-width: 50ch; font-size: var(--text-1); line-height: 1.5; font-weight: 340; color: var(--on-ink-soft); }
-.hero__actions { margin-top: 2rem; }
+.hero__lede {
+  margin: clamp(1rem, 0.8rem + 0.8vw, 1.5rem) auto 0; max-width: 40ch;
+  font-size: var(--text-0); line-height: 1.55; font-weight: 340; color: var(--on-ink-soft);
+}
+.hero__actions { justify-content: center; margin-top: 1.75rem; }
 .hero__facts {
-  display: flex; flex-wrap: wrap; gap: 0.75rem 1.75rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid rgb(255 244 232 / 0.16);
-  font-size: 0.9375rem; color: var(--on-ink-soft);
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem 1.75rem;
+  margin-top: 1.75rem; font-size: 0.9375rem; color: var(--on-ink-soft);
 }
 .hero__facts li { display: inline-flex; align-items: center; gap: 0.6rem; }
 .hero__facts svg { width: 1.375rem; height: 1.375rem; fill: none; stroke: var(--ochre); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; flex: none; }
-
-/* ---------- Casting stage: each product is drawn, filled, then lifted away ---------- */
-.stage {
-  position: relative; aspect-ratio: 1; width: min(100%, 32rem); justify-self: center;
-  --void: var(--ink);
+@media (max-width: 63.99rem), (max-height: 46rem) { .hero__facts { display: none; } }
+@media (min-width: 64rem) and (min-aspect-ratio: 1/1) {
+  .walk__copy {
+    justify-items: start; text-align: left;
+    padding-left: max(var(--gutter), calc((100% - var(--max)) / 2));
+  }
+  .walk__copy::before {
+    left: 0; top: 0; bottom: -4.5rem; width: auto; height: auto; right: 0; translate: none;
+    background: linear-gradient(90deg, rgb(19 10 36 / 0.95) 0, rgb(19 10 36 / 0.9) 32%, rgb(19 10 36 / 0.72) 45%, rgb(19 10 36 / 0.25) 57%, transparent 68%);
+  }
+  .hero__title, .hero__lede { margin-inline: 0; }
+  .hero__lede { max-width: 36ch; font-size: var(--text-1); line-height: 1.5; }
+  .hero__actions { justify-content: flex-start; }
+  .hero__facts { flex-direction: column; align-items: flex-start; gap: 0.6rem; padding-top: 1.25rem; border-top: 1px solid rgb(255 244 232 / 0.16); }
 }
-.stage::before {
-  content: ""; position: absolute; inset: -12% -12% 10%;
-  background: radial-gradient(circle at 50% 48%, rgb(255 130 90 / 0.5), rgb(226 69 122 / 0.18) 40%, transparent 66%);
-}
-.stage__sun { position: absolute; left: 7%; right: 7%; top: 0; bottom: 23%; overflow: hidden; }
-.stage__sun::before {
-  content: ""; position: absolute; left: 0; top: 0; width: 100%; aspect-ratio: 1; border-radius: 50%;
-  background: var(--sun);
-  -webkit-mask: var(--sun-stripes); mask: var(--sun-stripes);
-}
-.stage__bar { position: absolute; left: 14%; right: 14%; bottom: calc(23% - 2px); height: 2px; background: var(--pink); transform-origin: left; transform: scaleX(0); z-index: 1; }
-.stage__piece { position: absolute; left: 25%; right: 25%; top: 13%; bottom: 29%; }
-.stage__outline, .stage__cast { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; }
-.stage__piece .drawing { width: 100%; height: 100%; --px: 1.6; --pxd: 1; }
-.stage__outline { color: var(--ink); }
-.stage__outline .drawing { --px: 1.8; }
-.stage__plinth {
-  position: absolute; left: 21%; right: 21%; bottom: 23%; height: 6%;
-  background: linear-gradient(#3A2058, #24143A); border: 1.5px solid rgb(255 244 232 / 0.6); border-bottom: 0;
-}
-.stage__plinth::after {
-  content: ""; position: absolute; left: -12%; right: -12%; top: 100%; height: 2px; background: var(--lime);
-}
-.stage__hook { position: absolute; left: 50%; top: 0; width: 1.25rem; height: 13%; translate: -50% -110%; opacity: 0; }
-.stage__hook svg { width: 100%; height: 100%; overflow: visible; }
-.stage__hook path { fill: none; stroke: var(--lime); stroke-width: 2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-.stage__hook::before { content: ""; position: absolute; left: 50%; bottom: 100%; width: 2px; height: 30rem; translate: -50% 0; background: var(--lime); }
-.stage__caption {
-  position: absolute; left: 0; right: 0; bottom: 0; text-align: center; display: grid; gap: 0.1rem;
-}
-.stage__now { font-size: var(--text--1); color: var(--on-ink-soft); }
-.stage__name { font-size: 1.25rem; font-weight: 640; font-variation-settings: "SHRP" 100; color: var(--lime); }
-
-/* The phases, set by home.js. Without motion the cast piece simply stands on the plinth. */
-.stage__outline { opacity: 0; }
-.motion .stage__outline { opacity: 1; transition: opacity 0.6s ease; }
-.motion .stage__outline path { stroke-dasharray: 1; stroke-dashoffset: 1; }
-.motion .stage__cast { clip-path: inset(100% 0 0 0); }
-.motion .stage[data-phase] .stage__outline path { stroke-dashoffset: 0; transition: stroke-dashoffset 1.5s var(--ease-draw, ease); }
-.motion .stage:is([data-phase="pour"], [data-phase="show"], [data-phase="lift"]) .stage__cast { clip-path: inset(0 0 0 0); transition: clip-path 1.7s cubic-bezier(0.45, 0, 0.3, 1); }
-.motion .stage:is([data-phase="show"], [data-phase="lift"]) .stage__outline { opacity: 0; }
-.motion .stage[data-phase="lift"] .stage__piece { animation: stage-lift 1.5s cubic-bezier(0.55, 0, 0.3, 1) forwards; }
-.motion .stage[data-phase="lift"] .stage__hook { animation: stage-hook 1.5s cubic-bezier(0.55, 0, 0.3, 1) forwards; }
-.motion .stage.is-cycling .stage__bar { animation: stage-progress var(--piece-ms, 7000ms) linear forwards; }
-.motion .stage__name.is-new { animation: stage-name 0.6s var(--ease-out, ease) both; }
-@keyframes stage-lift { 0%, 38% { translate: 0 0; opacity: 1; } 100% { translate: 0 -95%; opacity: 0; } }
-@keyframes stage-hook { 0% { translate: -50% -110%; opacity: 1; } 38% { translate: -50% 0; opacity: 1; } 100% { translate: -50% -440%; opacity: 1; } }
-@keyframes stage-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-@keyframes stage-name { from { opacity: 0; translate: 0 8px; } }
 
 /* Headline: each word is released from the mould line, then the type cures */
 .motion .hero__title .w > span { animation: word-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--wi) * 85ms + 120ms) both; }
-.motion .hero__lede, .motion .hero__actions, .motion .hero__facts { animation: rise-in 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.motion .hero__kicker, .motion .hero__lede, .motion .hero__actions, .motion .hero__facts { animation: rise-in 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 .motion .hero__lede { animation-delay: 0.6s; }
 .motion .hero__actions { animation-delay: 0.75s; }
 .motion .hero__facts { animation-delay: 0.9s; }
-.motion .stage { animation: rise-in 1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s both; }
 @keyframes word-up { from { translate: 0 105%; } to { translate: 0 0; } }
 
-/* ---------- Conveyor: finished pieces pass through a lit inspection gate ----------
-   The band continues the hero's sky down to a glowing horizon, where the belt runs.
-   Pieces travel as silhouettes against the sunset; inside the gate's cone of light they show
-   in full material colour with their name. home.js adds the silhouette layer, the rollers
-   and the timing, so the pieces, belt and rollers all move at one speed. */
-.conveyor {
-  --u: 0.3; --px: 1.5; --pxd: 0.9;
-  --ground: 4.75rem;      /* belt, rollers and the name below the horizon */
-  --lamp: 2.6rem;         /* where the light leaves the lamp */
-  --gate: 10.5rem;        /* width of the light where it meets the belt */
-  --gate-top: 3.5rem;     /* width of the light at the lamp */
-  --silhouette: #2B1547;  /* silhouettes and the gate */
-  --void: #F58A5E;
-  --cone: polygon(
-    calc(50% - var(--gate-top) / 2) var(--lamp), calc(50% + var(--gate-top) / 2) var(--lamp),
-    calc(50% + var(--gate) / 2) calc(100% - var(--ground)), calc(50% + var(--gate) / 2) 100%,
-    calc(50% - var(--gate) / 2) 100%, calc(50% - var(--gate) / 2) calc(100% - var(--ground)));
+/* Where you are, and a way past */
+.walk__hud {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0.75rem 1.5rem;
+  padding: 0.9rem var(--gutter) 1rem;
+  background: linear-gradient(rgb(19 10 36 / 0), rgb(19 10 36 / 0.8));
+  font-size: var(--text--1);
+}
+.walk:not(.is-live) .walk__hud { display: none; }
+.walk__skip { justify-self: start; }
+.walk__now { justify-self: center; display: grid; gap: 0.15rem; text-align: center; color: var(--on-ink-soft); }
+.walk__bay { font-weight: 640; color: var(--lime); }
+.walk__pair:empty { display: none; }
+.walk__quote { justify-self: end; visibility: hidden; opacity: 0; transition: opacity 0.3s ease, visibility 0s 0.3s; }
+.walk.is-walking .walk__quote { visibility: visible; opacity: 1; transition: opacity 0.3s ease; }
+.walk__progress {
+  position: absolute; left: 0; right: 0; top: 0; height: 2px;
+  background: var(--pink); transform-origin: left; transform: scaleX(0);
+}
+@media (max-width: 40rem) {
+  .walk__hud { grid-template-columns: 1fr auto; }
+  .walk__now { grid-column: 1 / -1; grid-row: 1; }
+  .walk__quote { padding-block: 0.6rem; }
+}
+
+/* ---------- Two materials ----------
+   GRC and FRP either side of a small casting bay, where the same arch stands in both materials.
+   The line between them follows the range input (home.js), and pointing at either side swings it over. */
+@property --split { syntax: "<length-percentage>"; inherits: true; initial-value: 50%; }
+.duo { display: grid; gap: 1.25rem; }
+@media (min-width: 64rem) { .duo { grid-template-columns: minmax(0, 1fr) minmax(19rem, 24rem) minmax(0, 1fr); } }
+
+.duo__side {
   position: relative; overflow: hidden; isolation: isolate;
-  color: var(--lime);
-  background: linear-gradient(180deg,
-    #A8345F 0%, #C9466C 24%, #E9605F 50%, #FF8F57 78%, #FFB565 calc(100% - var(--ground) - 1px),
-    #2C1546 calc(100% - var(--ground)), #1A1030 100%);
-}
-@media (min-width: 48rem) { .conveyor { --u: 0.4; --gate: 14.5rem; --gate-top: 4.5rem; } }
-
-/* Pieces */
-.conveyor__belt { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1fr); }
-.conveyor__layer { grid-area: 1 / 1; min-width: 0; }
-.conveyor__move { display: flex; width: max-content; }
-.conveyor__track {
-  display: flex; align-items: flex-end; gap: clamp(2.75rem, 1.5rem + 3.5vw, 5rem);
-  padding: calc(var(--lamp) + 1.75rem) clamp(1.25rem, 0.75rem + 1.5vw, 2.5rem) var(--ground);
-}
-.conveyor .piece { position: relative; display: block; color: var(--ink); text-decoration: none; }
-.conveyor .piece .drawing { --k: var(--u); width: calc(var(--w) * var(--u) * 1px); height: calc(var(--h) * var(--u) * 1px); }
-.conveyor .piece__label {
-  position: absolute; top: calc(100% + 2.55rem); left: 50%; translate: -50% 0; white-space: nowrap;
-  display: inline-flex; align-items: center; gap: 0.45rem;
-  color: var(--lime); font-size: 0.9375rem; font-weight: 640; line-height: 1.2; font-variation-settings: "SHRP" 100;
-}
-.piece__mat { font-size: 0.6875rem; font-weight: 700; padding: 0.1rem 0.35rem; color: var(--ochre); border: 1.5px solid var(--ochre); }
-.conveyor .piece:hover .piece__label { text-decoration: underline; text-decoration-color: var(--ochre); text-underline-offset: 0.25em; }
-.conveyor :focus-visible { outline-color: var(--lime); outline-offset: 6px; }
-.conveyor:not(.is-looping) .conveyor__belt { overflow-x: auto; }
-
-/* Silhouettes against the sky */
-.conveyor__layer--shadow .piece__label { display: none; }
-.conveyor__layer--shadow .drawing :is(.o, .o2, .x) { fill: var(--silhouette); stroke: var(--silhouette); }
-.conveyor__layer--shadow .drawing .v { fill: rgb(255 150 110 / 0.3); stroke: var(--silhouette); }
-.conveyor__layer--shadow .drawing .d { stroke: #4A2A66; }
-.conveyor__layer--shadow .drawing :is(.h, .jl) { display: none; }
-.conveyor__layer--shadow .piece:hover .drawing :is(.o, .o2) { fill: #3E2160; }
-
-/* Full colour, only inside the light */
-.conveyor.is-looping .conveyor__layer--lit { clip-path: var(--cone); }
-.conveyor.is-looping .conveyor__layer--lit .drawing { filter: drop-shadow(0 0 10px rgb(255 226 170 / 0.55)); }
-/* While the belt runs, one caption under the gate names the piece in the light (set by home.js) */
-.conveyor.is-looping .piece__label { display: none; }
-.conveyor__caption {
-  position: absolute; z-index: 3; left: 50%; bottom: calc(var(--ground) - 3.7rem); translate: -50% 0;
-  display: inline-flex; align-items: center; gap: 0.45rem; margin: 0; white-space: nowrap; pointer-events: none;
-  color: var(--lime); font-size: 1rem; font-weight: 640; line-height: 1.2; font-variation-settings: "SHRP" 100;
-  opacity: 0; transition: opacity 0.3s ease;
-}
-.conveyor__caption.is-on { opacity: 1; }
-.conveyor__caption.is-new { animation: caption-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1); }
-.conveyor:not(.is-looping) .conveyor__caption, .conveyor:focus-within .conveyor__caption { display: none; }
-.conveyor.is-looping:focus-within .piece__label { display: inline-flex; }
-@keyframes caption-in { from { opacity: 0; translate: -50% 6px; } }
-/* Keyboard users see every piece in colour, standing still */
-.conveyor.is-looping:focus-within .conveyor__layer--lit { clip-path: none; }
-.conveyor.is-looping:focus-within .conveyor__layer--shadow { visibility: hidden; }
-
-/* The gate: two posts, a crossbar and a lamp */
-.conveyor__gate, .conveyor__beam, .conveyor__pool { pointer-events: none; }
-.conveyor:not(.is-looping) :is(.conveyor__gate, .conveyor__beam, .conveyor__pool) { display: none; }
-.conveyor__gate {
-  position: absolute; z-index: 1; left: 50%; top: 1rem; bottom: var(--ground); translate: -50% 0;
-  width: calc(var(--gate) + 2.75rem);
-  border: 4px solid var(--silhouette); border-bottom: 0;
-}
-.conveyor__gate::before {
-  content: ""; position: absolute; left: 50%; top: 0; translate: -50% 0;
-  width: calc(var(--gate-top) + 0.75rem); height: calc(var(--lamp) - 1rem - 4px);
-  background: var(--silhouette);
-  clip-path: polygon(18% 0, 82% 0, 100% 100%, 0 100%);
-}
-.conveyor__gate::after {
-  content: ""; position: absolute; left: 50%; top: calc(var(--lamp) - 1rem - 7px); translate: -50% 0;
-  width: var(--gate-top); height: 3px; background: #FFE7B8;
-  box-shadow: 0 0 10px 3px rgb(255 214 150 / 0.9);
-}
-
-/* The cone of light, with dust drifting up through it */
-.conveyor__beam { position: absolute; z-index: 0; inset: 0; filter: blur(5px); }
-.conveyor__beam::before, .conveyor__beam::after { content: ""; position: absolute; inset: 0 0 var(--ground); clip-path: polygon(
-  calc(50% - var(--gate-top) / 2) var(--lamp), calc(50% + var(--gate-top) / 2) var(--lamp),
-  calc(50% + var(--gate) / 2) 100%, calc(50% - var(--gate) / 2) 100%); }
-.conveyor__beam::before { background: linear-gradient(180deg, rgb(255 240 205 / 0.75) var(--lamp), rgb(255 222 170 / 0.32) 55%, rgb(255 210 150 / 0.5) 100%); }
-.conveyor__beam::after {
-  filter: blur(0); opacity: 0.8;
-  background:
-    radial-gradient(circle, rgb(255 246 225 / 0.95) 0 1.2px, transparent 1.8px) 0 0 / 37px 53px,
-    radial-gradient(circle, rgb(255 246 225 / 0.7) 0 1px, transparent 1.5px) 13px 29px / 29px 41px;
-}
-
-/* Belt, rollers and rail */
-.conveyor__machine { position: absolute; z-index: 1; left: 0; right: 0; bottom: 0; height: var(--ground); }
-.conveyor__machine::before {
-  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 11px;
-  background: repeating-linear-gradient(90deg, rgb(255 210 160 / 0.28) 0 2px, transparent 2px 26px), #160C29;
-  border-top: 2px solid #FFC982;
-  box-shadow: 0 -5px 16px rgb(255 170 100 / 0.5);
-}
-.conveyor__machine::after { content: ""; position: absolute; left: 0; right: 0; top: 33px; height: 3px; background: #3A2259; }
-.conveyor__rollers { position: absolute; left: 0; right: 0; top: 14px; height: 16px; display: flex; gap: 30px; padding-left: 8px; }
-.conveyor__rollers span { position: relative; flex: none; width: 16px; height: 16px; border-radius: 50%; border: 2px solid #5B3A78; background: #1E1236; }
-.conveyor__rollers span::after { content: ""; position: absolute; left: 1px; right: 1px; top: calc(50% - 1px); height: 2px; background: #8A62A8; }
-
-/* A pool of light where the cone meets the belt */
-.conveyor__pool {
-  position: absolute; z-index: 1; left: 50%; bottom: calc(var(--ground) - 1.4rem); translate: -50% 0;
-  width: calc(var(--gate) * 1.5); height: 2.8rem;
-  background: radial-gradient(closest-side, rgb(255 226 170 / 0.8), rgb(255 190 130 / 0.25) 60%, transparent);
-  mix-blend-mode: screen;
-}
-
-/* Motion: one speed for everything, set by home.js */
-.motion .conveyor.is-looping .conveyor__move { animation: convey var(--convey, 45s) linear infinite; }
-.motion .conveyor.is-looping .conveyor__machine::before { animation: tread var(--tread, 0.65s) linear infinite; }
-.motion .conveyor.is-looping .conveyor__rollers span { animation: roll var(--roll, 1.25s) linear infinite; }
-.motion .conveyor.is-looping .conveyor__beam::after { animation: dust 9s linear infinite; }
-.motion .conveyor.is-looping .conveyor__beam::before { animation: lamp 4s ease-in-out infinite alternate; }
-.conveyor:is(:hover, :focus-within, .is-offscreen) :is(.conveyor__move, .conveyor__rollers span),
-.conveyor:is(:hover, :focus-within, .is-offscreen) .conveyor__machine::before,
-.conveyor.is-offscreen .conveyor__beam::before,
-.conveyor.is-offscreen .conveyor__beam::after { animation-play-state: paused; }
-@keyframes convey { to { translate: -50% 0; } }
-@keyframes tread { to { background-position: -26px 0, 0 0; } }
-@keyframes roll { to { rotate: -360deg; } }
-@keyframes dust { to { background-position: 0 -53px, 13px -12px; } }
-@keyframes lamp { from { opacity: 0.85; } to { opacity: 1; } }
-
-/* ---------- Two materials ---------- */
-.mats { display: grid; gap: 1.25rem; }
-@media (min-width: 60rem) { .mats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.mat {
-  position: relative; overflow: hidden; isolation: isolate;
-  display: grid; grid-template-columns: minmax(0, 1fr) 7rem; gap: 1.5rem;
-  padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  display: flex; flex-direction: column; gap: 0.85rem;
+  padding: clamp(1.5rem, 1rem + 2vw, 2.25rem);
   color: var(--ink);
-  transition: translate 0.4s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.4s ease;
+  transition: translate 0.4s var(--ease-out, ease), box-shadow 0.4s ease;
 }
-.mat--grc { background: var(--stipple) var(--stone); }
-.mat--frp { background: var(--gel); }
-.mat:hover { translate: 0 -4px; box-shadow: 0 1.5rem 2.5rem -1.75rem rgb(36 20 58 / 0.6); }
-.mat__body { display: grid; gap: 1rem; align-content: start; grid-column: 1; grid-row: 1; }
-.mat__title { display: grid; gap: 0.25rem; }
-.mat__code { font-size: clamp(3.5rem, 2.25rem + 4vw, 5.5rem); line-height: 0.9; font-weight: 760; letter-spacing: -0.035em; }
-.mat__name { font-size: var(--text-1); font-weight: 600; }
-.mat__body > p { max-width: 44ch; }
-.mat__traits { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; font-weight: 600; font-size: 0.9375rem; }
-.mat__traits li { display: inline-flex; align-items: center; gap: 0.5rem; }
-.mat__traits li::before { content: ""; width: 0.5rem; height: 0.5rem; background: var(--ink); }
-.mat__links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin-top: 0.5rem; }
-.mat .text-link { text-decoration-color: var(--ink); }
-.mat .text-link:hover { text-decoration-thickness: 3px; }
-.mat__art {
-  grid-column: 2; grid-row: 1; align-self: stretch;
-  display: flex; align-items: flex-end; justify-content: center;
-  color: var(--ink); --px: 1.6; --pxd: 1;
-  transition: translate 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+.duo__side--grc { background: var(--stipple) var(--stone); }
+.duo__side--frp { background: var(--gel); }
+.duo__side:hover { translate: 0 -4px; box-shadow: 0 1.5rem 2.5rem -1.75rem rgb(36 20 58 / 0.6); }
+.duo__title { display: grid; gap: 0.35rem; margin-bottom: 0.25rem; }
+.duo__code { font-size: clamp(3.5rem, 2.4rem + 3.4vw, 5.25rem); line-height: 0.85; font-weight: 780; letter-spacing: -0.04em; }
+.duo__name { font-size: var(--text-1); font-weight: 620; line-height: 1.25; }
+.duo__side > p { max-width: 46ch; }
+.duo__label {
+  margin-top: 0.5rem;
+  font-size: 0.75rem; font-weight: 720; letter-spacing: 0.12em; text-transform: uppercase; color: rgb(36 20 58 / 0.72);
 }
-.mat__art .drawing { width: 100%; height: 100%; max-height: 22rem; }
-.mat:hover .mat__art { translate: 0 -8px; }
-.mat--grc .mat__art .drawing .o { fill: var(--lime); }
-.mat--grc .mat__art .drawing .o2 { fill: var(--cement); }
-.mat--frp .mat__art .drawing .o { fill: #E3F4F1; }
-/* A gloss sweeps across the FRP panel */
-.mat--frp::after {
+.duo__recipe { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.duo__recipe li { padding: 0.35rem 0.75rem; font-size: 0.9375rem; font-weight: 620; background: var(--lime); border: 1.5px solid var(--ink); }
+.duo__side--frp .duo__recipe li { background: #E3F4F1; }
+.duo__traits { display: grid; gap: 0.45rem; font-weight: 620; }
+.duo__traits li { display: flex; align-items: center; gap: 0.65rem; }
+.duo__traits li::before {
+  content: ""; flex: none; width: 0.85rem; height: 0.45rem; margin: 0 0.1rem 0.2rem;
+  border-left: 2.5px solid var(--ink); border-bottom: 2.5px solid var(--ink); rotate: -45deg;
+}
+.duo__links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin-top: auto; padding-top: 1rem; }
+.duo .text-link { text-decoration-color: var(--ink); }
+.duo .text-link:hover { text-decoration-thickness: 3px; }
+/* A gloss sweeps across the FRP side */
+.duo__side--frp::after {
   content: ""; position: absolute; inset: -20% auto -20% -40%; width: 30%; z-index: -1;
   background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.55), transparent);
   transform: skewX(-18deg) translateX(-100%);
 }
-.motion .mat--frp::after { animation: gloss 6s ease-in-out 1.5s infinite; }
-.motion .mat--frp:hover::after { animation-duration: 1.6s; }
+.motion .duo__side--frp::after { animation: gloss 6s ease-in-out 1.5s infinite; }
+.motion .duo__side--frp:hover::after { animation-duration: 1.6s; }
 @keyframes gloss { 0%, 70% { transform: skewX(-18deg) translateX(-100%); } 100% { transform: skewX(-18deg) translateX(560%); } }
-@media (max-width: 30rem) { .mat { grid-template-columns: minmax(0, 1fr) 4.5rem; } }
+/* The ingredients drop in one after another */
+.motion .duo__recipe:not(.in-view) li { opacity: 0; translate: 0 -0.6rem; }
+.motion .duo__recipe.in-view li { transition: opacity 0.4s ease, translate 0.5s var(--ease-out, ease); transition-delay: calc(var(--i) * 110ms + 200ms); }
+
+/* The casting bay: the arch on its plinth against the sunset */
+.duo__bay {
+  display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 0.75rem;
+  margin: 0; padding: 1.25rem 1.25rem 1rem;
+  background: var(--sky); color: var(--lime);
+}
+@media (max-width: 63.99rem) { .duo__bay { order: -1; } }
+.duo__tags { display: flex; justify-content: space-between; font-size: var(--text--1); font-weight: 760; letter-spacing: 0.1em; }
+.duo__tags span:last-child { color: var(--gel); }
+.duo__compare { position: relative; min-height: 24rem; --split: 50%; transition: --split 0.7s var(--ease-out, ease); }
+.duo__compare.is-dragging { transition: none; }
+.duo__sun {
+  position: absolute; left: 50%; top: 4%; width: min(86%, 19rem); aspect-ratio: 1; translate: -50% 0;
+  border-radius: 50%; background: var(--sun);
+  -webkit-mask: var(--sun-stripes); mask: var(--sun-stripes);
+}
+.duo__compare::before {
+  content: ""; position: absolute; left: 20%; right: 20%; bottom: 0; height: 7%;
+  background: linear-gradient(#3A2058, #24143A); border: 1.5px solid rgb(255 244 232 / 0.6); border-bottom: 0;
+}
+.duo__compare::after { content: ""; position: absolute; left: 4%; right: 4%; bottom: 0; height: 2px; background: var(--lime); }
+.duo__art {
+  position: absolute; inset: 0; padding: 6% 16% 7%;
+  display: flex; align-items: flex-end; justify-content: center;
+  --px: 1.6; --pxd: 1; --void: #3E1850;
+}
+.duo__art .drawing { width: 100%; height: 100%; }
+.duo__art--grc { clip-path: inset(0 calc(100% - var(--split)) 0 0); }
+.duo__art--frp { clip-path: inset(0 0 0 var(--split)); }
+.duo__handle { position: absolute; z-index: 1; top: 0; bottom: 0; left: var(--split); width: 2px; translate: -1px 0; background: var(--lime); pointer-events: none; }
+.duo__handle::after {
+  content: "\2039\00A0\203A"; position: absolute; top: 50%; left: 50%; translate: -50% -50%;
+  display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 50%;
+  background: var(--lime); color: var(--ink); font-size: 1.25rem; font-weight: 700; line-height: 1;
+  box-shadow: 0 0.5rem 1.25rem rgb(12 6 22 / 0.5);
+}
+.duo__compare:has(.duo__range:focus-visible) .duo__handle::after { outline: 3px solid var(--ochre); outline-offset: 3px; }
+.duo__range {
+  position: absolute; z-index: 2; inset: 0; width: 100%; height: 100%; margin: 0;
+  opacity: 0; cursor: ew-resize; touch-action: pan-y;
+}
+.duo__range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 2.75rem; height: 24rem; }
+.duo__range::-moz-range-thumb { width: 2.75rem; height: 24rem; border: 0; }
+.duo__caption { text-align: center; font-size: var(--text--1); color: var(--on-ink-soft); }
+/* Once the arch is cast, the line sweeps across to show what it does; it stops once you take over */
+.motion .duo__compare:has(.drawing):has(.in-view) { animation: duo-hint 2.8s var(--ease-in-out, ease-in-out) 2.4s backwards; }
+.motion .duo.is-touched .duo__compare { animation: none; }
+@keyframes duo-hint { 0%, 100% { --split: 50%; } 30% { --split: 18%; } 68% { --split: 82%; } }
 
 /* ---------- How it's made ---------- */
 .how { position: relative; }
@@ -398,5 +318,5 @@ html.is-filtering .site-header { view-transition-name: none; }
 .brands-sec .brands-intro__text > p { color: var(--on-ink-soft); }
 
 @media (prefers-reduced-motion: reduce) {
-  .conveyor *, .conveyor *::before, .conveyor *::after, .mat--frp::after { animation: none !important; }
+  .duo__side--frp::after { animation: none !important; }
 }

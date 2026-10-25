@@ -43,7 +43,7 @@
   }
   window.rjFit = (svg) => { fit(svg); resizer?.observe(svg); };
   document.querySelectorAll('.drawing').forEach((svg) => {
-    if (svg.closest('.piece, template')) return; // conveyor pieces set their own scale
+    if (svg.closest('.walk__list, template')) return; // the factory walk paints these onto its canvas
     window.rjFit(svg);
   });
 
@@ -55,7 +55,7 @@
   }
 
   // Reveal as things scroll into view. Items revealed together are staggered in reading order.
-  const REVEAL = '[data-draw], [data-cure], [data-map], .material__bar, .step, .industry, .brand, .about-grid > section, .journey, .pcard, .pphoto';
+  const REVEAL = '[data-draw], [data-cure], [data-map], .material__bar, .step, .industry, .brand, .about-grid > section, .journey, .pcard, .pphoto, .duo__recipe';
   const reveal = (el) => {
     if (el.classList.contains('in-view')) return;
     el.classList.add('in-view');
@@ -67,7 +67,7 @@
   };
   if (motion) {
     const targets = document.querySelectorAll(REVEAL);
-    document.querySelectorAll('.hero [data-draw], .hero [data-cure], .page-head [data-draw], .page-head [data-cure]').forEach(reveal);
+    document.querySelectorAll('.walk [data-cure], .page-head [data-draw], .page-head [data-cure]').forEach(reveal);
     if ('IntersectionObserver' in window) {
       const watcher = new IntersectionObserver((entries) => {
         let order = 0;
