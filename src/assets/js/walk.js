@@ -35,7 +35,7 @@
   const BAYS = 8;
   const END = 540;       // far wall, with the open door
   const BACK = 90;       // the room reaches this far behind the entrance
-  const START = -40;     // where you stand before the walk
+  const START = -100;    // where you stand before the walk, outside the front door
   const STOP = 390;      // where the walk ends, in front of the casting bay
   const F = 60;          // focal length
   const NEAR = 2;
@@ -597,6 +597,7 @@
 
   // ---------- Lamps switch on down the aisle, then as you walk towards them ----------
   const lampOn = new Array(BAYS).fill(null);
+  const focus = new Array(BAYS).fill(0); // how much each bay is the one you are looking at
   const lamp = (bay, now) => {
     const on = lampOn[bay];
     if (on === null || now < on) return 0;
@@ -685,8 +686,6 @@
     }
     letters('GRC', -1, 62);
     letters('FRP', 1, 62);
-    letters('GRC', -1, 290);
-    letters('FRP', 1, 290);
 
     // floor: warmer towards the door
     const a = pt(0, EYE, far);
@@ -765,7 +764,7 @@
       const c = (bl.sx - tl.sx) / 72;
       const d = (bl.sy - tl.sy) / 72;
       // they fade in from the far end, and out before they loom up beside you
-      ctx.globalAlpha = 0.5 * fog(tl.z) * clamp((380 - tl.z) / 60, 0, 1) * clamp((Math.min(tl.z, tr.z) - 22) / 26, 0, 1);
+      ctx.globalAlpha = 0.36 * fog(tl.z) * clamp((380 - tl.z) / 60, 0, 1) * clamp((Math.min(tl.z, tr.z) - 45) / 30, 0, 1);
       if (ctx.globalAlpha <= 0.01) return;
       ctx.setTransform(DPR * a, DPR * b, DPR * c, DPR * d, DPR * (tl.sx + c * 72), DPR * (tl.sy + d * 72));
       ctx.fillText(ch, 0, 0);
@@ -831,6 +830,9 @@
     fillShape([[x0, EYE - PLINTH, p.d - 3], [x1, EYE - PLINTH, p.d - 3], [x1, EYE - PLINTH + 0.6, p.d - 3], [x0, EYE - PLINTH + 0.6, p.d - 3]], p.material === 'GRC' ? STONE : GEL);
     // finished pieces; the far ones come out of the haze as you walk towards them
     if (p.cast) blit(p.cast, p, base.sx, base.sy, p.ps * base.k);
+    // a gleam crosses the piece as you arrive at its bay
+    const g = motion && p.tag > 0.2 ? (now - p.tagAt - 0.4) / 1.4 : -1;
+    if (g > 0 && g < 1 && p.cast) gleam(p, base.sx, base.sy, p.ps * base.k, ease(g), alpha * 0.9);
     const w = p.pw * base.k;
     const h = p.ph * base.k;
     ctx.globalAlpha = 1;
@@ -1003,48 +1005,74 @@
 
   // ---------- Name tags ----------
   // The pieces at the bay you have stopped at each get a tag, like the ones tied to finished pieces in the
-  // yard. Tags stay up where they are easy to read and are tied to their piece by a string ending in an
-  // arrow. They swing in as you arrive and fade as you walk on.
+  // yard, tied on with a string that ends in an arrow. The tags are page elements laid over the canvas, and
+  // the strings an SVG layer, so the words stay sharp on any screen. They swing in as you arrive and fade
+  // as you walk on.
   let frameNo = 0;
-  const stageTag = { v: 0, at: 0, name: '', item: null, rect: null };
-  const tagShape = (x, y, w, h, side) => {
-    const n = Math.min(h * 0.42, 16); // the pointed end, towards the piece
-    const c = 6; // the site's chamfered corner
-    ctx.beginPath();
-    if (side < 0) {
-      ctx.moveTo(x + n, y); ctx.lineTo(x + w - c, y); ctx.lineTo(x + w, y + c); ctx.lineTo(x + w, y + h);
-      ctx.lineTo(x + n, y + h); ctx.lineTo(x, y + h * 0.66); ctx.lineTo(x, y + h * 0.34);
-    } else {
-      ctx.moveTo(x + c, y); ctx.lineTo(x + w - n, y); ctx.lineTo(x + w, y + h * 0.34); ctx.lineTo(x + w, y + h * 0.66);
-      ctx.lineTo(x + w - n, y + h); ctx.lineTo(x, y + h); ctx.lineTo(x, y + c);
-    }
-    ctx.closePath();
+  const HOLE = 12; // from the pointed end of a tag to its hole (0.75rem in home.css)
+  const stageTag = { v: 0, at: 0, item: null, rect: null };
+  const layer = document.createElement('div');
+  layer.className = 'walk__tags';
+  layer.setAttribute('aria-hidden', 'true');
+  const svg = (name, parent, cls) => {
+    const el = document.createElementNS('http://www.w3.org/2000/svg', name);
+    if (cls) el.setAttribute('class', cls);
+    parent.append(el);
+    return el;
   };
-  // side: -1 when the piece is on the left (the tag points left), 1 on the right. lo and hi bound the tag.
-  const drawTag = ({ side, kicker, material, name, rect, v, at, lo, hi, marked }, now) => {
-    const small = W < 600;
-    const nameSize = small ? 15 : clamp(W / 64, 17, 26);
-    const kickSize = small ? 9.5 : clamp(W / 140, 10, 12.5);
-    const padX = small ? 9 : 15;
-    const padY = small ? 7 : 10;
-    const point = small ? 13 : 16;
-    const kickFont = `700 ${kickSize}px Geologica, system-ui, sans-serif`;
-    const nameFont = `680 ${nameSize}px Geologica, system-ui, sans-serif`;
-    ctx.font = kickFont;
-    const kickW = ctx.measureText(kicker).width;
-    const chipW = ctx.measureText(material).width + 10;
-    ctx.font = nameFont;
-    const nameW = ctx.measureText(name).width;
-    const arrowW = ctx.measureText(' ›').width;
-    const w = point + padX * 2 + Math.max(kickW + 6 + chipW, nameW + arrowW);
-    const h = padY * 2 + kickSize + 6 + nameSize;
-    // beside the piece, between it and the middle, if there is room; otherwise straight above it
+  const strings = svg('svg', layer, 'walk__strings');
+  canvas.after(layer);
+  // Keyboard and screen reader users have the product list, so these links are for pointers only
+  const makeTag = (side, href) => {
+    const el = document.createElement(href ? 'a' : 'div');
+    el.className = `walk__tag walk__tag--${side < 0 ? 'left' : 'right'}`;
+    if (href) { el.href = href; el.tabIndex = -1; }
+    const kicker = document.createElement('span');
+    kicker.className = 'walk__tag-kicker';
+    const where = document.createElement('span');
+    const chip = document.createElement('span');
+    chip.className = 'walk__tag-chip';
+    const name = document.createElement('span');
+    name.className = 'walk__tag-name';
+    kicker.append(where, chip);
+    el.append(kicker, name);
+    layer.append(el);
+    return {
+      el, where, chip, name, side, w: 0, h: 0, on: false,
+      string: svg('path', strings, 'walk__string'), head: svg('path', strings, 'walk__arrow'), ring: svg('circle', strings, 'walk__ring'),
+    };
+  };
+  const label = (t, where, material, name) => {
+    t.where.textContent = where;
+    t.chip.textContent = material;
+    t.chip.dataset.material = material.toLowerCase();
+    t.name.textContent = name;
+    t.w = 0; // measure again
+  };
+  products.forEach((p) => {
+    p.label = makeTag(p.side, p.link.getAttribute('href'));
+    label(p.label, `Bay 0${p.bay + 1}`, p.material, p.name);
+  });
+  stageTag.label = makeTag(-1, null);
+  const remeasure = () => [...products.map((p) => p.label), stageTag.label].forEach((t) => { t.w = 0; });
+
+  // Puts a tag up top beside its piece (or above it on a narrow screen) and ties the string on
+  const placeTag = (t, rect, v, at, lo, hi, marked, now) => {
+    const on = v > 0.02 && Boolean(rect) && rect.frame === frameNo;
+    if (on !== t.on) {
+      t.on = on;
+      t.el.classList.toggle('is-on', on);
+      for (const el of [t.string, t.head, t.ring]) el.style.display = on ? '' : 'none';
+    }
+    if (!on) return;
+    if (!t.w) { t.w = t.el.offsetWidth; t.h = t.el.offsetHeight; }
+    const { side, w, h } = t;
     let x = side < 0 ? rect.x + rect.w + 18 : rect.x - 18 - w;
     if (side < 0 ? x + w > hi : x < lo) x = rect.x + rect.w / 2 - w / 2;
     x = clamp(x, lo, Math.max(lo, hi - w));
     const shown = ease(clamp(v, 0, 1));
     const y = Math.max(12, H * 0.07) - (1 - shown) * 12;
-    const hx = side < 0 ? x + point * 0.62 : x + w - point * 0.62;
+    const hx = side < 0 ? x + HOLE : x + w - HOLE;
     const hy = y + h / 2;
     // the string ties on at the top of the piece, or at its inner side when the top is above the tag
     let tx = rect.x + rect.w / 2;
@@ -1053,99 +1081,114 @@
       tx = side < 0 ? rect.x + rect.w * 0.82 : rect.x + rect.w * 0.18;
       ty = clamp(y + h + 50, rect.y + rect.h * 0.15, rect.y + rect.h * 0.7);
     }
-    // it leaves the hole sideways and drops onto the piece, so the arrow points down at it
+    const time = now - at;
+    const swing = motion ? side * 0.16 * Math.exp(-time * 2.8) * Math.cos(time * 8) : 0;
+    t.el.style.opacity = shown.toFixed(3);
+    t.el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotate(${swing.toFixed(4)}rad)`;
+    t.el.classList.toggle('is-marked', marked);
+    // the string leaves the hole sideways and drops onto the piece; it is drawn out as the tag arrives
+    const s = clamp((v - 0.3) / 0.7, 0, 1);
     const cx = ty > hy ? tx : (hx + tx) / 2;
     const cy = ty > hy ? hy : (hy + ty) / 2;
-    ctx.globalAlpha = shown;
-    // the string, drawn out from the tag to the piece (the first part of the curve, up to s)
-    const s = clamp((v - 0.3) / 0.7, 0, 1);
-    if (s > 0) {
-      const ax = hx + (cx - hx) * s;
-      const ay = hy + (cy - hy) * s;
-      const ex = ax + (cx + (tx - cx) * s - ax) * s;
-      const ey = ay + (cy + (ty - cy) * s - ay) * s;
-      ctx.strokeStyle = OCHRE;
-      ctx.lineWidth = small ? 1.4 : 1.8;
-      ctx.lineCap = 'round';
-      ctx.beginPath(); ctx.moveTo(hx, hy); ctx.quadraticCurveTo(ax, ay, ex, ey); ctx.stroke();
-      // arrowhead along the end of the string
-      const angle = Math.atan2(ey - ay, ex - ax);
-      const size = small ? 7 : 9;
-      ctx.fillStyle = OCHRE;
-      ctx.beginPath();
-      ctx.moveTo(ex, ey);
-      ctx.lineTo(ex - Math.cos(angle - 0.45) * size, ey - Math.sin(angle - 0.45) * size);
-      ctx.lineTo(ex - Math.cos(angle + 0.45) * size, ey - Math.sin(angle + 0.45) * size);
-      ctx.closePath();
-      ctx.fill();
-      if (s === 1 && motion) {
-        const pulse = (now * 0.9) % 1;
-        ctx.globalAlpha = shown * (1 - pulse) * 0.8;
-        ctx.lineWidth = 1.5;
-        ctx.beginPath(); ctx.arc(tx, ty, 4 + pulse * 12, 0, TAU); ctx.stroke();
-        ctx.globalAlpha = shown;
-      }
-    }
-    // the tag, hanging from its hole and settling after it swings in
-    const t = now - at;
-    const swing = motion ? side * 0.16 * Math.exp(-t * 2.8) * Math.cos(t * 8) : 0;
-    ctx.save();
-    ctx.translate(hx, hy);
-    ctx.rotate(swing);
-    ctx.translate(-hx, -hy);
-    // a soft offset shadow (a blurred one costs too much on phones)
-    tagShape(x + 2, y + 6, w, h, side);
-    ctx.fillStyle = 'rgba(8, 4, 18, 0.38)';
-    ctx.fill();
-    tagShape(x, y, w, h, side);
-    ctx.fillStyle = SAND;
-    ctx.fill();
-    if (marked) { ctx.strokeStyle = OCHRE; ctx.lineWidth = 2.5; ctx.stroke(); }
-    dot(hx, hy, small ? 3.4 : 4.2, '#1A1030');
-    ctx.strokeStyle = OCHRE;
-    ctx.lineWidth = 1.6;
-    ctx.beginPath(); ctx.arc(hx, hy, small ? 4.6 : 5.6, 0, TAU); ctx.stroke();
-    const textX = side < 0 ? x + point + padX : x + padX;
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'top';
-    ctx.font = kickFont;
-    ctx.fillStyle = 'rgba(36, 20, 58, 0.62)';
-    ctx.fillText(kicker, textX, y + padY);
-    const chipX = textX + kickW + 6;
-    ctx.fillStyle = material === 'GRC' ? STONE : GEL;
-    rrect(chipX, y + padY - 2, chipW, kickSize + 4, 2);
-    ctx.fill();
-    ctx.strokeStyle = INK;
-    ctx.lineWidth = 1;
-    ctx.stroke();
-    ctx.fillStyle = INK;
-    ctx.fillText(material, chipX + 5, y + padY);
-    ctx.font = nameFont;
-    ctx.fillText(name, textX, y + padY + kickSize + 6);
-    ctx.fillStyle = '#E2702E';
-    ctx.fillText(' ›', textX + nameW, y + padY + kickSize + 6);
-    ctx.textBaseline = 'alphabetic';
-    ctx.restore();
-    ctx.globalAlpha = 1;
-    return { x, y, w, h };
+    const ax = hx + (cx - hx) * s;
+    const ay = hy + (cy - hy) * s;
+    const ex = ax + (cx + (tx - cx) * s - ax) * s;
+    const ey = ay + (cy + (ty - cy) * s - ay) * s;
+    const f = (n) => n.toFixed(1);
+    t.string.setAttribute('d', `M${f(hx)} ${f(hy)}Q${f(ax)} ${f(ay)} ${f(ex)} ${f(ey)}`);
+    t.string.style.opacity = s > 0 ? shown : 0;
+    const angle = Math.atan2(ey - ay, ex - ax);
+    const size = W < 600 ? 7 : 9;
+    const corner = (turn) => `${f(ex - Math.cos(angle + turn) * size)} ${f(ey - Math.sin(angle + turn) * size)}`;
+    t.head.setAttribute('d', `M${f(ex)} ${f(ey)}L${corner(-0.45)}L${corner(0.45)}Z`);
+    t.head.style.opacity = s > 0.1 ? shown : 0;
+    const pulse = (now * 0.9) % 1;
+    t.ring.setAttribute('cx', f(tx));
+    t.ring.setAttribute('cy', f(ty));
+    t.ring.setAttribute('r', f(4 + pulse * 12));
+    t.ring.style.opacity = s === 1 && motion ? (shown * (1 - pulse) * 0.8).toFixed(3) : 0;
   };
-  const drawTags = (now) => {
+  const placeTags = (now) => {
     const gap = W < 600 ? 5 : 16;
     for (const p of products) {
-      if (p.tag < 0.02 || !p.rect || p.rect.frame !== frameNo) continue;
-      const box = drawTag({
-        side: p.side, kicker: `BAY 0${p.bay + 1}`, material: p.material, name: p.name, rect: p.rect, v: p.tag, at: p.tagAt,
-        lo: p.side < 0 ? 12 : W / 2 + gap, hi: p.side < 0 ? W / 2 - gap : W - 12, marked: p === (focused || hover),
-      }, now);
-      if (p.tag > 0.5) hits.push({ p, ...box });
+      placeTag(p.label, p.rect, p.tag, p.tagAt, p.side < 0 ? 12 : W / 2 + gap, p.side < 0 ? W / 2 - gap : W - 12, p === (focused || hover), now);
     }
-    const r = stageTag.rect;
-    if (stageTag.v > 0.02 && r && r.frame === frameNo) {
-      drawTag({
-        side: -1, kicker: 'NOW MAKING', material: stageTag.item.material, name: stageTag.item.name, rect: r, v: stageTag.v, at: stageTag.at,
-        lo: Math.min(r.x + r.w + 18, W - 200), hi: W - 12, marked: false,
-      }, now);
+    const { item, rect } = stageTag;
+    if (item && stageTag.label.name.textContent !== item.name) label(stageTag.label, 'Now making', item.material, item.name);
+    placeTag(stageTag.label, rect, stageTag.v, stageTag.at, rect ? Math.min(rect.x + rect.w + 18, W - 220) : 12, W - 12, false, now);
+  };
+
+  // A gleam of light crosses a piece as you arrive at its bay: a bright band, kept to the piece's shape
+  const shine = document.createElement('canvas');
+  const shineCtx = shine.getContext('2d');
+  const gleam = (p, x, y, m, g, alpha) => {
+    const w = Math.ceil(p.vw * m * DPR) + 2;
+    const h = Math.ceil(p.vh * m * DPR) + 2;
+    if (shine.width < w || shine.height < h) {
+      shine.width = Math.max(shine.width, w);
+      shine.height = Math.max(shine.height, h);
     }
+    const { img, pad, scale } = p.cast;
+    shineCtx.globalCompositeOperation = 'source-over';
+    shineCtx.clearRect(0, 0, w, h);
+    shineCtx.drawImage(img, pad, pad, p.vw * scale, p.vh * scale, 0, 0, w - 2, h - 2);
+    shineCtx.globalCompositeOperation = 'source-in';
+    const band = w * 0.45;
+    const at = -band + (w + band * 2) * g;
+    const grad = shineCtx.createLinearGradient(at - band, 0, at + band, h * 0.5);
+    grad.addColorStop(0, 'rgba(255, 246, 225, 0)');
+    grad.addColorStop(0.5, 'rgba(255, 246, 225, 0.75)');
+    grad.addColorStop(1, 'rgba(255, 246, 225, 0)');
+    shineCtx.fillStyle = grad;
+    shineCtx.fillRect(0, 0, w, h);
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.globalAlpha = alpha;
+    ctx.drawImage(shine, 0, 0, w, h, x - (p.vw * m) / 2, y - p.vh * m, w / DPR, h / DPR);
+    ctx.restore();
+  };
+
+  // ---------- The way in ----------
+  // You start outside the factory's front wall. When the page opens its shutter rolls up, light spills
+  // out from under it, and you walk in through the door.
+  const FRONT = -70;
+  const drawDoor = (now) => {
+    if (cam.d > FRONT - NEAR) return;
+    const open = motion ? ease(clamp((now - intro - 0.4) / 2.4, 0, 1)) : 1;
+    const lintel = EYE - 58;
+    const edge = EYE - 58 * open; // the bottom of the shutter rises as it rolls up
+    ctx.beginPath();
+    trace([[-HALF * 2, TOP - 12, FRONT], [HALF * 2, TOP - 12, FRONT], [HALF * 2, EYE, FRONT], [-HALF * 2, EYE, FRONT]]);
+    trace([[-40, lintel, FRONT], [-40, EYE, FRONT], [40, EYE, FRONT], [40, lintel, FRONT]]);
+    ctx.fillStyle = '#22133C';
+    ctx.fill('evenodd');
+    if (open < 1) {
+      fillShape([[-40, lintel, FRONT], [40, lintel, FRONT], [40, edge, FRONT], [-40, edge, FRONT]], '#3B2A5C');
+      // the slats travel up with it
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = '#2A1D45';
+      ctx.beginPath();
+      for (let y = edge - 1.6; y > lintel; y -= 1.6) seg(-40, y, FRONT, 40, y, FRONT);
+      ctx.stroke();
+      ctx.strokeStyle = 'rgba(255, 244, 232, 0.08)';
+      ctx.beginPath();
+      for (let y = edge - 2.2; y > lintel; y -= 1.6) seg(-40, y, FRONT, 40, y, FRONT);
+      ctx.stroke();
+      ctx.lineWidth = 1;
+      fillShape([[-40, edge - 1.4, FRONT], [40, edge - 1.4, FRONT], [40, edge, FRONT], [-40, edge, FRONT]], '#1E1236');
+      // the hall's light spilling out under it onto the yard
+      const lip = pt(0, edge, FRONT);
+      if (open > 0 && lip) {
+        const grad = ctx.createLinearGradient(0, lip.sy, 0, H);
+        grad.addColorStop(0, `rgba(255, 200, 140, ${(0.4 * (1 - open)).toFixed(3)})`);
+        grad.addColorStop(1, 'rgba(255, 200, 140, 0)');
+        ctx.globalCompositeOperation = 'lighter';
+        fillShape([[-40, EYE, FRONT], [40, EYE, FRONT], [62, EYE, FRONT - 40], [-62, EYE, FRONT - 40]], grad);
+        ctx.globalCompositeOperation = 'source-over';
+      }
+    }
+    // the rolled-up shutter over the door
+    fillShape([[-41, lintel - 3, FRONT], [41, lintel - 3, FRONT], [41, lintel, FRONT], [-41, lintel, FRONT]], '#2A1D45');
   };
 
   // ---------- Light ----------
@@ -1168,7 +1211,7 @@
       const d = Z0 + bay * GAP + 4;
       const z = d - cam.d;
       if (z < 6) continue;
-      const a = level * fog(z) * passing(z);
+      const a = level * fog(z) * passing(z) * (1 + 0.8 * focus[bay]);
       const l = pt(-11, TOP + 12.4, d);
       const r = pt(11, TOP + 12.4, d);
       const fl = pt(-25, EYE, d);
@@ -1308,6 +1351,8 @@
       if (p.tag > 0.05 && !p.tagged) { p.tagged = true; p.tagAt = now; } else if (p.tag < 0.02) p.tagged = false;
     }
     stageTag.v += ((motion && cam.d > STOP - 50 ? 1 : 0) - stageTag.v) * rate;
+    focus.fill(0);
+    for (const p of products) focus[p.bay] = Math.max(focus[p.bay], p.tag);
   };
 
   const draw = (now) => {
@@ -1342,7 +1387,8 @@
     const dark = motion ? 0.6 * (1 - clamp((now - intro - 0.3) / 2.6, 0, 1)) : 0;
     if (dark > 0.01) { ctx.fillStyle = `rgba(8, 4, 18, ${dark})`; ctx.fillRect(0, 0, W, H); }
     drawLight(now);
-    drawTags(now);
+    drawDoor(now);
+    placeTags(now);
     // the piece under the pointer, or the one focused from the keyboard
     const marked = hits.find((hit) => hit.p === (focused || hover));
     if (marked) {
@@ -1368,15 +1414,16 @@
     INSET = portrait ? 17 : 16;
     SIZE = portrait ? 1.15 : 1;
     // It is a soft illustration, so 1.5 device pixels per pixel is sharp enough and much cheaper than 3
-    DPR = Math.min(window.devicePixelRatio || 1, 1.5) * quality;
+    DPR = Math.min(window.devicePixelRatio || 1, W < 600 ? 1.75 : 1.5) * quality;
     canvas.width = Math.round(W * DPR);
     canvas.height = Math.round(H * DPR);
     FPX = F * U;
     wide = wideQuery.matches;
     CX = W / 2;
-    CY = H * (portrait ? 0.44 : 0.46);
+    CY = H * (portrait ? 0.5 : 0.46); // lower on phones, leaving room for the tags above
     layout();
     rasterise();
+    remeasure();
   };
 
   // ---------- Scrolling, pointer and keyboard ----------
@@ -1392,7 +1439,7 @@
   const progress = () => clamp((scrollY - top) / range, 0, 1);
   // Where the camera stands for a scroll position. It slows to a stop in front of each bay, so there is
   // time to look around, then walks on to the next.
-  const STOPS = [START, ...Array.from({ length: BAYS - 1 }, (_, i) => Z0 + (i + 1) * GAP - 75), STOP];
+  const STOPS = [START, ...Array.from({ length: BAYS }, (_, i) => Z0 + i * GAP - 75), STOP];
   const along = (t) => {
     const d = START + t * (STOP - START);
     let i = 0;
@@ -1402,6 +1449,23 @@
     const u = clamp((d - a) / (b - a), 0, 1);
     return a + (b - a) * (0.3 * u + 0.7 * ease(u));
   };
+  const scrollFor = (d) => top + ((d - START) / (STOP - START)) * range;
+  // A map of the walk on the bar at the bottom: a mark for each stop, and picking one walks you there
+  const map = document.createElement('div');
+  map.className = 'walk__map';
+  const marks = STOPS.map((stop, i) => {
+    const last = i === STOPS.length - 1;
+    const mark = document.createElement('button');
+    mark.type = 'button';
+    mark.className = 'walk__stop';
+    mark.dataset.name = i === 0 ? 'Entrance' : last ? 'Casting bay' : `Bay ${i}`;
+    mark.setAttribute('aria-label', `Walk to ${i === 0 ? 'the entrance' : last ? 'the casting bay' : `bay ${i}`}`);
+    mark.style.left = `${((i / (STOPS.length - 1)) * 100).toFixed(2)}%`; // evenly, so the marks never crowd
+    mark.addEventListener('click', () => scrollTo({ top: scrollFor(stop), behavior: 'instant' }));
+    map.append(mark);
+    return mark;
+  });
+  bar.after(map);
 
   let shown = '';
   const hud = () => {
@@ -1423,7 +1487,16 @@
       bayText.textContent = text;
       pairText.textContent = pair;
     }
-    bar.style.transform = `scaleX(${clamp(walked / (STOP - START), 0, 1).toFixed(4)})`;
+    marks.forEach((mark, i) => {
+      const here = Math.abs(cam.d - STOPS[i]) < 14;
+      mark.classList.toggle('is-here', here);
+      mark.classList.toggle('is-past', !here && cam.d > STOPS[i]);
+    });
+    // the line fills stop by stop, so it meets each mark as you reach it
+    let seg = 0;
+    while (seg < STOPS.length - 2 && cam.d > STOPS[seg + 1]) seg++;
+    const part = clamp((cam.d - STOPS[seg]) / (STOPS[seg + 1] - STOPS[seg]), 0, 1);
+    bar.style.transform = `scaleX(${((seg + part) / (STOPS.length - 1)).toFixed(4)})`;
     walk.classList.toggle('is-walking', walked > 40);
     // the words slide away as you set off: to the left beside the aisle, or up on a narrow screen
     const cc = clamp(walked, 0, 60) / 60;
@@ -1488,7 +1561,7 @@
     document.addEventListener('visibilitychange', start);
     start();
   } else {
-    cam.d = START;
+    cam.d = START + 45;
     still();
   }
 
@@ -1500,7 +1573,7 @@
       if (motion) { measure(); cam.to = along(progress()); } else still();
     }, 150);
   });
-  document.fonts?.ready.then(() => { if (!motion) still(); });
+  document.fonts?.ready.then(() => { remeasure(); if (!motion) still(); });
 
   // Pointing at a piece marks it; clicking opens it
   const pieceAt = (event) => {
@@ -1530,7 +1603,7 @@
     focused = p;
     if (motion) {
       const goal = clamp(p.d - 75, START, STOP);
-      scrollTo({ top: top + ((goal - START) / (STOP - START)) * range, behavior: 'instant' });
+      scrollTo({ top: scrollFor(goal), behavior: 'instant' });
     } else {
       still();
     }
