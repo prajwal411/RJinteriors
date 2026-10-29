@@ -676,7 +676,6 @@
   .product:hover .plate .drawing, .industry:hover .industry__plate .drawing { translate: 0 -6px; }
   :is(.brand-index > div, .brand) :is(dt, h3) { text-decoration: underline 3px transparent; text-underline-offset: 0.3em; transition: text-decoration-color 0.2s ease; }
   :is(.brand-index > div, .brand):hover :is(dt, h3) { text-decoration-color: var(--ochre); }
-  .form-status:not(:empty) { animation: rise-in 0.4s var(--ease-out); }
 
   /* Drawn, then cast */
   .motion [data-draw]:not(.is-done) .drawing path { stroke-dasharray: 1; stroke-dashoffset: 1; fill-opacity: 0; }

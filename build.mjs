@@ -166,9 +166,11 @@ async function build() {
   // One project in a grid. The photo is decorative here; the project page describes each photo.
   // Cards in the main grid are named for view transitions: filtering moves them into place, and opening
   // one carries its photo into the arch at the top of the project page.
+  // Card photos stay lazy, even the first: cards are only shown once site.js reveals them, so fetching
+  // the first photo early just competes with the CSS the page needs to draw (it measured slower).
   function projectCard(p, { lead = false, heading = 'h2', named = false } = {}) {
     const media = p.images.length
-      ? img(p.images[0], { alt: '', priority: lead, sizes: lead ? '(min-width: 72rem) 50rem, 92vw' : '(min-width: 72rem) 25rem, (min-width: 40rem) 46vw, 92vw' })
+      ? img(p.images[0], { alt: '', sizes: lead ? '(min-width: 72rem) 50rem, 92vw' : '(min-width: 72rem) 25rem, (min-width: 40rem) 46vw, 92vw' })
       : `<span class="pcard__drawing">${drawing(p.drawing || 'column', { material: 'line' })}</span>`;
     const work = [...new Set(p.work.map((item) => types.work[item.type].short))];
     const workText = work.length > 1 ? `${work.slice(0, -1).join(', ')} and ${work.at(-1)}` : work[0] || '';

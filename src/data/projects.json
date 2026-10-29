@@ -240,7 +240,7 @@
   {
     "id": "bismilla-green-masjid",
     "name": "Bismilla Green Masjid",
-    "location": "",
+    "location": "[ASK CLIENT]",
     "sector": "worship",
     "year": "[ASK CLIENT]",
     "material": "[ASK CLIENT]",
@@ -280,7 +280,7 @@
   {
     "id": "indian-tiffin-club",
     "name": "Indian Tiffin Club",
-    "location": "",
+    "location": "[ASK CLIENT]",
     "sector": "hospitality",
     "year": "[ASK CLIENT]",
     "material": "[ASK CLIENT]",
@@ -344,7 +344,7 @@
   {
     "id": "infant-jesus-shrine",
     "name": "Infant Jesus Shrine",
-    "location": "",
+    "location": "[ASK CLIENT]",
     "sector": "worship",
     "year": "[ASK CLIENT]",
     "material": "[ASK CLIENT]",
@@ -462,7 +462,7 @@
   {
     "id": "venkatamma-ramaiah-kalyana-soudha",
     "name": "Venkatamma Ramaiah Kalyana Soudha",
-    "location": "",
+    "location": "[ASK CLIENT]",
     "sector": "hospitality",
     "year": "[ASK CLIENT]",
     "material": "[ASK CLIENT]",
@@ -510,7 +510,7 @@
   {
     "id": "princess-golf",
     "name": "Princess Golf",
-    "location": "",
+    "location": "[ASK CLIENT]",
     "sector": "hospitality",
     "year": "[ASK CLIENT]",
     "material": "[ASK CLIENT]",
@@ -562,7 +562,7 @@
   {
     "id": "tdp-office",
     "name": "TDP Office",
-    "location": "",
+    "location": "[ASK CLIENT]",
     "sector": "offices",
     "year": "[ASK CLIENT]",
     "material": "[ASK CLIENT]",
@@ -1022,7 +1022,7 @@
   {
     "id": "sandur-manganese-iron-ores",
     "name": "Sandur Manganese & Iron Ores",
-    "location": "",
+    "location": "[ASK CLIENT]",
     "sector": "offices",
     "year": "[ASK CLIENT]",
     "material": "[ASK CLIENT]",

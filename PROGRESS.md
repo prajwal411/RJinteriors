@@ -69,7 +69,49 @@ Work follows the brief. The plan is in PLAN.md, phrases in KEYWORD-MAP.md, and o
     - Below-the-fold images were already lazy-loaded.
   - **Environment:** `GOOGLE_SITE_VERIFICATION` adds the verification meta tag and `GA4_ID` adds GA4. Both are read at build time and nothing is hard-coded; without them the pages carry neither tag.
   - **GA4 events:** `assets/js/analytics.js` sends `contact_click` (method: phone, whatsapp or email) on every such link. There's no form, so there's no form event.
-- [ ] Step 10: finish (build, Lighthouse, summary, [ASK CLIENT] list, unconfirmed-facts list)
+- [x] **Step 10: finish**
+  - **Build:** 37 pages, 0 errors and 0 warnings.
+  - **Lighthouse (mobile):** run on this machine against both versions with the same plain, uncompressed local server. Runs were interleaved (live, new, live, new) and these are medians of 4.
+
+    | Page | Live site code | This branch |
+    |---|---|---|
+    | `/` | 86.5 (LCP 2.56 s, TBT 381 ms) | 90 (LCP 2.80 s, TBT 180 ms) |
+    | `/products/` | 99 (LCP 1.65 s) | 99 (LCP 1.80 s) |
+    | `/projects/` | 97.5 (LCP 2.41 s) | 97 (LCP 2.48 s) |
+    | `/contact/` | 99 (LCP 1.65 s, 119 KiB) | 99.5 (LCP 1.65 s, 571 KiB) |
+
+    - **Scores held.** LCP is 0.07–0.24 s higher because the pages carry more text, and the largest element on /products/ is now the longer intro, which waits for the web font. Vercel compresses HTML, which narrows this.
+    - **/contact/** downloads about 450 KiB more for the Google map. It loads after the page has drawn, so the score is unaffected.
+    - **/projects/:** an earlier change fetched the first project photo at high priority. It measured slower, because the card is hidden until site.js reveals it, so that change was undone. The /projects/ intro was also trimmed back to its original length.
+    - Single runs vary by up to ±8 points on this machine, so treat differences of a point or two as noise.
+  - **Client questions:** ASK-CLIENT.md, ready to send. It covers the listing link, hours, FRP columns, sculptures and murals, online profiles, 5 facts for each of the 27 projects, and 7 locations.
+
+## Where the unconfirmed facts appear
+
+**Opening hours** ("Monday to Saturday, 9 am to 6 pm", Mon–Sat 09:00–18:00). The source is `src/data/site.json` (`hours` and `openingHours`). Change it there and every place updates:
+- the footer of every page (`src/partials/footer.html`);
+- /contact/, "Visit the factory" (`src/pages/contact.html`);
+- /faq/, "Where is your factory?" (`src/data/faq.json`);
+- the schema `openingHoursSpecification` on every page (`build.mjs` → `jsonLd()`).
+
+**Map coordinates (`geo`):** not used anywhere yet. Add `"geo": { "latitude": …, "longitude": … }` to `site.json` and the schema picks it up.
+
+**Social media and directory profiles:** none added anywhere.
+
+**Founding year 2008** (confirmed by the user on 2026-10-30, listed here for the record). The source is `site.json` `founded`:
+- the home hero;
+- the /about/ intro, meta description and "Manufacturing in Bangalore" section;
+- the footer of every page;
+- /faq/;
+- the schema `foundingDate`.
+
+## After deploying (needs the live site)
+
+- Google Rich Results Test on `/`, `/faq/` and a project page.
+- Check that the `.php` redirects work, rather than giving Vercel's 403.
+- Check that the map renders on /contact/ in a normal browser.
+- In Vercel, set `GA4_ID` (and `GOOGLE_SITE_VERIFICATION` if you want the meta tag; the domain is already verified by DNS), then redeploy.
+- Resubmit `sitemap.xml` in Search Console. It lists 36 pages, including /faq/.
 
 ## Decisions (2026-10-30)
 
