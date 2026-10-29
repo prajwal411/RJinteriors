@@ -53,7 +53,22 @@ Work follows the brief. The plan is in PLAN.md, phrases in KEYWORD-MAP.md, and o
     - `geo` is added automatically once `site.json` gets `"geo": { "latitude": …, "longitude": … }`.
   - WebSite on home, BreadcrumbList on inner pages, FAQPage on /faq/, CollectionPage + ItemList on /projects/. No Product, price or rating markup.
   - Every build parses each page's JSON-LD and checks the required fields per type. Check with Google's Rich Results Test after deploying.
-- [ ] Step 9: technical (redirects, headers, CSP, thumbnails, env, GA4 events)
+- [x] **Step 9: technical**
+  - **Redirects:** 16 old URLs 301 to their closest page (REDIRECTS.md), tested on the local preview, which now applies `vercel.json` redirects and headers like Vercel. After deploying, check that the `.php` rules beat Vercel's 403 for `.php`.
+  - **Headers:**
+    - HSTS (`max-age=63072000`, the value Vercel already sends). `includeSubDomains` is deliberately left out, because mail or old-host subdomains of rjinteriors.in may not have HTTPS.
+    - X-Content-Type-Options, X-Frame-Options, Referrer-Policy and Permissions-Policy.
+    - Content-Security-Policy: scripts from self, Google Tag Manager and two hashed inline scripts; frames from google.com for the map; GA4 connections.
+  - **CSP testing:**
+    - Tested in headless Edge on /, /contact/, /products/, /projects/, a project page, /faq/ and /brands/ with GA4 switched on: 0 violations.
+    - A deliberately disallowed script was blocked and reported, which proves the test catches violations.
+    - The build stops if an inline script changes without its hash being updated in `vercel.json`.
+  - **Images:** `tools/project-images.py` lowers the quality of heavy photos until they fit 100 KB per thumbnail or 250 KB per full photo; dimensions are unchanged.
+    - Thumbnails total 4,451 → 4,215 KB.
+    - 8 very textured photos still sit slightly over the budget at the quality floor (largest thumbnail 174 → 140 KB, largest photo 481 → 340 KB).
+    - Below-the-fold images were already lazy-loaded.
+  - **Environment:** `GOOGLE_SITE_VERIFICATION` adds the verification meta tag and `GA4_ID` adds GA4. Both are read at build time and nothing is hard-coded; without them the pages carry neither tag.
+  - **GA4 events:** `assets/js/analytics.js` sends `contact_click` (method: phone, whatsapp or email) on every such link. There's no form, so there's no form event.
 - [ ] Step 10: finish (build, Lighthouse, summary, [ASK CLIENT] list, unconfirmed-facts list)
 
 ## Decisions (2026-10-30)

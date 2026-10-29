@@ -14,6 +14,7 @@ import { readFile, writeFile, mkdir, readdir, rm, cp, open } from 'node:fs/promi
 import { watch } from 'node:fs';
 import { createServer } from 'node:http';
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -84,7 +85,15 @@ async function build() {
   const templates = await readDir(path.join(SRC, 'templates'), '.html');
   const partials = await readDir(path.join(SRC, 'partials'), '.html');
   const drawings = await readDir(path.join(SRC, 'drawings'), '.svg');
-  const layout = await readFile(path.join(SRC, 'layout.html'), 'utf8');
+  // Line endings are made the same on every machine, so the inline scripts' CSP hashes don't change
+  // between a Windows checkout and the build on Vercel
+  const layout = (await readFile(path.join(SRC, 'layout.html'), 'utf8')).replace(/\r\n/g, '\n');
+  // Set in Vercel → Project → Settings → Environment Variables; each tag is left out until its value is set
+  const env = {
+    siteVerification: (process.env.GOOGLE_SITE_VERIFICATION || '').trim(),
+    ga4: (process.env.GA4_ID || '').trim(),
+  };
+  if (env.ga4 && !/^G-[A-Z0-9]+$/.test(env.ga4)) throw new Error(`GA4_ID "${env.ga4}" should look like G-XXXXXXXXXX`);
   const pageFiles = await readDir(path.join(SRC, 'pages'), '.html');
   const year = new Date().getFullYear();
   // Last commit date of a source file, for the sitemap's <lastmod>. Empty when git or the history is missing,
@@ -198,6 +207,12 @@ async function build() {
       return `<p class="product__projects"><span>Projects with this kind of work:</span> ${shown}${more}</p>`;
     },
     // Shown once the Google Business Profile share link is in site.json as googleListing
+    // Search Console verification and Google Analytics, only when their environment variables are set
+    'head-tags': () => [
+      env.siteVerification && `<meta name="google-site-verification" content="${esc(env.siteVerification)}">`,
+      env.ga4 && `<script async src="https://www.googletagmanager.com/gtag/js?id=${env.ga4}"></script>`,
+      env.ga4 && `<script src="/assets/js/analytics.js" data-ga4="${env.ga4}" defer></script>`,
+    ].filter(Boolean).join('\n'),
     'reviews-link': () => (site.googleListing
       ? `<a class="text-link" href="${esc(site.googleListing)}" target="_blank" rel="noopener">Read our reviews on Google</a>`
       : ''),
@@ -336,6 +351,7 @@ async function build() {
   // Search results cut titles at about 60 characters and descriptions at about 160; much shorter
   // descriptions waste the space
   const warnings = [];
+  const inlineScripts = new Set();
   const fitDescription = (options) => options.find((d) => d.length >= 140 && d.length <= 160)
     || options.reduce((best, d) => (Math.abs(d.length - 150) < Math.abs(best.length - 150) ? d : best));
   async function writePage(page, body, extra = {}) {
@@ -352,6 +368,7 @@ async function build() {
     const html = render(layout, ctx).replace('<!-- content -->', () => content);
     if (html.includes(ASK_CLIENT)) throw new Error(`"${ASK_CLIENT}" would be shown on ${page.path}`);
     checkJsonLd(html, page.path);
+    for (const [, code] of html.matchAll(INLINE_SCRIPT)) inlineScripts.add(code);
     const target = page.path.endsWith('/')
       ? path.join(OUT, page.path, 'index.html')
       : path.join(OUT, page.path);
@@ -410,8 +427,24 @@ async function build() {
     '\n</urlset>\n');
   await writeFile(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${absolute('/sitemap.xml')}\n`);
 
+  await checkCspHashes(inlineScripts);
   for (const w of warnings) console.warn(`Warning: ${w}`);
   console.log(`Built ${Object.keys(pageFiles).length + projects.length} pages into dist/ in ${Date.now() - started} ms`);
+}
+
+// Inline <script> blocks that run, so not JSON-LD data and not ones with a src
+const INLINE_SCRIPT = /<script(?![^>]*\bsrc=)(?![^>]*application\/ld\+json)[^>]*>([\s\S]*?)<\/script>/g;
+
+// The Content-Security-Policy in vercel.json allows inline scripts by their hash. If one changes, the build
+// stops and prints the hash to put in vercel.json, rather than shipping a page whose script would be blocked.
+async function checkCspHashes(scripts) {
+  const config = JSON.parse(await readFile(path.join(root, 'vercel.json'), 'utf8'));
+  const csp = config.headers.flatMap((rule) => rule.headers).find((h) => h.key === 'Content-Security-Policy')?.value || '';
+  const missing = [...scripts].map((code) => `'sha256-${createHash('sha256').update(code).digest('base64')}'`)
+    .filter((hash) => !csp.includes(hash));
+  if (missing.length) {
+    throw new Error(`Add these to script-src in the Content-Security-Policy in vercel.json: ${missing.join(' ')}`);
+  }
 }
 
 // Every page has one JSON-LD block that parses, and each node has what Google needs for its type
@@ -529,9 +562,21 @@ const TYPES = {
   '.json': 'application/json', '.webmanifest': 'application/manifest+json',
 };
 
+// A vercel.json "source" such as /updates.php/42096/(.*) as a regular expression: groups stay as they
+// are, everything else is matched literally
+const sourcePattern = (source) => new RegExp(`^${source.split(/(\([^)]*\))/)
+  .map((part, i) => (i % 2 ? part : part.replace(/[.*+?^${}|[\]\\]/g, '\\$&'))).join('')}$`);
+
 function serve(port = 4173) {
   createServer(async (req, res) => {
     const url = new URL(req.url, 'http://localhost');
+    // The same redirects and headers as on Vercel, so the preview behaves like the live site
+    const config = JSON.parse(await readFile(path.join(root, 'vercel.json'), 'utf8'));
+    const redirect = config.redirects.find((r) => sourcePattern(r.source).test(url.pathname));
+    if (redirect) { res.writeHead(redirect.statusCode, { Location: redirect.destination }).end(); return; }
+    for (const rule of config.headers) {
+      if (sourcePattern(rule.source).test(url.pathname)) for (const h of rule.headers) res.setHeader(h.key, h.value);
+    }
     let file = path.join(OUT, decodeURIComponent(url.pathname));
     if (!file.startsWith(OUT)) { res.writeHead(403).end(); return; }
     if (url.pathname.endsWith('/')) file = path.join(file, 'index.html');
