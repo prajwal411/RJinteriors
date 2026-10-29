@@ -21,6 +21,9 @@ const root = path.dirname(fileURLToPath(import.meta.url));
 const SRC = path.join(root, 'src');
 const OUT = path.join(root, 'dist');
 
+// Marks a fact in src/data that the client has not confirmed yet. It must never reach a page.
+const ASK_CLIENT = '[ASK CLIENT]';
+
 const esc = (s) => String(s ?? '')
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const lookup = (obj, key) => key.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
@@ -105,8 +108,12 @@ async function build() {
   a.directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${place}`;
   a.embedUrl = `https://www.google.com/maps?q=${place}&z=16&output=embed`;
 
-  // Projects: URLs, labels and the photo files made by tools/project-images.py
+  // Projects: URLs, labels and the photo files made by tools/project-images.py. Facts the client still
+  // has to confirm are "[ASK CLIENT]" in projects.json; they are blanked here so the page leaves them out.
   for (const p of projects) {
+    for (const key of ['location', 'year', 'material', 'finish', 'size', 'scope']) {
+      if (p[key] === ASK_CLIENT) p[key] = '';
+    }
     p.url = `/projects/${p.id}/`;
     p.sectorLabel = types.sectors[p.sector];
     if (!p.sectorLabel) throw new Error(`Unknown sector "${p.sector}" for project ${p.id}`);
@@ -238,12 +245,25 @@ async function build() {
     'project-cover': ({ project: p }) => (p.images.length
       ? `<figure class="pcover" style="view-transition-name: photo-${p.id}">${img(p.images[0], { sizes: '(min-width: 52rem) 30vw, 88vw', priority: true })}</figure>`
       : `<div class="page-head__art" data-draw aria-hidden="true">${drawing(p.drawing || 'column', {})}</div>`),
-    'project-facts': ({ project: p }) => [
-      p.location && ['Location', esc(p.location)],
-      ['Sector', `<a href="/projects/?sector=${p.sector}">${esc(p.sectorLabel)}</a>`],
-      p.images.length && ['Photos', String(p.images.length)],
-    ].filter(Boolean).map(([term, value]) => `<div><dt>${term}</dt><dd>${value}</dd></div>`).join('\n'),
-    'project-about': ({ project: p }) => p.description.map((para) => `<p>${esc(para)}</p>`).join('\n'),
+    // The same facts in the same order on every project page; facts not yet known are left out
+    'project-facts': ({ project: p }) => {
+      const made = [...new Set(p.work.map((item) => item.type))].map((type) => types.work[type])
+        .map((t) => `<a href="${t.href}">${esc(t.label)}</a>`).join(', ');
+      return [
+        p.location && ['Location', esc(p.location)],
+        ['Building type', `<a href="/projects/?sector=${p.sector}">${esc(p.sectorLabel)}</a>`],
+        p.year && ['Year', esc(p.year)],
+        made && ['Products made', made],
+        p.material && ['Material', esc(p.material)],
+        p.finish && ['Finish', esc(p.finish)],
+        p.size && ['Size or quantity', esc(p.size)],
+        p.scope && ['Scope', esc(p.scope)],
+        p.images.length && ['Photos', String(p.images.length)],
+      ].filter(Boolean).map(([term, value]) => `<div><dt>${term}</dt><dd>${value}</dd></div>`).join('\n');
+    },
+    'project-about': ({ project: p }) => [...p.description,
+      'Made by RJ Interiors & Constructions (RJIC) at its factory in Jakkur, Bangalore.',
+    ].map((para) => `<p>${esc(para)}</p>`).join('\n'),
     'project-work': ({ project: p }) => (p.work.length
       ? `<h2 class="case__heading">What we made</h2>\n<ul class="work" role="list">\n${p.work.map((item) => {
         const t = types.work[item.type];
@@ -322,6 +342,7 @@ async function build() {
       .replace(/<h([12])(?=[\s>])(?![^>]*\bdata-nocure)/g, '<h$1 data-cure')
       .replace(/<(div|figure) class="plate/g, '<$1 data-draw class="plate');
     const html = render(layout, ctx).replace('<!-- content -->', () => content);
+    if (html.includes(ASK_CLIENT)) throw new Error(`"${ASK_CLIENT}" would be shown on ${page.path}`);
     const target = page.path.endsWith('/')
       ? path.join(OUT, page.path, 'index.html')
       : path.join(OUT, page.path);

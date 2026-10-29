@@ -34,7 +34,12 @@ Work follows the brief. The plan is in PLAN.md, phrases in KEYWORD-MAP.md, and o
   - The FRP block no longer claims FRP columns, and "sculptures" is gone from the custom GRC block, because the brief doesn't list either. Both are [ASK CLIENT].
   - The comparison table is replaced by a short note linking to gfrcinnovation.in/grc-vs-frp/.
   - FRP blocks have no project list, because no project records FRP work.
-- [ ] Step 6: projects
+- [x] **Step 6: projects**
+  - Every project in `projects.json` has the same fact fields: location, building type (sector), year, products made (work), material, finish, size or quantity, and scope.
+  - 135 unknown fields are marked "[ASK CLIENT]", including 7 missing locations.
+  - Each page shows only the known facts, in a fixed order, and "Products made" links to the /products/ blocks. The build fails if "[ASK CLIENT]" would reach a page.
+  - A closing line names RJ Interiors & Constructions (RJIC) and the Jakkur factory. The photo-based descriptions are unchanged and not padded.
+  - Product blocks link back to their projects (Step 5).
 - [ ] Step 7: /faq/
 - [ ] Step 8: structured data
 - [ ] Step 9: technical (redirects, headers, CSP, thumbnails, env, GA4 events)
