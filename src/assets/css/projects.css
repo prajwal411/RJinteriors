@@ -229,3 +229,9 @@ html:has(.lightbox[open]) { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .pcard__media img, .pphoto img { transition: none; }
 }
+
+/* ---------- Questions and answers ---------- */
+.faq h3 { margin-top: 1.75rem; font-size: var(--text-1); }
+.faq h3:first-of-type { margin-top: 0; }
+.faq h3 + p { margin-top: 0.5rem; max-width: 54ch; font-size: 1.0625rem; line-height: 1.6; color: var(--ink-soft); }
+.faq__more { margin-top: 2.25rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); font-weight: 560; }

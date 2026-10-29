@@ -13,6 +13,7 @@
 import { readFile, writeFile, mkdir, readdir, rm, cp, open } from 'node:fs/promises';
 import { watch } from 'node:fs';
 import { createServer } from 'node:http';
+import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -80,7 +81,17 @@ async function build() {
   const layout = await readFile(path.join(SRC, 'layout.html'), 'utf8');
   const pageFiles = await readDir(path.join(SRC, 'pages'), '.html');
   const year = new Date().getFullYear();
-  const today = new Date().toISOString().slice(0, 10);
+  // Last commit date of a source file, for the sitemap's <lastmod>. Empty when git or the history is missing,
+  // and in a shallow clone (as on Vercel), where every older file would wrongly get the oldest fetched date.
+  const git = (...args) => {
+    try {
+      return execFileSync('git', args, { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+    } catch {
+      return '';
+    }
+  };
+  const fullHistory = git('rev-parse', '--is-shallow-repository') === 'false';
+  const lastCommit = (file) => (fullHistory ? git('log', '-1', '--format=%cs', '--', file) : '');
 
   const absolute = (p) => site.url.replace(/\/$/, '') + p;
 
@@ -128,7 +139,7 @@ async function build() {
   // one carries its photo into the arch at the top of the project page.
   function projectCard(p, { lead = false, heading = 'h2', named = false } = {}) {
     const media = p.images.length
-      ? img(p.images[0], { alt: '', sizes: lead ? '(min-width: 72rem) 50rem, 92vw' : '(min-width: 72rem) 25rem, (min-width: 40rem) 46vw, 92vw' })
+      ? img(p.images[0], { alt: '', priority: lead, sizes: lead ? '(min-width: 72rem) 50rem, 92vw' : '(min-width: 72rem) 25rem, (min-width: 40rem) 46vw, 92vw' })
       : `<span class="pcard__drawing">${drawing(p.drawing || 'column', { material: 'line' })}</span>`;
     const work = [...new Set(p.work.map((item) => types.work[item.type].short))];
     const workText = work.length > 1 ? `${work.slice(0, -1).join(', ')} and ${work.at(-1)}` : work[0] || '';
@@ -145,6 +156,16 @@ async function build() {
 </li>`;
   }
 
+  // What the visitor is asking about: the project page they are on, or anything we make
+  const ask = (ctx) => (ctx.project ? `I saw the ${ctx.project.name} project on your website and would like a quote for similar work.`
+    : 'I would like a quote for a GRC or FRP product.');
+  const whatsappUrl = (ctx) => `https://wa.me/${site.whatsapp.tel.replace(/\D/g, '')}?text=${encodeURIComponent(`Hello RJIC, ${ask(ctx)}`)}`;
+  const emailUrl = (ctx) => {
+    const subject = `Enquiry: ${ctx.project?.name || 'GRC and FRP products'}`;
+    const body = `Hello RJIC,\n\n${ask(ctx)}\n\nProject location:\nSizes and quantities:\nDrawings or photos: attached\n`;
+    return `mailto:${site.emails[0]}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
   const helpers = {
     year: () => String(year),
     nav: (ctx) => site.nav.map((item) => {
@@ -160,7 +181,13 @@ async function build() {
     'brand-links': () => site.brands.map((b) => b.url
       ? `<li><a href="${b.url}">${esc(b.name)}</a></li>`
       : `<li>${esc(b.name)}</li>`).join('\n'),
-    'mailto-list': () => site.emails.join(','),
+    // Enquiries go straight to WhatsApp or email, with the first line written for the visitor
+    enquire: (ctx) => `<a class="btn btn--whatsapp" href="${esc(whatsappUrl(ctx))}" target="_blank" rel="noopener">${ICONS.whatsapp}WhatsApp us</a>
+<a class="btn btn--email" href="${esc(emailUrl(ctx))}">${ICONS.email}Email us</a>`,
+    'whatsapp-url': (ctx) => esc(whatsappUrl(ctx)),
+    'email-url': (ctx) => esc(emailUrl(ctx)),
+    'icon-whatsapp': () => ICONS.whatsapp,
+    'icon-email': () => ICONS.email,
     'footer-cta': (ctx) => (ctx.page.cta === 'no' ? '' : render(partials['footer-cta'], ctx)),
     // The line drawing that sketches itself beside the footer call to action; set per page with ctaDrawing
     'cta-drawing': (ctx) => drawing(ctx.page.ctaDrawing || 'dome', { material: 'line' }),
@@ -203,14 +230,14 @@ async function build() {
 </li>`;
       }).join('\n')}\n</ul>`
       : ''),
-    'project-gallery': ({ project: p }) => (p.images.length
+    'project-gallery': (ctx, p = ctx.project) => (p.images.length
       ? `<ul class="pgallery${p.images.length === 1 ? ' pgallery--single' : ''}" role="list">\n${p.images.map((image, i) => `<li class="pphoto">
   <a class="pphoto__link" href="${image.full.src}" data-lightbox="${i}" data-w="${image.full.w}" data-h="${image.full.h}">
     <span class="visually-hidden">View larger: </span>${img(image, { sizes: p.images.length === 1 ? '(min-width: 64rem) 46rem, 92vw' : '(min-width: 64rem) 23rem, (min-width: 34rem) 46vw, 92vw' })}
     <span class="pphoto__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6"/></svg></span>
   </a>
 </li>`).join('\n')}\n</ul>`
-      : '<p class="pgallery__empty">Photos of this project aren\'t on the website yet. <a href="/contact/?type=references#enquiry">Ask us about it</a> when you get in touch.</p>'),
+      : `<p class="pgallery__empty">Photos of this project aren't on the website yet. <a href="${esc(whatsappUrl(ctx))}" target="_blank" rel="noopener">Ask us about it on WhatsApp</a>.</p>`),
     'project-related': ({ project: p }) => {
       const others = projects.filter((q) => q !== p && q.images.length);
       const index = projects.indexOf(p);
@@ -228,7 +255,7 @@ async function build() {
     },
     canonical: (ctx) => absolute(ctx.page.path),
     robots: (ctx) => (ctx.page.robots ? `<meta name="robots" content="${esc(ctx.page.robots)}">` : ''),
-    jsonld: (ctx) => jsonLd(site, ctx.page, absolute),
+    jsonld: (ctx) => jsonLd(site, ctx.page, absolute, projects),
   };
 
   function render(tpl, ctx, depth = 0) {
@@ -267,24 +294,33 @@ async function build() {
       : path.join(OUT, page.path);
     await mkdir(path.dirname(target), { recursive: true });
     await writeFile(target, html);
-    if (page.sitemap !== 'no') sitemap.push(page.path);
+    if (page.sitemap !== 'no') sitemap.push({ path: page.path, lastmod: lastCommit(page.source) });
   }
 
   for (const [file, raw] of Object.entries(pageFiles)) {
     const { meta, body } = parsePage(raw);
-    await writePage({ file, bodyClass: '', ...meta }, body);
+    await writePage({ file, source: `src/pages/${file}.html`, bodyClass: '', ...meta }, body);
   }
 
   // One page per project, from src/templates/project.html
   for (const p of projects) {
     const place = p.location ? `, ${p.location}` : '';
     const firstWork = p.work[0] && types.work[p.work[0].type];
+    // Name what was made, for searches like "jali screens hotel Bengaluru". Google cuts titles at
+    // about 60 characters, so use the longest of these that fits.
+    const shorts = [...new Set(p.work.map((item) => types.work[item.type].short))];
+    const title = [
+      shorts.length > 1 && `${p.name}${place}: ${shorts[0]} and ${shorts[1]} | RJIC`,
+      shorts.length && `${p.name}${place}: ${shorts[0]} | RJIC`,
+      `${p.name}${place} | Projects | RJIC`,
+    ].find((t) => t && t.length <= 60) || `${p.name}${place} | RJIC`;
     await writePage({
       file: `project ${p.id}`,
+      source: 'src/data/projects.json',
       path: p.url,
       nav: 'projects',
       bodyClass: 'page-project',
-      title: `${p.name}${place} | Projects | RJIC`,
+      title,
       description: `${p.summary} ${p.name}${place}: a project by RJ Interiors & Constructions, Bangalore.`,
       trail: [{ name: 'Projects', path: '/projects/' }, { name: p.name, path: p.url }],
       ctaDrawing: firstWork ? firstWork.drawing : 'dome',
@@ -293,30 +329,37 @@ async function build() {
     }, templates.project, { project: p });
   }
 
-  sitemap.sort((a, b) => a.length - b.length || a.localeCompare(b));
+  sitemap.sort((a, b) => a.path.length - b.path.length || a.path.localeCompare(b.path));
   await writeFile(path.join(OUT, 'sitemap.xml'),
     '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-    sitemap.map((p) => `  <url><loc>${absolute(p)}</loc><lastmod>${today}</lastmod></url>`).join('\n') +
+    sitemap.map((p) => `  <url><loc>${absolute(p.path)}</loc>${p.lastmod ? `<lastmod>${p.lastmod}</lastmod>` : ''}</url>`).join('\n') +
     '\n</urlset>\n');
   await writeFile(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${absolute('/sitemap.xml')}\n`);
 
   console.log(`Built ${Object.keys(pageFiles).length + projects.length} pages into dist/ in ${Date.now() - started} ms`);
 }
 
-function jsonLd(site, page, absolute) {
+function jsonLd(site, page, absolute, projects) {
+  // A LocalBusiness as well as an Organization, so the address and map can tie the site to the factory's
+  // Google Business Profile
   const org = {
-    '@type': 'Organization',
+    '@type': ['Organization', 'LocalBusiness'],
     '@id': absolute('/#organization'),
     name: site.name,
     alternateName: site.shortName,
     url: absolute('/'),
     logo: absolute('/assets/img/icon-512.png'),
+    image: absolute('/assets/img/og-image.png'),
+    foundingDate: site.founded,
+    hasMap: site.address.mapUrl,
     email: site.emails[0],
     telephone: site.phones[0].tel,
-    contactPoint: site.phones.map((ph) => ({ '@type': 'ContactPoint', telephone: ph.tel, contactType: 'sales' })),
+    contactPoint: site.phones.map((ph) => ({ '@type': 'ContactPoint', telephone: ph.tel, contactType: 'sales', areaServed: site.areaServed })),
     address: {
       '@type': 'PostalAddress',
+      streetAddress: site.address.street,
       addressLocality: site.address.locality,
+      postalCode: site.address.postalCode,
       addressRegion: site.address.region,
       addressCountry: site.address.countryCode,
     },
@@ -326,7 +369,10 @@ function jsonLd(site, page, absolute) {
   };
   const graph = [org];
   if (page.path === '/') {
-    graph.push({ '@type': 'WebSite', '@id': absolute('/#website'), url: absolute('/'), name: site.name, publisher: { '@id': org['@id'] } });
+    graph.push({
+      '@type': 'WebSite', '@id': absolute('/#website'), url: absolute('/'), name: site.name,
+      alternateName: site.shortName, inLanguage: 'en-IN', publisher: { '@id': org['@id'] },
+    });
   } else if (page.trail || page.crumb) {
     const trail = [{ name: 'Home', path: '/' }, ...(page.trail || [{ name: page.crumb, path: page.path }])];
     graph.push({
@@ -334,8 +380,25 @@ function jsonLd(site, page, absolute) {
       itemListElement: trail.map((step, i) => ({ '@type': 'ListItem', position: i + 1, name: step.name, item: absolute(step.path) })),
     });
   }
+  // The projects page lists every project page
+  if (page.path === '/projects/' && projects.length) {
+    graph.push({
+      '@type': 'CollectionPage', '@id': absolute('/projects/#page'), url: absolute('/projects/'), name: page.title,
+      about: { '@id': org['@id'] },
+      mainEntity: {
+        '@type': 'ItemList',
+        itemListElement: projects.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: absolute(p.url), name: p.name })),
+      },
+    });
+  }
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2).replace(/</g, '\\u003c');
 }
+
+// Icons for the enquiry buttons
+const ICONS = {
+  whatsapp: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 20.5l1.2-4.1a8.5 8.5 0 1 1 3.1 3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 8.2c.3-.6.9-.6 1.2 0l.7 1.5c.1.3 0 .6-.2.8l-.5.5c.6 1.2 1.6 2.2 2.8 2.8l.5-.5c.2-.2.5-.3.8-.2l1.5.7c.6.3.6.9 0 1.2-1 .7-2.3.8-3.4.2a9 9 0 0 1-3.6-3.6c-.6-1.1-.5-2.4.2-3.4Z" fill="currentColor"/></svg>',
+  email: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5h18v13H3zM3 6l9 7 9-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+};
 
 // ---------- Local preview server ----------
 const TYPES = {

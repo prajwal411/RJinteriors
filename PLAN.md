@@ -2,6 +2,15 @@
 
 This plan follows the brief, Steps 2–10. Nothing below is built yet. The work happens on the branch `seo-brief`, with one commit per step. Merging that branch into `main` is what deploys it.
 
+## Decisions (answered 2026-10-30)
+
+- **Contact form:** none. Enquiries go straight to WhatsApp (+91 99005 79417) or email, using buttons with the first line filled in. No GA4 form event, because there's no form.
+- **Since 2008:** confirmed by you. It stays on the site, and `foundingDate: 2008` goes into the schema.
+- **Map coordinates:** you'll confirm them later. The map embed and directions use the address. Schema `geo` stays out until the coordinates arrive.
+- **Google listing link:** the client will send it. Until then, the reviews link is a Maps search.
+
+The original questions follow for the record. Where they differ, the answers above replace the defaults below.
+
 ## Decide before I start
 
 1. **Contact form.** In your last message you asked me to remove every form and send enquiries straight to WhatsApp or email. Step 2 of the brief asks for a form that opens WhatsApp with the fields filled in.

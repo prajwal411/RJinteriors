@@ -8,8 +8,8 @@ Work follows the brief. The plan is in PLAN.md, phrases in KEYWORD-MAP.md, and o
   - robots.txt allows everything and has a Sitemap line. The live sitemap lists 35 URLs, all 200, all indexable.
   - Live security headers: only HSTS.
   - Old site: 86 page-like URLs in the Wayback Machine. `.html` pages give 404, and `.php` pages give 403 on Vercel. See REDIRECTS.md.
-- [x] **Step 1: plan** (KEYWORD-MAP.md, REDIRECTS.md, PLAN.md). Waiting for approval.
-- [ ] Step R: tidy the uncommitted earlier work
+- [x] **Step 1: plan** (KEYWORD-MAP.md, REDIRECTS.md, PLAN.md). Approved 2026-10-30; decisions recorded at the top of PLAN.md.
+- [x] **Step R: tidy the earlier work.** The 8 product pages were removed and their links point back to the `/products/#` blocks. Address, brand links, WhatsApp and email buttons, "since 2008", headers, the sitemap date fix and the project titles were kept.
 - [ ] Step 2: business details and contact
 - [ ] Step 3: brand network
 - [ ] Step 4: homepage and on-page
@@ -20,9 +20,9 @@ Work follows the brief. The plan is in PLAN.md, phrases in KEYWORD-MAP.md, and o
 - [ ] Step 9: technical (redirects, headers, CSP, thumbnails, env, GA4 events)
 - [ ] Step 10: finish (build, Lighthouse, summary, [ASK CLIENT] list, unconfirmed-facts list)
 
-## Decisions waiting
+## Decisions (2026-10-30)
 
-1. Contact form: the brief's WhatsApp form (default), or buttons only?
-2. "Since 2008": remove, as the brief says (default)?
-3. Factory coordinates for the schema: send them, or leave `geo` out.
-4. Google listing Share link for the reviews link (optional).
+1. No forms: enquiries go to WhatsApp or email.
+2. "Since 2008" is confirmed.
+3. Map coordinates: the user will confirm them later, so schema `geo` is left out until then.
+4. Google listing link: the client will send it. Until then, the reviews link is a Maps search.

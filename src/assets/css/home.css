@@ -36,13 +36,15 @@
   background: radial-gradient(closest-side, rgb(22 12 40 / 0.92) 55%, rgb(22 12 40 / 0.7) 75%, transparent);
 }
 .walk__copy a { pointer-events: auto; }
+/* The kicker sits inside the h1 so the heading names the product and the city */
+.hero__heading { display: grid; justify-items: inherit; }
 .hero__kicker {
   display: inline-flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem;
   font-size: clamp(0.6875rem, 0.62rem + 0.3vw, 0.875rem); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ochre);
 }
 .hero__kicker::before { content: ""; width: 1.75rem; height: 2px; background: currentColor; }
 .hero__title {
-  margin-inline: auto; max-width: 11ch;
+  display: block; margin-inline: auto; max-width: 11ch;
   font-size: clamp(2.5rem, 1.6rem + 3.6vw, 4.25rem);
   line-height: 0.98; letter-spacing: -0.032em; font-weight: 700;
 }
