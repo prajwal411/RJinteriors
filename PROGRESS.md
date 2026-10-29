@@ -17,7 +17,10 @@ Work follows the brief. The plan is in PLAN.md, phrases in KEYWORD-MAP.md, and o
   - The map and directions search for the address only, because searching for the business name pins a different "RJ Interiors" in Amruthahalli (560092).
   - "Read our reviews on Google" is built but hidden until the listing share link goes into `site.json` → `googleListing`, so it can't open the wrong business.
   - No form, as decided.
-- [ ] Step 3: brand network
+- [x] **Step 3: brand network**
+  - All five brands are linked by name on the home page, /brands/ and in the footer of every page.
+  - /brands/ has a "Which brand should I contact?" list: GRC Bangalore/Karnataka, FRP and FRP tanks, Tamil Nadu, Kerala, the rest of India, or RJIC directly. It also says every product is made at the Jakkur factory.
+  - GFRC Innovation moved to the regional group as "the rest of India".
 - [ ] Step 4: homepage and on-page
 - [ ] Step 5: /products/ overview
 - [ ] Step 6: projects
