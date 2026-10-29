@@ -21,7 +21,13 @@ Work follows the brief. The plan is in PLAN.md, phrases in KEYWORD-MAP.md, and o
   - All five brands are linked by name on the home page, /brands/ and in the footer of every page.
   - /brands/ has a "Which brand should I contact?" list: GRC Bangalore/Karnataka, FRP and FRP tanks, Tamil Nadu, Kerala, the rest of India, or RJIC directly. It also says every product is made at the Jakkur factory.
   - GFRC Innovation moved to the regional group as "the rest of India".
-- [ ] Step 4: homepage and on-page
+- [x] **Step 4: homepage and on-page**
+  - The home H1 is "GRC and FRP manufacturer in Bangalore". "Your design, cast in GRC and FRP" is now the subheading, and the look is unchanged.
+  - The made-to-order (any size and design) sentence is in the home hero and the /products/ intro.
+  - RJIC and Jakkur are named in the opening text of /products/, /manufacturing/, /industries/ and /projects/.
+  - The titles and descriptions follow PLAN.md.
+  - Project descriptions are built to land in 140–160 characters.
+  - The build now warns about any title over 60 or description outside 140–160. Current count: 0.
 - [ ] Step 5: /products/ overview
 - [ ] Step 6: projects
 - [ ] Step 7: /faq/

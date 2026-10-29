@@ -296,8 +296,18 @@ async function build() {
   await cp(path.join(SRC, 'root'), OUT, { recursive: true });
 
   const sitemap = [];
+  // Search results cut titles at about 60 characters and descriptions at about 160; much shorter
+  // descriptions waste the space
+  const warnings = [];
+  const fitDescription = (options) => options.find((d) => d.length >= 140 && d.length <= 160)
+    || options.reduce((best, d) => (Math.abs(d.length - 150) < Math.abs(best.length - 150) ? d : best));
   async function writePage(page, body, extra = {}) {
     const ctx = { site, page, ...extra };
+    if (page.sitemap !== 'no') {
+      if (page.title.length > 60) warnings.push(`${page.path}: title is ${page.title.length} characters (60 at most)`);
+      const d = page.description.length;
+      if (d < 140 || d > 160) warnings.push(`${page.path}: description is ${d} characters (140 to 160)`);
+    }
     // Motion hooks: headings "cure" and plates draw themselves as they scroll into view
     const content = render(body, ctx)
       .replace(/<h([12])(?=[\s>])(?![^>]*\bdata-nocure)/g, '<h$1 data-cure')
@@ -327,7 +337,10 @@ async function build() {
       shorts.length > 1 && `${p.name}${place}: ${shorts[0]} and ${shorts[1]} | RJIC`,
       shorts.length && `${p.name}${place}: ${shorts[0]} | RJIC`,
       `${p.name}${place} | Projects | RJIC`,
-    ].find((t) => t && t.length <= 60) || `${p.name}${place} | RJIC`;
+      `${p.name}${place} | RJIC`,
+      // The town alone, without the state
+      `${p.name}${p.location ? `, ${p.location.split(',')[0]}` : ''} | RJIC`,
+    ].find((t) => t && t.length <= 60) || `${p.name} | RJIC`;
     await writePage({
       file: `project ${p.id}`,
       source: 'src/data/projects.json',
@@ -335,7 +348,15 @@ async function build() {
       nav: 'projects',
       bodyClass: 'page-project',
       title,
-      description: `${p.summary} ${p.name}${place}: a project by RJ Interiors & Constructions, Bangalore.`,
+      // The first wording that lands in 140-160 characters, or the closest one
+      description: fitDescription([
+        `${p.summary} ${p.name}${place}: a project by RJ Interiors & Constructions (RJIC), Bangalore.`,
+        `${p.summary} ${p.name}${place}, by RJ Interiors & Constructions (RJIC), Bangalore.`,
+        `${p.summary} ${p.name}${place}, by RJ Interiors & Constructions, Bangalore.`,
+        `${p.summary} ${p.name}${place}, by RJIC, Bangalore.`,
+        `${p.summary} Made for ${p.name}${place} by RJ Interiors & Constructions (RJIC) at its factory in Jakkur, Bangalore.`,
+        `${p.summary} ${p.name}${place}: a project by RJ Interiors & Constructions (RJIC), made at its Jakkur factory in Bangalore.`,
+      ]),
       trail: [{ name: 'Projects', path: '/projects/' }, { name: p.name, path: p.url }],
       ctaDrawing: firstWork ? firstWork.drawing : 'dome',
       styles: 'projects',
@@ -350,6 +371,7 @@ async function build() {
     '\n</urlset>\n');
   await writeFile(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${absolute('/sitemap.xml')}\n`);
 
+  for (const w of warnings) console.warn(`Warning: ${w}`);
   console.log(`Built ${Object.keys(pageFiles).length + projects.length} pages into dist/ in ${Date.now() - started} ms`);
 }
 
