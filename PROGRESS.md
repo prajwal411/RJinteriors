@@ -40,7 +40,10 @@ Work follows the brief. The plan is in PLAN.md, phrases in KEYWORD-MAP.md, and o
   - Each page shows only the known facts, in a fixed order, and "Products made" links to the /products/ blocks. The build fails if "[ASK CLIENT]" would reach a page.
   - A closing line names RJ Interiors & Constructions (RJIC) and the Jakkur factory. The photo-based descriptions are unchanged and not padded.
   - Product blocks link back to their projects (Step 5).
-- [ ] Step 7: /faq/
+- [x] **Step 7: /faq/**
+  - Seven questions: the brief's six, plus "How long have you been making GRC and FRP?" (since 2008, confirmed).
+  - The answers live in `src/data/faq.json` and use site values for the address, hours, phone and email, so they always match the rest of the site.
+  - Linked from the footer page list on every page, /contact/ and /brands/. Listed in the sitemap.
 - [ ] Step 8: structured data
 - [ ] Step 9: technical (redirects, headers, CSP, thumbnails, env, GA4 events)
 - [ ] Step 10: finish (build, Lighthouse, summary, [ASK CLIENT] list, unconfirmed-facts list)

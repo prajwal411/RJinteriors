@@ -78,6 +78,9 @@ async function build() {
   const site = JSON.parse(await readFile(path.join(SRC, 'data', 'site.json'), 'utf8'));
   const projects = JSON.parse(await readFile(path.join(SRC, 'data', 'projects.json'), 'utf8'));
   const types = JSON.parse(await readFile(path.join(SRC, 'data', 'project-types.json'), 'utf8'));
+  const faqData = JSON.parse(await readFile(path.join(SRC, 'data', 'faq.json'), 'utf8'));
+  // Answers can use site values such as {{site.address.line}}, so they always match the rest of the site
+  const faq = (ctx) => faqData.map(({ q, a }) => ({ q, a: render(a, ctx) }));
   const templates = await readDir(path.join(SRC, 'templates'), '.html');
   const partials = await readDir(path.join(SRC, 'partials'), '.html');
   const drawings = await readDir(path.join(SRC, 'drawings'), '.svg');
@@ -202,8 +205,13 @@ async function build() {
       const current = item.key === ctx.page.nav ? ' aria-current="page"' : '';
       return `<li><a href="${item.href}"${current}>${esc(item.label)}</a></li>`;
     }).join('\n'),
-    'footer-nav': () => [{ label: 'Home', href: '/' }, ...site.nav]
+    'footer-nav': () => [{ label: 'Home', href: '/' }, ...site.nav, { label: 'FAQ', href: '/faq/' }]
       .map((item) => `<li><a href="${item.href}">${esc(item.label)}</a></li>`).join('\n'),
+    // Questions and answers from src/data/faq.json; the FAQPage schema uses the same text
+    'faq-list': (ctx) => faq(ctx).map(({ q, a }) => `<div class="faq-item">
+  <h2 data-nocure>${esc(q)}</h2>
+  <div class="faq-item__answer">${a}</div>
+</div>`).join('\n'),
     phones: () => site.phones
       .map((ph) => `<li><a href="tel:${ph.tel}">${esc(ph.display)}</a></li>`).join('\n'),
     emails: () => site.emails
@@ -298,7 +306,7 @@ async function build() {
     },
     canonical: (ctx) => absolute(ctx.page.path),
     robots: (ctx) => (ctx.page.robots ? `<meta name="robots" content="${esc(ctx.page.robots)}">` : ''),
-    jsonld: (ctx) => jsonLd(site, ctx.page, absolute, projects),
+    jsonld: (ctx) => jsonLd(site, ctx.page, absolute, projects, ctx.page.path === '/faq/' ? faq(ctx) : []),
   };
 
   function render(tpl, ctx, depth = 0) {
@@ -405,7 +413,7 @@ async function build() {
   console.log(`Built ${Object.keys(pageFiles).length + projects.length} pages into dist/ in ${Date.now() - started} ms`);
 }
 
-function jsonLd(site, page, absolute, projects) {
+function jsonLd(site, page, absolute, projects, faq) {
   // A LocalBusiness as well as an Organization, so the address and map can tie the site to the factory's
   // Google Business Profile
   const org = {
@@ -444,6 +452,12 @@ function jsonLd(site, page, absolute, projects) {
     graph.push({
       '@type': 'BreadcrumbList',
       itemListElement: trail.map((step, i) => ({ '@type': 'ListItem', position: i + 1, name: step.name, item: absolute(step.path) })),
+    });
+  }
+  if (faq.length) {
+    graph.push({
+      '@type': 'FAQPage', '@id': absolute(`${page.path}#faq`), url: absolute(page.path),
+      mainEntity: faq.map(({ q, a }) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
     });
   }
   // The projects page lists every project page

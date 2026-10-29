@@ -1,0 +1,30 @@
+[
+  {
+    "q": "Where is your factory?",
+    "a": "<p>Our factory is at {{site.address.line}}. Every product that RJ Interiors &amp; Constructions (RJIC) and its five brands supply is made there.</p><p>We are open {{site.hours}}. <a href=\"{{site.address.directionsUrl}}\">Get directions on Google Maps</a>.</p>"
+  },
+  {
+    "q": "Can you make any size or design?",
+    "a": "<p>Yes. Everything we make is made to order, in the size and design your project needs, from your drawings, photos, sketches or samples. We make a mould for each new design, so every piece cast from it matches.</p><p>Because each piece is made for its project, there is no fixed list of sizes. Tell us what you need and we will confirm what can be made.</p>"
+  },
+  {
+    "q": "What should I send for a quote?",
+    "a": "<ul><li>Drawings, sketches or photos of the design, or a sample</li><li>Sizes and quantities</li><li>Where the piece will be used, and the site location</li><li>When you need it, and whether you need installation</li></ul><p>Send them on WhatsApp to <a href=\"{{whatsapp-url}}\">{{site.whatsapp.display}}</a> or by email to <a href=\"mailto:{{site.emails.0}}\">{{site.emails.0}}</a>. You can attach drawings and photos to either.</p>"
+  },
+  {
+    "q": "Do you install?",
+    "a": "<p>We deliver every order to your site. Installation is offered on some projects. If you need it, say so when you ask for a quote, along with the site location and access.</p>"
+  },
+  {
+    "q": "Which of your brands serves my city?",
+    "a": "<ul><li>GRC in Bangalore and Karnataka: <a href=\"https://www.grcbangalore.com/\">GRC Bangalore</a></li><li>FRP products, including FRP water tanks: <a href=\"https://www.frpbangalore.com/\">FRP Bangalore</a></li><li>Chennai and Tamil Nadu: <a href=\"https://www.grcchennai.co.in/\">GRC Chennai</a></li><li>Kochi and Kerala: <a href=\"https://www.grckochi.in/\">GRC Kochi</a></li><li>Anywhere else in India: <a href=\"https://www.gfrcinnovation.in/\">GFRC Innovation</a></li></ul><p>All five are supplied from our factory in Jakkur, and you can always contact RJIC directly.</p>"
+  },
+  {
+    "q": "Should I choose GRC or FRP?",
+    "a": "<p>GRC is cement, sand and alkali-resistant glass fibre. It has a stone-like finish and no steel inside to rust, so it suits facades, jalis, domes and columns. FRP is resin and glass fibre. It is light, watertight and resistant to corrosion, so it suits tanks, planters and light mouldings.</p><p><a href=\"https://www.gfrcinnovation.in/grc-vs-frp/\">Read the full GRC vs FRP comparison</a>, or tell us where the piece will go and we will recommend one.</p>"
+  },
+  {
+    "q": "How long have you been making GRC and FRP products?",
+    "a": "<p>RJ Interiors &amp; Constructions has made GRC and FRP products since {{site.founded}}.</p>"
+  }
+]
