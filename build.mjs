@@ -178,6 +178,15 @@ async function build() {
 
   const helpers = {
     year: () => String(year),
+    // The projects that include one product block's kind of work, e.g. {{projects-with jalis}}. Project
+    // pages don't say whether a piece was GRC or FRP, so the list is about the kind of work only.
+    'projects-with': (ctx, anchor) => {
+      const list = projects.filter((p) => p.work.some((item) => types.work[item.type].href.endsWith(`#${anchor}`)));
+      if (!list.length) return '';
+      const shown = list.slice(0, 6).map((p) => `<a href="${p.url}">${esc(p.name)}</a>`).join(', ');
+      const more = list.length > 6 ? `, and <a href="/projects/">${list.length - 6} more</a>` : '';
+      return `<p class="product__projects"><span>Projects with this kind of work:</span> ${shown}${more}</p>`;
+    },
     // Shown once the Google Business Profile share link is in site.json as googleListing
     'reviews-link': () => (site.googleListing
       ? `<a class="text-link" href="${esc(site.googleListing)}" target="_blank" rel="noopener">Read our reviews on Google</a>`
@@ -282,7 +291,7 @@ async function build() {
       }
       const [head, ...rest] = expr.split(/\s+/);
       if (head === 'drawing') return drawing(rest[0], parseArgs(rest.slice(1).join(' ')));
-      if (head in helpers) return helpers[head](ctx);
+      if (head in helpers) return helpers[head](ctx, ...rest);
       const value = lookup(ctx, head);
       if (value === undefined) throw new Error(`Unknown value "${head}" in ${ctx.page.file}`);
       return esc(value);

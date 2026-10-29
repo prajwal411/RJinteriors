@@ -433,6 +433,16 @@
   .product__uses { display: grid; gap: 0.3rem; margin-top: 0.5rem !important; font-size: 0.9375rem; line-height: 1.4; }
   .product__uses li { display: grid; grid-template-columns: 0.875rem 1fr; gap: 0.5rem; }
   .product__uses li::before { content: ""; width: 0.4375rem; height: 0.4375rem; margin-top: 0.45em; background: var(--ink); }
+  /* What the customer chooses, the material, fixing and what to send, as short labelled lines */
+  .product__facts { display: grid; gap: 0.6rem; margin-top: 1.25rem !important; font-size: 0.9375rem; line-height: 1.45; }
+  .product__facts dt { font-weight: 600; font-variation-settings: "SHRP" 100; }
+  .product__facts dd { color: var(--ink-soft); }
+  .product__projects { font-size: 0.9375rem; line-height: 1.5; color: var(--ink-soft); }
+  .product__projects span { display: block; font-weight: 600; font-variation-settings: "SHRP" 100; color: var(--ink); }
+  .product__projects a { color: var(--ink); text-decoration-color: var(--rule); }
+  .product__more { font-size: 0.9375rem; }
+  .compare-note p { color: var(--ink-soft); max-width: 60ch; }
+  .compare-note p + p { margin-top: 1rem; }
   @media (min-width: 40rem) {
     .product { grid-template-columns: minmax(9rem, 2fr) 3fr; gap: 1.5rem; }
     .product .plate { height: auto; aspect-ratio: 4 / 5; }
@@ -440,27 +450,6 @@
   .products { display: grid; gap: clamp(2.5rem, 2rem + 2vw, 3.5rem) 3rem; }
   @media (min-width: 72rem) {
     .products { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  }
-
-  /* Material comparison */
-  .compare { width: 100%; text-align: left; }
-  .compare th, .compare td { padding: 1rem 1.25rem 1rem 0; vertical-align: top; border-top: 1px solid var(--rule); }
-  .compare tbody tr:last-child > * { border-bottom: 1px solid var(--rule); }
-  .compare thead > tr > * { border-top: 0; }
-  .compare thead th { padding-bottom: 0.75rem; font-size: var(--text-1); font-weight: 640; font-variation-settings: "SHRP" 100; }
-  .compare thead th .swatch { margin-right: 0.5rem; }
-  .compare tbody th { font-weight: 600; font-variation-settings: "SHRP" 100; }
-  .compare thead td, .compare tbody th { width: 22%; }
-  .compare th[scope="col"], .compare tbody td { width: 39%; }
-  .compare td { color: var(--ink-soft); }
-  @media (max-width: 47.99rem) {
-    .compare thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-    .compare tr { display: grid; grid-template-columns: 1fr 1fr; column-gap: 1rem; border-top: 1px solid var(--rule); padding-block: 1rem; }
-    .compare tbody tr:last-child { border-bottom: 1px solid var(--rule); }
-    .compare th, .compare td, .compare tbody tr:last-child > * { border: 0; padding: 0; }
-    .compare thead td, .compare tbody th, .compare tbody td { width: auto; }
-    .compare tbody th { grid-column: 1 / -1; margin-bottom: 0.5rem; }
-    .compare td::before { content: attr(data-label); display: block; font-weight: 600; color: var(--ink); font-size: var(--text--1); margin-bottom: 0.25rem; }
   }
 
   /* Contact details */

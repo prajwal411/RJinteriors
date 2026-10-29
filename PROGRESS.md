@@ -28,7 +28,12 @@ Work follows the brief. The plan is in PLAN.md, phrases in KEYWORD-MAP.md, and o
   - The titles and descriptions follow PLAN.md.
   - Project descriptions are built to land in 140–160 characters.
   - The build now warns about any title over 60 or description outside 140–160. Current count: 0.
-- [ ] Step 5: /products/ overview
+- [x] **Step 5: /products/ overview** (still one page)
+  - 14 product blocks, each with: what it is, where it's used, what you choose, why GRC or FRP, how it's generally fixed, what to send for a quote, projects with this kind of work (generated), and a link to its page on grcbangalore.com or frpbangalore.com.
+  - The tanks block is "FRP water tanks and MS FRP tanks" (water, effluent, chemicals).
+  - The FRP block no longer claims FRP columns, and "sculptures" is gone from the custom GRC block, because the brief doesn't list either. Both are [ASK CLIENT].
+  - The comparison table is replaced by a short note linking to gfrcinnovation.in/grc-vs-frp/.
+  - FRP blocks have no project list, because no project records FRP work.
 - [ ] Step 6: projects
 - [ ] Step 7: /faq/
 - [ ] Step 8: structured data
