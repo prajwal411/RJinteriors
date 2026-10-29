@@ -4,7 +4,11 @@
     <div class="site-footer__about">
       <p class="site-footer__name">RJ Interiors &amp; Constructions (RJIC)</p>
       <p>Manufacturer of custom GRC and FRP architectural products since {{site.founded}}.</p>
-      <address>{{site.address.street}}, {{site.address.locality}}, {{site.address.region}} {{site.address.postalCode}}</address>
+      <address class="site-footer__visit">
+        <span>{{site.address.line}}</span>
+        <a href="tel:{{site.phones.0.tel}}">{{site.phones.0.display}}</a>
+        <span>{{site.hours}}</span>
+      </address>
     </div>
     <div>
       <h2 class="site-footer__heading">WhatsApp</h2>

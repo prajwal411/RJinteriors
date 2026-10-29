@@ -95,6 +95,16 @@ async function build() {
 
   const absolute = (p) => site.url.replace(/\/$/, '') + p;
 
+  // The factory address as one line, written the same way as on the Google Business Profile, and the
+  // Google Maps links made from it. The links search for the address alone: searching for the business
+  // name finds a different "RJ Interiors" in Amruthahalli.
+  const a = site.address;
+  a.line = `${a.street}, ${a.locality}, ${a.region} ${a.postalCode}`;
+  const place = encodeURIComponent(a.line);
+  a.mapUrl = `https://www.google.com/maps/search/?api=1&query=${place}`;
+  a.directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${place}`;
+  a.embedUrl = `https://www.google.com/maps?q=${place}&z=16&output=embed`;
+
   // Projects: URLs, labels and the photo files made by tools/project-images.py
   for (const p of projects) {
     p.url = `/projects/${p.id}/`;
@@ -168,6 +178,10 @@ async function build() {
 
   const helpers = {
     year: () => String(year),
+    // Shown once the Google Business Profile share link is in site.json as googleListing
+    'reviews-link': () => (site.googleListing
+      ? `<a class="text-link" href="${esc(site.googleListing)}" target="_blank" rel="noopener">Read our reviews on Google</a>`
+      : ''),
     nav: (ctx) => site.nav.map((item) => {
       const current = item.key === ctx.page.nav ? ' aria-current="page"' : '';
       return `<li><a href="${item.href}"${current}>${esc(item.label)}</a></li>`;

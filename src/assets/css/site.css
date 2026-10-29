@@ -499,6 +499,8 @@
   .site-footer__name { font-weight: 640; font-variation-settings: "SHRP" 100; font-size: 1.125rem; line-height: 1.3; }
   .site-footer__heading { font-size: 0.9375rem; font-weight: 640; color: var(--on-ink-soft); margin-bottom: 0.75rem; letter-spacing: 0; }
   .site-footer__grid ul { display: grid; gap: 0.4rem; }
+  .site-footer__visit { display: grid; gap: 0.35rem; margin-top: 0.75rem; }
+  .site-footer__visit a { justify-self: start; }
   .site-footer__grid ul + .site-footer__heading { margin-top: 1.5rem; }
   .site-footer__grid a { text-decoration-color: rgb(255 244 232 / 0.35); }
   .site-footer__grid a:hover { text-decoration-color: var(--ochre); }
@@ -626,6 +628,13 @@
   .reach__value { font-size: var(--text-1); font-weight: 600; font-variation-settings: "SHRP" 100; }
   .reach__option > p:not(.reach__value) { color: var(--ink-soft); }
   .reach__option .btn { margin-top: 0.5rem; }
+  /* The factory: address, phone and hours beside the map */
+  .visit { display: grid; gap: 2.5rem; align-items: center; }
+  @media (min-width: 56rem) { .visit { grid-template-columns: 5fr 7fr; column-gap: clamp(3rem, 6vw, 6rem); } }
+  .visit__details { display: grid; gap: 0.5rem; margin: 1.25rem 0 2rem; font-size: var(--text-1); line-height: 1.45; max-width: 34ch; }
+  .visit__details a { font-weight: 600; text-decoration-color: var(--rule); text-decoration-thickness: 2px; }
+  .visit__map { background: var(--lime); border-bottom: 2px solid var(--ink); }
+  .visit__map iframe { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; border: 0; }
   @media (min-width: 64rem) {
     .contact-layout { grid-template-columns: 7fr 4fr; column-gap: clamp(3rem, 6vw, 6rem); }
     .contact-aside { position: sticky; top: calc(var(--header-h) + 2rem); }
