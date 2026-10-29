@@ -44,7 +44,15 @@ Work follows the brief. The plan is in PLAN.md, phrases in KEYWORD-MAP.md, and o
   - Seven questions: the brief's six, plus "How long have you been making GRC and FRP?" (since 2008, confirmed).
   - The answers live in `src/data/faq.json` and use site values for the address, hours, phone and email, so they always match the rest of the site.
   - Linked from the footer page list on every page, /contact/ and /brands/. Listed in the sitemap.
-- [ ] Step 8: structured data
+- [x] **Step 8: structured data** (one `jsonLd()` function in build.mjs)
+  - Organization + LocalBusiness:
+    - legalName, alternateName "RJIC", logo, foundingDate 2008;
+    - the exact address and telephone +91-99005-79417;
+    - opening hours (Mon–Sat 09:00–18:00, **unconfirmed**);
+    - the five brand sites as `subOrganization`, not sameAs;
+    - `geo` is added automatically once `site.json` gets `"geo": { "latitude": …, "longitude": … }`.
+  - WebSite on home, BreadcrumbList on inner pages, FAQPage on /faq/, CollectionPage + ItemList on /projects/. No Product, price or rating markup.
+  - Every build parses each page's JSON-LD and checks the required fields per type. Check with Google's Rich Results Test after deploying.
 - [ ] Step 9: technical (redirects, headers, CSP, thumbnails, env, GA4 events)
 - [ ] Step 10: finish (build, Lighthouse, summary, [ASK CLIENT] list, unconfirmed-facts list)
 

@@ -351,6 +351,7 @@ async function build() {
       .replace(/<(div|figure) class="plate/g, '<$1 data-draw class="plate');
     const html = render(layout, ctx).replace('<!-- content -->', () => content);
     if (html.includes(ASK_CLIENT)) throw new Error(`"${ASK_CLIENT}" would be shown on ${page.path}`);
+    checkJsonLd(html, page.path);
     const target = page.path.endsWith('/')
       ? path.join(OUT, page.path, 'index.html')
       : path.join(OUT, page.path);
@@ -413,6 +414,36 @@ async function build() {
   console.log(`Built ${Object.keys(pageFiles).length + projects.length} pages into dist/ in ${Date.now() - started} ms`);
 }
 
+// Every page has one JSON-LD block that parses, and each node has what Google needs for its type
+function checkJsonLd(html, where) {
+  const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+  const need = (ok, what) => { if (!ok) throw new Error(`${where}: structured data ${what}`); };
+  need(blocks.length === 1, `should be one block, found ${blocks.length}`);
+  const data = JSON.parse(blocks[0][1]);
+  need(data['@context'] === 'https://schema.org', 'has no schema.org context');
+  for (const node of data['@graph']) {
+    const type = [].concat(node['@type']);
+    need(!type.some((t) => ['Product', 'Offer', 'AggregateRating', 'Review'].includes(t)), 'has product, price or rating markup');
+    if (type.includes('LocalBusiness')) {
+      const a = node.address || {};
+      need(node.name && node.telephone && a.streetAddress && a.addressLocality && a.postalCode && a.addressCountry,
+        'LocalBusiness is missing its name, phone or address');
+      need(node.subOrganization?.every((o) => o.name && o.url), 'has a brand without a name or URL');
+    }
+    if (type.includes('WebSite')) need(node.name && node.url, 'WebSite is missing its name or URL');
+    if (type.includes('BreadcrumbList')) {
+      node.itemListElement.forEach((item, i) => need(item.position === i + 1 && item.name && item.item?.startsWith('https://'),
+        'BreadcrumbList has an item without a position, name or URL'));
+    }
+    if (type.includes('FAQPage')) {
+      need(node.mainEntity.length && node.mainEntity.every((q) => q.name && q.acceptedAnswer?.text), 'FAQPage has a question without an answer');
+    }
+  }
+}
+
+// +919900579417 → +91-99005-79417, the form the brief asks for in structured data
+const dashed = (tel) => tel.replace(/^\+91(\d{5})(\d{5})$/, '+91-$1-$2');
+
 function jsonLd(site, page, absolute, projects, faq) {
   // A LocalBusiness as well as an Organization, so the address and map can tie the site to the factory's
   // Google Business Profile
@@ -424,11 +455,20 @@ function jsonLd(site, page, absolute, projects, faq) {
     url: absolute('/'),
     logo: absolute('/assets/img/icon-512.png'),
     image: absolute('/assets/img/og-image.png'),
+    legalName: site.name,
     foundingDate: site.founded,
     hasMap: site.address.mapUrl,
     email: site.emails[0],
-    telephone: site.phones[0].tel,
-    contactPoint: site.phones.map((ph) => ({ '@type': 'ContactPoint', telephone: ph.tel, contactType: 'sales', areaServed: site.areaServed })),
+    telephone: dashed(site.phones[0].tel),
+    contactPoint: site.phones.map((ph) => ({ '@type': 'ContactPoint', telephone: dashed(ph.tel), contactType: 'sales', areaServed: site.areaServed })),
+    openingHoursSpecification: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: site.openingHours.days,
+      opens: site.openingHours.opens,
+      closes: site.openingHours.closes,
+    },
+    // Only once the factory's map coordinates are confirmed and added to site.json
+    ...(site.geo ? { geo: { '@type': 'GeoCoordinates', latitude: site.geo.latitude, longitude: site.geo.longitude } } : {}),
     address: {
       '@type': 'PostalAddress',
       streetAddress: site.address.street,
@@ -439,7 +479,8 @@ function jsonLd(site, page, absolute, projects, faq) {
     },
     areaServed: site.areaServed.map((name) => ({ '@type': 'State', name })),
     knowsAbout: site.knowsAbout,
-    brand: site.brands.map((b) => (b.url ? { '@type': 'Brand', name: b.name, url: b.url } : { '@type': 'Brand', name: b.name })),
+    // The five brand websites belong to RJIC; they are not the same entity, so not sameAs
+    subOrganization: site.brands.map((b) => ({ '@type': 'Organization', name: b.name, url: b.url })),
   };
   const graph = [org];
   if (page.path === '/') {
