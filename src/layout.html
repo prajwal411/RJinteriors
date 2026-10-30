@@ -7,6 +7,7 @@
 <meta name="description" content="{{page.description}}">
 <link rel="canonical" href="{{canonical}}">
 {{robots}}
+{{head-tags}}
 <meta name="theme-color" content="#1A1030">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="{{site.name}}">
@@ -36,6 +37,7 @@
   })(document.documentElement);
 </script>
 <script src="/assets/js/site.js" defer></script>
+<script type="speculationrules">{"prefetch": [{"where": {"href_matches": "/*"}, "eagerness": "moderate"}]}</script>
 {{scripts}}
 <script type="application/ld+json">
 {{jsonld}}

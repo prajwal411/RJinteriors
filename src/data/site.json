@@ -2,25 +2,31 @@
   "name": "RJ Interiors & Constructions",
   "shortName": "RJIC",
   "url": "https://www.rjinteriors.in",
+  "founded": "2008",
   "address": {
-    "locality": "Bangalore",
+    "street": "No. 162/1, Sy No 21, BBMP Ward No. 05, Venkateshwar Nagar, Sampigehalli Main Road, Jakkur Post",
+    "locality": "Bengaluru",
+    "postalCode": "560064",
     "region": "Karnataka",
     "country": "India",
     "countryCode": "IN"
   },
+  "hours": "Monday to Saturday, 9 am to 6 pm",
+  "openingHours": { "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "opens": "09:00", "closes": "18:00" },
+  "googleListing": "",
   "phones": [
-    { "display": "+91 78921 42197", "tel": "+917892142197" },
     { "display": "+91 99005 79417", "tel": "+919900579417" },
+    { "display": "+91 78921 42197", "tel": "+917892142197" },
     { "display": "+91 63633 85312", "tel": "+916363385312" }
   ],
   "emails": ["grcbanglore@gmail.com", "sandiil.k@rjinteriors.in"],
-  "formEndpoint": "",
+  "whatsapp": { "display": "+91 99005 79417", "tel": "+919900579417" },
   "brands": [
     { "name": "GRC Bangalore", "url": "https://www.grcbangalore.com/", "domain": "grcbangalore.com" },
     { "name": "FRP Bangalore", "url": "https://www.frpbangalore.com/", "domain": "frpbangalore.com" },
-    { "name": "GRC Chennai", "url": "" },
-    { "name": "GRC Kochi", "url": "" },
-    { "name": "GFRC Innovation", "url": "" }
+    { "name": "GRC Chennai", "url": "https://www.grcchennai.co.in/", "domain": "grcchennai.co.in" },
+    { "name": "GRC Kochi", "url": "https://www.grckochi.in/", "domain": "grckochi.in" },
+    { "name": "GFRC Innovation", "url": "https://www.gfrcinnovation.in/", "domain": "gfrcinnovation.in" }
   ],
   "areaServed": ["Karnataka", "Tamil Nadu", "Kerala"],
   "knowsAbout": [

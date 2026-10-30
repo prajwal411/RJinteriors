@@ -26,6 +26,9 @@ OUT = ROOT / 'src' / 'assets' / 'img' / 'projects'
 FULL_LONG_EDGE = 1600
 THUMB_SHORT_EDGE = 640
 THUMB_LONG_EDGE_MAX = 1200
+# File size limits; busy photos are saved at a lower quality until they fit
+FULL_BUDGET_KB = 250
+THUMB_BUDGET_KB = 100
 
 
 def fit_long(im, limit):
@@ -36,6 +39,15 @@ def fit_long(im, limit):
 def fit_short(im, short, long_max):
     scale = min(1, short / min(im.size), long_max / max(im.size))
     return im.resize((round(im.width * scale), round(im.height * scale)), Image.LANCZOS) if scale < 1 else im
+
+
+def save_webp(im, path, quality, budget_kb, floor):
+    """Save as WebP, lowering the quality in steps for busy photos until the file fits the budget."""
+    while True:
+        im.save(path, 'WEBP', quality=quality, method=6)
+        if path.stat().st_size <= budget_kb * 1024 or quality <= floor:
+            return
+        quality -= 4
 
 
 def main():
@@ -60,8 +72,8 @@ def main():
                 box = (round(w * crop.get('left', 0)), round(h * crop.get('top', 0)),
                        round(w * crop.get('right', 1)), round(h * crop.get('bottom', 1)))
                 im = im.crop(box)
-            fit_long(im, FULL_LONG_EDGE).save(folder / f'{n}.webp', 'WEBP', quality=80, method=6)
-            fit_short(im, THUMB_SHORT_EDGE, THUMB_LONG_EDGE_MAX).save(folder / f'{n}-thumb.webp', 'WEBP', quality=74, method=6)
+            save_webp(fit_long(im, FULL_LONG_EDGE), folder / f'{n}.webp', 80, FULL_BUDGET_KB, 56)
+            save_webp(fit_short(im, THUMB_SHORT_EDGE, THUMB_LONG_EDGE_MAX), folder / f'{n}-thumb.webp', 74, THUMB_BUDGET_KB, 50)
             total += 1
         print(f'{project["id"]}: {len(photos)} photos')
     print(f'Done: {total} photos')
