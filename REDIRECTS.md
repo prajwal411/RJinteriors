@@ -46,5 +46,7 @@ RJIC doesn't currently list these products or topics, so a redirect would send t
 
 ## Notes
 
-- `.php` URLs currently return 403 on Vercel, not 404. After deploying, check that the `vercel.json` rules run before that block. If they don't, the `.php` rows can't be redirected on Vercel.
+- Checked on the live site (2026-10-30): the `.php` rules work (301), so Vercel's 403 doesn't get in the way.
+- On Vercel, `cleanUrls` runs before these rules and turns `/services.html` into `/services/` first. So each `.html` row also has a rule for its `/name/` form. The `.html` rule is kept for the local preview. Both kinds of old address take two hops, which Google follows fine.
+- `updates.php` addresses get a trailing `/` from Vercel first, then the rule matches: also two hops.
 - `/about.html` and `/contact.html` already redirect in one hop through Vercel's `cleanUrls`.
