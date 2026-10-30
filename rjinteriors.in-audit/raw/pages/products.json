@@ -1,0 +1,291 @@
+{
+  "title": "GRC and FRP Products: Jalis, Domes, Columns, Tanks | RJIC",
+  "meta_description": "Custom GRC (GFRC) and FRP products made in Bangalore: jalis and screens, domes and minarets, columns, cornices, balustrades, facade panels, fins, FRP planters, FRP tanks and MS FRP tanks.",
+  "meta_robots": null,
+  "canonical": "https://www.rjinteriors.in/products/",
+  "h1": [
+    "GRC and FRP products"
+  ],
+  "h2": [
+    "GRC products",
+    "FRP products",
+    "GRC or FRP?",
+    "Send us your drawing",
+    "Call",
+    "Email",
+    "Pages",
+    "Our brands"
+  ],
+  "h3": [
+    "GRC jalis and decorative screens",
+    "Domes and minarets",
+    "Columns and capitals",
+    "Cornices and brackets",
+    "Arches, balusters and railings",
+    "Facade panels and cladding",
+    "Architectural fins and decorative elements",
+    "Sculptures and custom GRC products",
+    "FRP storage tanks and MS FRP tanks",
+    "FRP facade and cladding elements",
+    "Columns, brackets, corbels and cornices",
+    "FRP planters",
+    "Arches, gutters and decorative pots",
+    "Custom FRP products"
+  ],
+  "images": [],
+  "links": {
+    "internal": [
+      {
+        "href": "https://www.rjinteriors.in/",
+        "text": "RJICRJIC,RJ Interiors &Constructions",
+        "rel": []
+      },
+      {
+        "href": "https://www.rjinteriors.in/about/",
+        "text": "About",
+        "rel": []
+      },
+      {
+        "href": "https://www.rjinteriors.in/products/",
+        "text": "Products",
+        "rel": []
+      },
+      {
+        "href": "https://www.rjinteriors.in/manufacturing/",
+        "text": "Manufacturing",
+        "rel": []
+      },
+      {
+        "href": "https://www.rjinteriors.in/industries/",
+        "text": "Industries",
+        "rel": []
+      },
+      {
+        "href": "https://www.rjinteriors.in/brands/",
+        "text": "Our brands",
+        "rel": []
+      },
+      {
+        "href": "https://www.rjinteriors.in/projects/",
+        "text": "Projects",
+        "rel": []
+      },
+      {
+        "href": "https://www.rjinteriors.in/contact/",
+        "text": "Contact",
+        "rel": []
+      },
+      {
+        "href": "https://www.rjinteriors.in/contact/?type=quote#enquiry",
+        "text": "Request a quote",
+        "rel": []
+      },
+      {
+        "href": "https://www.rjinteriors.in/contact/?type=quote#enquiry",
+        "text": "Request a quote",
+        "rel": []
+      },
+      {
+        "href": "https://www.rjinteriors.in/",
+        "text": "Home",
+        "rel": []
+      },
+      {
+        "href": "https://www.rjinteriors.in/about/",
+        "text": "About",
+        "rel": []
+      },
+      {
+        "href": "https://www.rjinteriors.in/products/",
+        "text": "Products",
+        "rel": []
+      },
+      {
+        "href": "https://www.rjinteriors.in/manufacturing/",
+        "text": "Manufacturing",
+        "rel": []
+      },
+      {
+        "href": "https://www.rjinteriors.in/industries/",
+        "text": "Industries",
+        "rel": []
+      },
+      {
+        "href": "https://www.rjinteriors.in/brands/",
+        "text": "Our brands",
+        "rel": []
+      },
+      {
+        "href": "https://www.rjinteriors.in/projects/",
+        "text": "Projects",
+        "rel": []
+      },
+      {
+        "href": "https://www.rjinteriors.in/contact/",
+        "text": "Contact",
+        "rel": []
+      }
+    ],
+    "external": [
+      {
+        "href": "tel:+917892142197",
+        "text": "+91 78921 42197",
+        "rel": []
+      },
+      {
+        "href": "tel:+917892142197",
+        "text": "+91 78921 42197",
+        "rel": []
+      },
+      {
+        "href": "tel:+917892142197",
+        "text": "+91 78921 42197",
+        "rel": []
+      },
+      {
+        "href": "tel:+919900579417",
+        "text": "+91 99005 79417",
+        "rel": []
+      },
+      {
+        "href": "tel:+916363385312",
+        "text": "+91 63633 85312",
+        "rel": []
+      },
+      {
+        "href": "mailto:grcbanglore@gmail.com",
+        "text": "grcbanglore@gmail.com",
+        "rel": []
+      },
+      {
+        "href": "mailto:sandiil.k@rjinteriors.in",
+        "text": "sandiil.k@rjinteriors.in",
+        "rel": []
+      },
+      {
+        "href": "https://www.grcbangalore.com/",
+        "text": "GRC Bangalore",
+        "rel": []
+      },
+      {
+        "href": "https://www.frpbangalore.com/",
+        "text": "FRP Bangalore",
+        "rel": []
+      }
+    ]
+  },
+  "schema": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.rjinteriors.in/#organization",
+      "name": "RJ Interiors & Constructions",
+      "alternateName": "RJIC",
+      "url": "https://www.rjinteriors.in/",
+      "logo": "https://www.rjinteriors.in/assets/img/icon-512.png",
+      "email": "grcbanglore@gmail.com",
+      "telephone": "+917892142197",
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+917892142197",
+          "contactType": "sales"
+        },
+        {
+          "@type": "ContactPoint",
+          "telephone": "+919900579417",
+          "contactType": "sales"
+        },
+        {
+          "@type": "ContactPoint",
+          "telephone": "+916363385312",
+          "contactType": "sales"
+        }
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Bangalore",
+        "addressRegion": "Karnataka",
+        "addressCountry": "IN"
+      },
+      "areaServed": [
+        {
+          "@type": "State",
+          "name": "Karnataka"
+        },
+        {
+          "@type": "State",
+          "name": "Tamil Nadu"
+        },
+        {
+          "@type": "State",
+          "name": "Kerala"
+        }
+      ],
+      "knowsAbout": [
+        "Glass fibre reinforced concrete (GRC, GFRC)",
+        "Fibre reinforced plastic (FRP)",
+        "Architectural mouldings",
+        "Custom mould development",
+        "FRP storage tanks"
+      ],
+      "brand": [
+        {
+          "@type": "Brand",
+          "name": "GRC Bangalore",
+          "url": "https://www.grcbangalore.com/"
+        },
+        {
+          "@type": "Brand",
+          "name": "FRP Bangalore",
+          "url": "https://www.frpbangalore.com/"
+        },
+        {
+          "@type": "Brand",
+          "name": "GRC Chennai"
+        },
+        {
+          "@type": "Brand",
+          "name": "GRC Kochi"
+        },
+        {
+          "@type": "Brand",
+          "name": "GFRC Innovation"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.rjinteriors.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Products",
+          "item": "https://www.rjinteriors.in/products/"
+        }
+      ]
+    }
+  ],
+  "open_graph": {
+    "og:type": "website",
+    "og:site_name": "RJ Interiors & Constructions",
+    "og:locale": "en_IN",
+    "og:title": "GRC and FRP Products: Jalis, Domes, Columns, Tanks | RJIC",
+    "og:description": "Custom GRC (GFRC) and FRP products made in Bangalore: jalis and screens, domes and minarets, columns, cornices, balustrades, facade panels, fins, FRP planters, FRP tanks and MS FRP tanks.",
+    "og:url": "https://www.rjinteriors.in/products/",
+    "og:image": "https://www.rjinteriors.in/assets/img/og-image.png",
+    "og:image:width": "1200",
+    "og:image:height": "630",
+    "og:image:alt": "A GRC dome in front of a setting sun, with the words: Your design, cast in GRC and FRP"
+  },
+  "twitter_card": {
+    "twitter:card": "summary_large_image"
+  },
+  "word_count": 853,
+  "hreflang": []
+}

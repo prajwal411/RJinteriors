@@ -1,0 +1,9 @@
+
+No baselines found for https://www.rjinteriors.in/.
+Run `python scripts/drift_baseline.py <url>` to capture the first baseline.
+{
+  "url": "https://www.rjinteriors.in/",
+  "baselines": [],
+  "comparisons": [],
+  "note": "No database found. Run `drift baseline` first."
+}
