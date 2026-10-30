@@ -1,0 +1,230 @@
+{
+  "summary": {
+    "health_score": 73,
+    "business_type": "B2B manufacturer, hybrid local (Bangalore factory + Karnataka/Tamil Nadu/Kerala service area)",
+    "top_findings": [
+      "No Google Business Profile, Search Console or Bing listing yet",
+      "Address, history and parent-company link conflict across rjinteriors.in, grcbangalore.com and frpbangalore.com",
+      "One /products/ page covers 14 products; SERPs reward one page per product",
+      "Thin project pages (30-61 words) and no specifications anywhere",
+      "Enquiry form is mailto-only (formEndpoint empty)"
+    ],
+    "quick_wins": [
+      "Point sister-site 'Parent company' links to rjinteriors.in",
+      "Deploy security headers and asset caching via vercel.json",
+      "Keyword in home H1; product types in project titles",
+      "Tap-to-call / WhatsApp button in mobile header",
+      "Eager-load the /projects/ LCP image with fetchpriority=high"
+    ]
+  },
+  "categories": [
+    {
+      "name": "Technical SEO",
+      "score": 82,
+      "what_works": [
+        "35/35 pages 200 with self canonicals",
+        "Single-hop 308 redirects",
+        "Real 404s",
+        "Static server-rendered HTML",
+        "HSTS"
+      ],
+      "findings": [
+        {
+          "title": "Security headers missing",
+          "severity": "High",
+          "description": "Only HSTS is sent live",
+          "recommendation": "Add X-Content-Type-Options, Referrer-Policy, X-Frame-Options, Permissions-Policy in vercel.json"
+        },
+        {
+          "title": "/.htaccess publicly served",
+          "severity": "Medium",
+          "description": "build.mjs copies src/root/.htaccess; Apache-only",
+          "recommendation": "Stop copying it on Vercel"
+        },
+        {
+          "title": "Identical sitemap lastmod",
+          "severity": "Medium",
+          "description": "All 35 URLs show 2026-10-25",
+          "recommendation": "Use a reliable per-page date or omit lastmod"
+        }
+      ]
+    },
+    {
+      "name": "Content Quality",
+      "score": 52,
+      "what_works": [
+        "Clear entity definition on /about/",
+        "GRC vs FRP comparison on /products/"
+      ],
+      "findings": [
+        {
+          "title": "Thin project pages",
+          "severity": "High",
+          "description": "30-61 words each; Sandur 13 words, no photos",
+          "recommendation": "Add client-confirmed year, material, scope, city"
+        },
+        {
+          "title": "No specifications",
+          "severity": "High",
+          "description": "No sizes, thicknesses, lead times anywhere",
+          "recommendation": "Collect specs from client"
+        }
+      ]
+    },
+    {
+      "name": "On-Page SEO",
+      "score": 80,
+      "what_works": [
+        "Unique titles and descriptions",
+        "One H1 per page",
+        "Parameter URLs canonicalised"
+      ],
+      "findings": [
+        {
+          "title": "Home H1 lacks keyword",
+          "severity": "Medium",
+          "description": "'Your design, cast in GRC and FRP'",
+          "recommendation": "Put product + Bangalore in the H1"
+        },
+        {
+          "title": "Project titles name place only",
+          "severity": "Medium",
+          "description": "e.g. 'TDP Office | Projects | RJIC'",
+          "recommendation": "Add what was made"
+        }
+      ]
+    },
+    {
+      "name": "Schema / Structured Data",
+      "score": 72,
+      "what_works": [
+        "Valid Organization, WebSite, BreadcrumbList"
+      ],
+      "findings": [
+        {
+          "title": "No LocalBusiness",
+          "severity": "Medium",
+          "description": "No street address confirmed",
+          "recommendation": "Switch once address is confirmed"
+        },
+        {
+          "title": "WebSite node incomplete",
+          "severity": "Medium",
+          "description": "No alternateName/inLanguage",
+          "recommendation": "Add both in jsonLd()"
+        }
+      ]
+    },
+    {
+      "name": "Performance (CWV)",
+      "score": 91,
+      "what_works": [
+        "Mobile LCP 1.3-1.7s",
+        "CLS 0",
+        "No third-party scripts"
+      ],
+      "findings": [
+        {
+          "title": "No long cache on assets",
+          "severity": "Medium",
+          "description": "max-age=0 on CSS/JS/fonts/images",
+          "recommendation": "Cache headers in vercel.json"
+        },
+        {
+          "title": "/projects/ LCP image lazy",
+          "severity": "Medium",
+          "description": "825 KiB mobile transfer",
+          "recommendation": "Eager + fetchpriority=high; re-encode large WebPs"
+        }
+      ]
+    },
+    {
+      "name": "AI Search Readiness",
+      "score": 65,
+      "what_works": [
+        "All 21 AI/search crawlers get 200",
+        "Server-rendered content"
+      ],
+      "findings": [
+        {
+          "title": "Product passages don't name RJIC/Bangalore",
+          "severity": "High",
+          "description": "/products/ sections",
+          "recommendation": "Name the maker and place in each section"
+        },
+        {
+          "title": "No off-site entity footprint",
+          "severity": "High",
+          "description": "No GBP, directories, profiles",
+          "recommendation": "Create GBP and directory listings"
+        }
+      ]
+    },
+    {
+      "name": "Images",
+      "score": 85,
+      "what_works": [
+        "WebP, srcset, dimensions, descriptive alt on project pages"
+      ],
+      "findings": [
+        {
+          "title": "Heavy thumbnails",
+          "severity": "Low",
+          "description": "Up to 174 KB",
+          "recommendation": "Lower quality to ~65 or add AVIF"
+        }
+      ]
+    }
+  ],
+  "action_plan": {
+    "phases": [
+      {
+        "name": "Phase 1: Critical Fixes",
+        "timeframe": "Week 1",
+        "items": [
+          "Search Console + sitemap",
+          "Bing Webmaster Tools",
+          "Confirm address/facts with client",
+          "Google Business Profile",
+          "Working form endpoint"
+        ]
+      },
+      {
+        "name": "Phase 2: High-Impact Improvements",
+        "timeframe": "Weeks 2-3",
+        "items": [
+          "Sister-site links",
+          "vercel.json headers/caching",
+          "On-page title/H1 fixes",
+          "AI-readable product passages",
+          "Mobile call button",
+          "/projects/ speed",
+          "Directory listings"
+        ]
+      },
+      {
+        "name": "Phase 3: Content & Authority",
+        "timeframe": "Month 2",
+        "items": [
+          "One page per product type",
+          "Expand project pages",
+          "Schema upgrades",
+          "Reviews"
+        ]
+      },
+      {
+        "name": "Phase 4: Monitoring & Iteration",
+        "timeframe": "Ongoing",
+        "items": [
+          "/seo google",
+          "/seo drift",
+          "Weekly GSC checks"
+        ]
+      }
+    ]
+  },
+  "artifacts": {
+    "findings_dir": "findings/",
+    "screenshots_dir": "screenshots/"
+  }
+}

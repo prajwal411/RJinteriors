@@ -2,5 +2,51 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "cleanUrls": true,
-  "trailingSlash": true
+  "trailingSlash": true,
+  "redirects": [
+    { "source": "/index.php", "destination": "/", "statusCode": 301 },
+    { "source": "/index-2.php", "destination": "/", "statusCode": 301 },
+    { "source": "/index-2.html", "destination": "/", "statusCode": 301 },
+    { "source": "/services.html", "destination": "/manufacturing/", "statusCode": 301 },
+    { "source": "/products.php", "destination": "/products/", "statusCode": 301 },
+    { "source": "/products18c8.html", "destination": "/products/#facade-panels", "statusCode": 301 },
+    { "source": "/products2926.html", "destination": "/products/#frp-arches-gutters", "statusCode": 301 },
+    { "source": "/products43a0.html", "destination": "/products/#grc-custom", "statusCode": 301 },
+    { "source": "/updates.php/36516/(.*)", "destination": "/products/#frp-arches-gutters", "statusCode": 301 },
+    { "source": "/updates.php/36958/(.*)", "destination": "/products/", "statusCode": 301 },
+    { "source": "/updates.php/36959/(.*)", "destination": "/products/", "statusCode": 301 },
+    { "source": "/updates.php/41428/(.*)", "destination": "/products/#frp", "statusCode": 301 },
+    { "source": "/updates.php/41844/(.*)", "destination": "/products/#grc-custom", "statusCode": 301 },
+    { "source": "/updates.php/42096/(.*)", "destination": "/products/#frp-planters", "statusCode": 301 },
+    { "source": "/updates.php/42514/(.*)", "destination": "/products/#facade-panels", "statusCode": 301 },
+    { "source": "/updates.php/47418/(.*)", "destination": "/products/#frp", "statusCode": 301 }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Strict-Transport-Security", "value": "max-age=63072000" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'sha256-1SUI+0ylhqSb+SzwgvCUMGFmF9jGLpDTi/0Rz17roAs=' 'sha256-eA4CsZOuLxeedweYCnBvfkC9kFV68Fuyc7vfJn0faU8=' 'inline-speculation-rules' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-src https://www.google.com https://maps.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/assets/fonts/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/assets/(css|js)/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" }]
+    },
+    {
+      "source": "/assets/img/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=2592000" }]
+    }
+  ]
 }
