@@ -26,7 +26,7 @@ There is one commit per step. To resume, start at the first unticked step.
   - **Build checks:** the build now fails on LocalBusiness, on any product, price, rating or review key at any depth, and on a Google Maps search link in the Organization.
   - **Validation:** every page was checked against the schema.org vocabulary (types exist, every property allowed on its type): 0 errors, both with and without the profile link.
   - **Still to do when the link arrives:** the map embed and "Get directions" still search the address; switching them needs the profile's Place ID.
-- [ ] 8. Sitemap lastmod (git date, or the build date)
+- [x] 8. Sitemap lastmod: every URL now has one. It is the last commit date of the page's source files (the page, plus faq.json for /faq/, and projects.json and the project template for project pages). Where git can't give a reliable date, the build date is used instead: no git at all, or a shallow clone where the file's last commit is the clone's cut-off commit, as on Vercel. Tested in a --depth 2 clone.
 - [ ] 9. Images: the 5 thumbnails over 100 KB
 - [ ] 10. GA4 check
 - [ ] 11. Remaining SEO-AUDIT.md items

@@ -96,8 +96,9 @@ async function build() {
   if (env.ga4 && !/^G-[A-Z0-9]+$/.test(env.ga4)) throw new Error(`GA4_ID "${env.ga4}" should look like G-XXXXXXXXXX`);
   const pageFiles = await readDir(path.join(SRC, 'pages'), '.html');
   const year = new Date().getFullYear();
-  // Last commit date of a source file, for the sitemap's <lastmod>. Empty when git or the history is missing,
-  // and in a shallow clone (as on Vercel), where every older file would wrongly get the oldest fetched date.
+  // The sitemap's <lastmod>: the last commit that changed a page's source files, or the build date when git
+  // can't say. In a shallow clone (as on Vercel), a file last changed before the fetched history shows the
+  // cut-off commit instead of its real date, so that date isn't used.
   const git = (...args) => {
     try {
       return execFileSync('git', args, { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
@@ -105,8 +106,13 @@ async function build() {
       return '';
     }
   };
-  const fullHistory = git('rev-parse', '--is-shallow-repository') === 'false';
-  const lastCommit = (file) => (fullHistory ? git('log', '-1', '--format=%cs', '--', file) : '');
+  const buildDate = new Date().toISOString().slice(0, 10);
+  const shallowFile = git('rev-parse', '--git-path', 'shallow');
+  const cutOff = new Set(shallowFile ? (await readFile(path.resolve(root, shallowFile), 'utf8').catch(() => '')).split(/\s+/).filter(Boolean) : []);
+  const lastCommit = (...files) => {
+    const [hash, date] = git('log', '-1', '--format=%H %cs', '--', ...files).split(' ');
+    return hash && !cutOff.has(hash) ? date : buildDate;
+  };
 
   const absolute = (p) => site.url.replace(/\/$/, '') + p;
 
@@ -395,12 +401,14 @@ async function build() {
       : path.join(OUT, page.path);
     await mkdir(path.dirname(target), { recursive: true });
     await writeFile(target, html);
-    if (page.sitemap !== 'no') sitemap.push({ path: page.path, lastmod: lastCommit(page.source) });
+    if (page.sitemap !== 'no') sitemap.push({ path: page.path, lastmod: lastCommit(...[].concat(page.source)) });
   }
 
   for (const [file, raw] of Object.entries(pageFiles)) {
     const { meta, body } = parsePage(raw);
-    await writePage({ file, source: `src/pages/${file}.html`, bodyClass: '', ...meta }, body);
+    // The FAQ page's text lives in faq.json
+    const source = [`src/pages/${file}.html`, ...(file === 'faq' ? ['src/data/faq.json'] : [])];
+    await writePage({ file, source, bodyClass: '', ...meta }, body);
   }
 
   // One page per project, from src/templates/project.html
@@ -420,7 +428,7 @@ async function build() {
     ].find((t) => t && t.length <= 60) || `${p.name} | RJIC`;
     await writePage({
       file: `project ${p.id}`,
-      source: 'src/data/projects.json',
+      source: ['src/data/projects.json', 'src/templates/project.html'],
       path: p.url,
       // A project page that is too thin to index yet (see "noindex" in projects.json) stays reachable from
       // /projects/, but is kept out of search results and the sitemap
