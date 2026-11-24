@@ -1,5 +1,32 @@
 # Plan: SEO for rjinteriors.in
 
+## Facts (2026-11-24): these replace anything below that disagrees
+
+- RJ Interiors & Constructions (RJIC), working since 2008. Parent of five brands:
+  - GRC Bangalore (grcbangalore.com): GRC in Karnataka;
+  - FRP Bangalore (frpbangalore.com): FRP across South India;
+  - GRC Chennai (grcchennai.co.in): GRC in Tamil Nadu and Puducherry;
+  - GRC Kochi (grckochi.in): GRC in Kerala;
+  - GFRC Innovation (gfrcinnovation.in): GRC and FRP for the rest of India.
+- **GRC unit address**, written exactly like this everywhere: No. 162/1, Sy No 21, BBMP Ward No. 05, Venkateshwar Nagar, Sampigehalli Main Road, Jakkur Post, Bengaluru, Karnataka 560064.
+- **FRP** is made at FRP Bangalore's own factory. Its address is not confirmed yet.
+  - Never say that GRC and FRP, or any project, were made at Jakkur or in one factory. Say "made in Bangalore".
+  - Earlier lines in this plan that say "Jakkur factory" for every product are out of date.
+- **Phones:** only +91 99005 79417 (main) and +91 63633 85312, both for calls and WhatsApp. +91 78921 42197 is retired.
+- **Email:** grcbanglore@gmail.com and sandiil.k@rjinteriors.in.
+- **Hours:** Monday to Saturday, 9 am to 6 pm.
+- **Google profile:** GRC BANGALORE at Jakkur. Its share link is [ASK CLIENT].
+  - Until it arrives, the map and "Get directions" keep the address search.
+  - There is no reviews link and no schema `hasMap`.
+  - Nothing may link to or quote an "RJ Interiors" listing.
+- **Schema:** Organization only (not LocalBusiness), with areaServed India.
+- **GRC vs FRP:** gfrcinnovation.in/grc-vs-frp/ redirects to /grc/. Link https://www.gfrcinnovation.in/ instead.
+- Never invent dimensions, prices, years, materials, sizes, scope or past jobs.
+
+The second round of fixes (branch `seo-fixes-2`) is tracked in PROGRESS.md.
+
+---
+
 This plan follows the brief, Steps 2–10. Nothing below is built yet. The work happens on the branch `seo-brief`, with one commit per step. Merging that branch into `main` is what deploys it.
 
 ## Decisions (answered 2026-10-30)

@@ -1,5 +1,28 @@
 # SEO progress: rjinteriors.in
 
+## Round 2: fixes from SEO-AUDIT.md (branch `seo-fixes-2`, started 2026-11-24)
+
+The facts in use are listed at the top of PLAN.md. Two of them replace earlier notes below:
+- GRC is made at the Jakkur unit and FRP at FRP Bangalore's own factory. Never say "one factory".
+- +91 78921 42197 is retired.
+
+There is one commit per step. To resume, start at the first unticked step.
+
+- [ ] 1. Phones: remove +91 78921 42197; list both numbers with Call and WhatsApp links
+- [ ] 2. One-factory wording, including the meta descriptions, FAQ answers and project pages
+- [ ] 3. GRC vs FRP link → https://www.gfrcinnovation.in/ ("GFRC Innovation: GRC and FRP across India")
+- [ ] 4. Email fallback: the address as plain text next to every email button
+- [ ] 5. Projects: new photo-based text, "Elements made", Sandur noindex, brand-site links, ASK-CLIENT tables
+- [ ] 6. ASK-CLIENT.md: GRC BANGALORE share link, email spelling
+- [ ] 7. Structured data: Organization, areaServed India, no hasMap until the link arrives
+- [ ] 8. Sitemap lastmod (git date, or the build date)
+- [ ] 9. Images: the 5 thumbnails over 100 KB
+- [ ] 10. GA4 check
+- [ ] 11. Remaining SEO-AUDIT.md items
+- [ ] 12. Finish: build, grep, before/after table, client message
+
+## Round 1 (history)
+
 Work follows the brief. The plan is in PLAN.md, phrases in KEYWORD-MAP.md, and old URLs in REDIRECTS.md. Branch: `seo-brief`, with one commit per step.
 
 - [x] **Step 0: quick checks** (2026-10-30, no changes)
