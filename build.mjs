@@ -348,7 +348,7 @@ async function build() {
     },
     canonical: (ctx) => absolute(ctx.page.path),
     robots: (ctx) => (ctx.page.robots ? `<meta name="robots" content="${esc(ctx.page.robots)}">` : ''),
-    jsonld: (ctx) => jsonLd(site, ctx.page, absolute, projects, ctx.page.path === '/faq/' ? faq(ctx) : []),
+    jsonld: (ctx) => jsonLd(site, ctx.page, absolute, projects, ctx.page.path === '/faq/' ? faq(ctx) : [], ctx.project),
   };
 
   function render(tpl, ctx, depth = 0) {
@@ -518,7 +518,7 @@ function checkJsonLd(html, where) {
 // +919900579417 → +91-99005-79417, the form the brief asks for in structured data
 const dashed = (tel) => tel.replace(/^\+91(\d{5})(\d{5})$/, '+91-$1-$2');
 
-function jsonLd(site, page, absolute, projects, faq) {
+function jsonLd(site, page, absolute, projects, faq, project) {
   // The GRC unit at Jakkur. The Google profile there belongs to GRC BANGALORE, so RJIC is an Organization,
   // not a LocalBusiness.
   const address = {
@@ -576,6 +576,23 @@ function jsonLd(site, page, absolute, projects, faq) {
     graph.push({
       '@type': 'FAQPage', '@id': absolute(`${page.path}#faq`), url: absolute(page.path),
       mainEntity: faq.map(({ q, a }) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+    });
+  }
+  // A project page describes one piece of work, with only the facts that are known. Year, material and
+  // the rest join automatically once projects.json has them in place of "[ASK CLIENT]".
+  if (project) {
+    const p = project;
+    graph.push({
+      '@type': 'CreativeWork',
+      '@id': absolute(`${p.url}#project`),
+      url: absolute(p.url),
+      name: p.location ? `${p.name}, ${p.location}` : p.name,
+      description: p.summary,
+      creator: { '@id': org['@id'] },
+      ...(p.location ? { locationCreated: { '@type': 'Place', name: p.location } } : {}),
+      ...(p.year ? { dateCreated: p.year } : {}),
+      ...(p.material ? { material: p.material } : {}),
+      ...(p.images.length ? { image: p.images.map((image) => absolute(image.full.src)) } : {}),
     });
   }
   // The projects page lists every project page

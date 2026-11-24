@@ -36,7 +36,17 @@ There is one commit per step. To resume, start at the first unticked step.
   - **Setup:** build.mjs reads `GA4_ID` (it must look like G-XXXXXXXXXX). When it is set, every page loads gtag.js and assets/js/analytics.js. That file sends `contact_click` with `method` = phone, email or whatsapp, and link_url without the message text, for every tel:, mailto: and https://wa.me/ link.
   - **Test:** a build with GA4_ID=G-TEST12345, opened in headless Edge. Every such link on /, /contact/, /faq/, a project page and the 404 page was clicked (78 links), and there were 78 events. That includes wa.me/916363385312.
   - **To do in Vercel:** Project → Settings → Environment Variables → `GA4_ID` = the property's G- ID, then redeploy.
-- [ ] 11. Remaining SEO-AUDIT.md items
+- [x] 11. Remaining SEO-AUDIT.md items:
+  - **3.2:** each project page now has a CreativeWork node with name, place, summary, photos and creator (#organization). dateCreated and material are added once known. 0 schema.org errors.
+  - **4:** `Cross-Origin-Opener-Policy: same-origin` added to vercel.json.
+  - **3.1:** font-display is already swap. walk.js draws the hero itself, so it isn't delayed. Re-measure mobile Lighthouse after the deploy.
+  - **Not changeable from the code:**
+    - 1.3, the GRC BANGALORE link: [ASK CLIENT].
+    - 2.4, GA4_ID: set it in Vercel.
+    - 3.4, the email spelling: [ASK CLIENT].
+    - Murals redirect: [ASK CLIENT] 3b.
+    - http://rjinteriors.in taking 2 hops: in Vercel → Domains, make rjinteriors.in redirect straight to https://www.rjinteriors.in.
+  - **Skipped:** llms.txt is optional and Google ignores it.
 - [ ] 12. Finish: build, grep, before/after table, client message
 
 ## Round 1 (history)
