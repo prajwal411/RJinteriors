@@ -20,6 +20,7 @@ Is grcbanglore@gmail.com (spelt "banglore") the real inbox? Every email button o
 **3. Products**
 a) Do you make FRP columns?
 b) Do you still make GRC sculptures, murals or relief panels?
+c) What is the full address of FRP Bangalore's factory, where the FRP products are made?
 
 **4. Online profiles**
 Links to any pages you have on IndiaMART, JustDial, TradeIndia, Facebook, Instagram, LinkedIn or YouTube.

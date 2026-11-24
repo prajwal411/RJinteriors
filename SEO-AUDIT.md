@@ -247,6 +247,41 @@ The main email is `grcbanglore@gmail.com` ("banglore"). It is used in every `mai
 10. **3.3, 3.4** and section 4 as time allows.
 
 **What to watch after the deploy (in Search Console):**
-- Coverage: should stay at 36 indexed pages.
+- Coverage: 35 indexed pages after the fixes (36 before, minus Sandur, which is now noindex until its photos arrive).
 - Queries for "RJ Interiors & Constructions" and "RJIC".
 - Impressions on /projects/* pages, which should rise once the facts are added.
+
+---
+
+## 7. Before and after the fixes
+
+"Before" is the live site on 2026-11-24. "After" is the local build of branch `seo-fixes-2`, which is not live until it is merged and deployed. PROGRESS.md has the details for each step.
+
+| Check | Before (live) | After (branch) |
+|---|---|---|
+| +91 78921 42197 | 73 times on 37 URLs (footer, /contact/, 404, schema) | 0 |
+| +91 63633 85312 on WhatsApp | Call link only | Call and WhatsApp links wherever numbers are listed (footer on every page, /contact/) |
+| "Two materials, one factory" and similar | 1 heading and about 16 sentences, including 2 meta descriptions and the FAQ | 0. GRC is made at the Jakkur unit and FRP at FRP Bangalore's own factory, all in Bangalore |
+| Project pages "made at its factory in Jakkur" | 27 pages | 0. "These elements were made by RJ Interiors & Constructions (RJIC) in Bangalore." |
+| Google links | Map, directions and schema `hasMap` all search the address | Map and directions unchanged until the GRC BANGALORE link arrives; schema `hasMap` removed; reviews link still hidden |
+| GRC vs FRP link | gfrcinnovation.in/grc-vs-frp/ (301 to /grc/) | https://www.gfrcinnovation.in/, "GFRC Innovation: GRC and FRP across India" |
+| Email without an email app | `mailto:` buttons only | The address as plain text beside every email button |
+| Brand regions | Chennai/Tamil Nadu, Kochi/Kerala, FRP products | Tamil Nadu and Puducherry, Kerala, FRP across South India |
+| Project text (About block) | 13–61 words of their own (median 42) | 50–74 words (median 59), from the photos |
+| Fact row for the elements | "Products made" | "Elements made" |
+| Sandur Manganese & Iron Ores | Indexed and in the sitemap, with 1 fact and no photos | noindex, out of the sitemap and ItemList until photos arrive |
+| Links from projects to brand sites | None | 26 projects link to their elements on the regional brand site (39 URLs, all 200) |
+| Structured data | Organization + LocalBusiness, 3 phones, 3 states, address-search `hasMap`, opening hours | Organization, 2 contactPoints, areaServed India, no `hasMap` until the profile link arrives; CreativeWork on project pages. 0 errors against the schema.org vocabulary |
+| Sitemap | 36 URLs, no `lastmod` | 35 URLs, all with `lastmod` (git date, or the build date) |
+| Thumbnails over 100 KB | 5 (largest 139 KB) | 0 (largest 99 KB) |
+| GA4 | Not on the site (`GA4_ID` not set) | Code checked: 78 of 78 test clicks sent `contact_click`. Set `GA4_ID` in Vercel |
+| Security headers | 6 | 7 (adds Cross-Origin-Opener-Policy) |
+| Titles and descriptions | All within 60 / 140–160 | All within 60 / 140–160 |
+| Build | 0 errors, 0 warnings | 0 errors, 0 warnings |
+
+**Still open:**
+- [ASK CLIENT] items: the GRC BANGALORE profile link, the email spelling, the project facts, 7 locations and Sandur's photos.
+- `GA4_ID` in Vercel.
+- The http://rjinteriors.in redirect, set in Vercel's Domains settings.
+- Mobile speed: re-measure after the deploy.
+

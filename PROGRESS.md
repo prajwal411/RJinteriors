@@ -47,7 +47,12 @@ There is one commit per step. To resume, start at the first unticked step.
     - Murals redirect: [ASK CLIENT] 3b.
     - http://rjinteriors.in taking 2 hops: in Vercel → Domains, make rjinteriors.in redirect straight to https://www.rjinteriors.in.
   - **Skipped:** llms.txt is optional and Google ignores it.
-- [ ] 12. Finish: build, grep, before/after table, client message
+- [x] 12. Finish:
+  - **Build:** 37 pages, 0 errors and 0 warnings.
+  - **Search:** "7892142197", "78921", "one factory", "factory in Jakkur" and "grc-vs-frp" appear 0 times in src/, dist/, build.mjs, vercel.json and tools/. They remain only in the notes, as records.
+  - **SEO-AUDIT.md:** has a before/after table (section 7).
+  - **ASK-CLIENT.md:** also asks for the FRP Bangalore factory address (3c).
+  - **Not merged or pushed.** Pushing deploys the site, so that waits for the user's go-ahead.
 
 ## Round 1 (history)
 
