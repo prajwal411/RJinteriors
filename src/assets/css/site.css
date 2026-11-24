@@ -461,6 +461,10 @@
   .phone-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.75rem; }
   .phone-line .phone-line__wa { font-size: 0.875em; font-weight: 500; }
   .contact-list .phone-line__wa { font-size: var(--text-1); }
+  /* The email address as plain text beside an email button, for phones with no email app. One tap
+     selects all of it, ready to copy. */
+  .email-copy__address { font-weight: 640; overflow-wrap: anywhere; user-select: all; -webkit-user-select: all; }
+  .footer-cta .email-copy { font-size: 0.9375rem; margin-top: -0.75rem; }
 
   /* Footer */
   .site-footer { background: var(--night); color: var(--lime); }
