@@ -22,68 +22,176 @@ b) Do you still make GRC sculptures, murals or relief panels?
 Links to any pages you have on IndiaMART, JustDial, TradeIndia, Facebook, Instagram, LinkedIn or YouTube.
 
 **5. Projects**
-For each project, please fill in what you know:
-- the year it was finished;
-- whether the work was GRC, FRP or both;
-- the finish (for example, natural cement colour, painted or textured);
-- the approximate size or quantity (for example, 40 jali panels or 12 columns);
-- whether you supplied only, or supplied and installed.
+Please fill in what you know for each project and leave the rest blank. You can reply with a photo of this page.
+- Material: GRC, FRP or both.
+- Finish: for example natural cement colour, painted or textured.
+- Size or quantity: for example 40 jali panels or 12 columns.
+- Scope: supply only, or supply and installation.
 
-For 7 projects we also need the city or area.
+7 projects also need the city or area, and Sandur Manganese & Iron Ores needs photos.
 
-1. Courtyard by Marriott, Bengaluru
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-2. 1 MG-Lido Mall, Bengaluru
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-3. Royal Convention Centre, Mysuru
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-4. Aero One, Devanahalli, Bengaluru
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-5. KBN Hospital, Kalaburagi
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-6. Bismilla Green Masjid, LOCATION? (city or area)
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-7. Indian Tiffin Club, LOCATION? (city or area)
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-8. Regal Jewellers, Bengaluru
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-9. Infant Jesus Shrine, LOCATION? (city or area)
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-10. Harrow International School, Bengaluru
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-11. Veterinary College, Athani
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-12. Venkatamma Ramaiah Kalyana Soudha, LOCATION? (city or area)
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-13. Princess Golf, LOCATION? (city or area)
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-14. TDP Office, LOCATION? (city or area)
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-15. Shriram Greenfield, Bidarahalli, Bengaluru
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-16. Commercial Complex, Malleswaram, Bengaluru
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-17. Aayakar Bhavan, Kochi
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-18. Arabian Gold & Diamonds, Kochi
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-19. Basil Wood International (ISKCON), Gunjur, Bengaluru
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-20. ISKCON Temple, Coimbatore
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-21. Renaissance Hotel, Race Course Road, Bengaluru
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-22. Manyavar, Jayanagar 4th Block, Bengaluru
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-23. Janatha Bazar, Basavana Bagewadi
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-24. Saree Manufacturer's Office, Dharmavaram, Andhra Pradesh
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-25. CMH Hospital, Kolar
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-26. Victoria Hospital, Bengaluru
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
-27. Sandur Manganese & Iron Ores, LOCATION? (city or area)
-   Year: ___ | GRC, FRP or both: ___ | Finish: ___ | Size or quantity: ___ | Supply only, or supply and installation: ___
+**1. Courtyard by Marriott, Bengaluru**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**2. 1 MG-Lido Mall, Bengaluru**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**3. Royal Convention Centre, Mysuru**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**4. Aero One, Devanahalli, Bengaluru**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**5. KBN Hospital, Kalaburagi**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**6. Bismilla Green Masjid**
+
+| City or area | Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|---|
+|   |   |   |   |   |   |
+
+**7. Indian Tiffin Club**
+
+| City or area | Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|---|
+|   |   |   |   |   |   |
+
+**8. Regal Jewellers, Bengaluru**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**9. Infant Jesus Shrine**
+
+| City or area | Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|---|
+|   |   |   |   |   |   |
+
+**10. Harrow International School, Bengaluru**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**11. Veterinary College, Athani**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**12. Venkatamma Ramaiah Kalyana Soudha**
+
+| City or area | Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|---|
+|   |   |   |   |   |   |
+
+**13. Princess Golf**
+
+| City or area | Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|---|
+|   |   |   |   |   |   |
+
+**14. TDP Office**
+
+| City or area | Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|---|
+|   |   |   |   |   |   |
+
+**15. Shriram Greenfield, Bidarahalli, Bengaluru**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**16. Commercial Complex, Malleswaram, Bengaluru**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**17. Aayakar Bhavan, Kochi**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**18. Arabian Gold & Diamonds, Kochi**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**19. Basil Wood International (ISKCON), Gunjur, Bengaluru**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**20. ISKCON Temple, Coimbatore**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**21. Renaissance Hotel, Race Course Road, Bengaluru**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**22. Manyavar, Jayanagar 4th Block, Bengaluru**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**23. Janatha Bazar, Basavana Bagewadi**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**24. Saree Manufacturer's Office, Dharmavaram, Andhra Pradesh**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**25. CMH Hospital, Kolar**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**26. Victoria Hospital, Bengaluru**
+
+| Year | Material | Finish | Size or quantity | Scope |
+|---|---|---|---|---|
+|   |   |   |   |   |
+
+**27. Sandur Manganese & Iron Ores**
+
+| City or area | Year | Material | Finish | Size or quantity | Scope | Photos (please send) |
+|---|---|---|---|---|---|---|
+|   |   |   |   |   |   |   |
+
+---
 
 Thank you.

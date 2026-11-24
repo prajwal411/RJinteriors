@@ -465,6 +465,10 @@
      selects all of it, ready to copy. */
   .email-copy__address { font-weight: 640; overflow-wrap: anywhere; user-select: all; -webkit-user-select: all; }
   .footer-cta .email-copy { font-size: 0.9375rem; margin-top: -0.75rem; }
+  /* Project pages: the same elements on the regional brand site */
+  .work__brand { margin-top: 1.25rem; color: var(--ink-soft); }
+  .work__brand a { color: var(--ink); text-decoration-color: var(--rule); text-decoration-thickness: 2px; }
+  .work__brand a:hover { text-decoration-color: var(--ochre); }
 
   /* Footer */
   .site-footer { background: var(--night); color: var(--lime); }

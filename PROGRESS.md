@@ -12,7 +12,12 @@ There is one commit per step. To resume, start at the first unticked step.
 - [x] 2. One-factory wording: "Two materials, one factory" is now "Two materials, made in Bangalore". About 25 lines changed on home, /about/, /brands/, /manufacturing/, /products/, /industries/, /faq/, /contact/, the map partial and the meta descriptions. Where a split is useful, GRC is "made at our unit in Jakkur" and FRP "at FRP Bangalore's own factory". Brand regions follow the facts (Puducherry added; FRP across South India). Project pages say "These elements were made by RJ Interiors & Constructions (RJIC) in Bangalore." The hero animation's text changed; its drawing (one aisle, GRC left, FRP right) did not, which is a question for the user.
 - [x] 3. GRC vs FRP link: both links (/products/#compare and the FAQ answer) now go to https://www.gfrcinnovation.in/ with the text "GFRC Innovation: GRC and FRP across India". The user will restore the comparison page on gfrcinnovation.in.
 - [x] 4. Email fallback: "No email app? Write to grcbanglore@gmail.com", with the address as plain text that selects in one tap. It sits under "Write an email" on /contact/ and under "Or call" in the footer band, which appears on every page that has an "Email us" button. WhatsApp stays first.
-- [ ] 5. Projects: new photo-based text, "Elements made", Sandur noindex, brand-site links, ASK-CLIENT tables
+- [x] 5. Projects (URLs unchanged):
+  - **Text:** 26 projects have new 3-4 sentence descriptions from the photos (building type, the visible elements, where they sit). The About block is now 50-74 words.
+  - **Fact block:** the elements row is labelled "Elements made", with no GRC or FRP. Empty fields stay hidden.
+  - **Sandur:** `noindex` in projects.json, so the page has a robots noindex tag and is left out of the sitemap and the /projects/ ItemList. It is still linked from /projects/. To list it again, delete that line once photos arrive.
+  - **Brand sites:** each project has a `brandSite` and links to the matching product pages on it (project-types.json `brandSites`; all 39 URLs checked, 200). Kochi → GRC Kochi, Coimbatore → GRC Chennai, Dharmavaram (Andhra Pradesh) → GFRC Innovation. Everything else, including the 7 projects without a confirmed location, → GRC Bangalore.
+  - **ASK-CLIENT.md:** one table per project (year, material, finish, size or quantity, scope), plus city or area where it is missing, and photos for Sandur.
 - [ ] 6. ASK-CLIENT.md: GRC BANGALORE share link, email spelling
 - [ ] 7. Structured data: Organization, areaServed India, no hasMap until the link arrives
 - [ ] 8. Sitemap lastmod (git date, or the build date)

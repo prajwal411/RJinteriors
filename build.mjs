@@ -132,6 +132,12 @@ async function build() {
     for (const item of p.work) {
       if (!types.work[item.type]) throw new Error(`Unknown work type "${item.type}" for project ${p.id}`);
     }
+    // The brand site for the project's region, whose product pages the project links to
+    p.brand = types.brandSites[p.brandSite];
+    if (!p.brand) throw new Error(`Unknown brandSite "${p.brandSite}" for project ${p.id}`);
+    for (const item of p.work) {
+      if (!p.brand.pages[item.type]) throw new Error(`${p.brand.name} has no page for "${item.type}" (project ${p.id})`);
+    }
     p.images = [];
     for (const [i, photo] of (p.photos || []).entries()) {
       const base = `/assets/img/projects/${p.id}/${i + 1}`;
@@ -185,6 +191,17 @@ async function build() {
     <span class="pcard__sector">${esc(p.sectorLabel)}</span>
   </a>
 </li>`;
+  }
+
+  // The same kinds of element on the regional brand site, one link per page
+  function brandLinks(p) {
+    const pages = new Map();
+    for (const item of p.work) {
+      const url = p.brand.pages[item.type];
+      if (!pages.has(url)) pages.set(url, types.work[item.type].label);
+    }
+    const links = [...pages].map(([url, label]) => `<a href="${url}">${esc(label)}</a>`).join(', ');
+    return `<p class="work__brand">More about these elements on <a href="${p.brand.url}">${esc(p.brand.name)}</a>: ${links}.</p>`;
   }
 
   // What the visitor is asking about: the project page they are on, or anything we make
@@ -280,7 +297,7 @@ async function build() {
         p.location && ['Location', esc(p.location)],
         ['Building type', `<a href="/projects/?sector=${p.sector}">${esc(p.sectorLabel)}</a>`],
         p.year && ['Year', esc(p.year)],
-        made && ['Products made', made],
+        made && ['Elements made', made],
         p.material && ['Material', esc(p.material)],
         p.finish && ['Finish', esc(p.finish)],
         p.size && ['Size or quantity', esc(p.size)],
@@ -298,7 +315,7 @@ async function build() {
   <span class="work__art" data-draw aria-hidden="true">${drawing(t.drawing, { material: 'line' })}</span>
   <span class="work__text"><a class="work__label" href="${t.href}">${esc(t.label)}</a><span class="work__note">${esc(item.note)}</span></span>
 </li>`;
-      }).join('\n')}\n</ul>`
+      }).join('\n')}\n</ul>\n${brandLinks(p)}`
       : ''),
     'project-gallery': (ctx, p = ctx.project) => (p.images.length
       ? `<ul class="pgallery${p.images.length === 1 ? ' pgallery--single' : ''}" role="list">\n${p.images.map((image, i) => `<li class="pphoto">
@@ -405,6 +422,9 @@ async function build() {
       file: `project ${p.id}`,
       source: 'src/data/projects.json',
       path: p.url,
+      // A project page that is too thin to index yet (see "noindex" in projects.json) stays reachable from
+      // /projects/, but is kept out of search results and the sitemap
+      ...(p.noindex ? { robots: 'noindex', sitemap: 'no' } : {}),
       nav: 'projects',
       bodyClass: 'page-project',
       title,
@@ -546,7 +566,8 @@ function jsonLd(site, page, absolute, projects, faq) {
       about: { '@id': org['@id'] },
       mainEntity: {
         '@type': 'ItemList',
-        itemListElement: projects.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: absolute(p.url), name: p.name })),
+        itemListElement: projects.filter((p) => !p.noindex)
+          .map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: absolute(p.url), name: p.name })),
       },
     });
   }

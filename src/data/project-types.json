@@ -69,5 +69,71 @@
       "drawing": "mould",
       "short": "custom pieces"
     }
+  },
+  "brandSites": {
+    "grcbangalore": {
+      "name": "GRC Bangalore",
+      "url": "https://www.grcbangalore.com/",
+      "pages": {
+        "jali": "https://www.grcbangalore.com/grc-products/grc-jali/",
+        "column": "https://www.grcbangalore.com/grc-products/grc-columns/",
+        "cornice": "https://www.grcbangalore.com/grc-products/grc-cornices/",
+        "arch": "https://www.grcbangalore.com/grc-products/grc-arches/",
+        "balustrade": "https://www.grcbangalore.com/grc-products/grc-balusters/",
+        "dome": "https://www.grcbangalore.com/grc-products/grc-domes/",
+        "panel": "https://www.grcbangalore.com/grc-products/grc-facades/",
+        "fins": "https://www.grcbangalore.com/grc-products/custom-grc-elements/",
+        "ornament": "https://www.grcbangalore.com/grc-products/custom-grc-elements/",
+        "custom": "https://www.grcbangalore.com/grc-products/custom-grc-elements/"
+      }
+    },
+    "grcchennai": {
+      "name": "GRC Chennai",
+      "url": "https://www.grcchennai.co.in/",
+      "pages": {
+        "jali": "https://www.grcchennai.co.in/grc-products/grc-jali/",
+        "column": "https://www.grcchennai.co.in/grc-products/grc-columns/",
+        "cornice": "https://www.grcchennai.co.in/grc-products/grc-cornices/",
+        "arch": "https://www.grcchennai.co.in/grc-products/grc-arches/",
+        "balustrade": "https://www.grcchennai.co.in/grc-products/grc-balusters/",
+        "dome": "https://www.grcchennai.co.in/grc-products/grc-domes/",
+        "panel": "https://www.grcchennai.co.in/grc-products/grc-facade-panels/",
+        "fins": "https://www.grcchennai.co.in/grc-products/custom-grc-elements/",
+        "ornament": "https://www.grcchennai.co.in/grc-products/custom-grc-elements/",
+        "custom": "https://www.grcchennai.co.in/grc-products/custom-grc-elements/"
+      }
+    },
+    "grckochi": {
+      "name": "GRC Kochi",
+      "url": "https://www.grckochi.in/",
+      "pages": {
+        "jali": "https://www.grckochi.in/grc-products/grc-jali/",
+        "column": "https://www.grckochi.in/grc-products/grc-columns/",
+        "cornice": "https://www.grckochi.in/grc-products/grc-cornices/",
+        "arch": "https://www.grckochi.in/grc-products/grc-arches/",
+        "balustrade": "https://www.grckochi.in/grc-products/grc-balusters/",
+        "dome": "https://www.grckochi.in/grc-products/grc-domes/",
+        "panel": "https://www.grckochi.in/grc-products/grc-facade-panels/",
+        "fins": "https://www.grckochi.in/grc-products/grc-fins/",
+        "ornament": "https://www.grckochi.in/grc-products/custom-grc/",
+        "custom": "https://www.grckochi.in/grc-products/custom-grc/"
+      }
+    },
+    "gfrcinnovation": {
+      "name": "GFRC Innovation",
+      "url": "https://www.gfrcinnovation.in/",
+      "pages": {
+        "jali": "https://www.gfrcinnovation.in/grc/jalis-and-screens/",
+        "column": "https://www.gfrcinnovation.in/grc/columns-and-pillars/",
+        "cornice": "https://www.gfrcinnovation.in/grc/cornices-and-brackets/",
+        "arch": "https://www.gfrcinnovation.in/grc/arches/",
+        "balustrade": "https://www.gfrcinnovation.in/grc/balusters-and-railings/",
+        "panel": "https://www.gfrcinnovation.in/grc/facades-and-cladding/",
+        "fins": "https://www.gfrcinnovation.in/grc/fins/",
+        "ornament": "https://www.gfrcinnovation.in/grc/sculptures-murals-and-relief/",
+        "dome": "https://www.gfrcinnovation.in/grc/domes-and-minarets/",
+        "custom": "https://www.gfrcinnovation.in/grc/fountains-noise-barriers-and-custom/"
+      }
+    }
   }
 }
