@@ -9,7 +9,7 @@ The facts in use are listed at the top of PLAN.md. Two of them replace earlier n
 There is one commit per step. To resume, start at the first unticked step.
 
 - [x] 1. Phones: +91 78921 42197 removed from site.json, so it is gone from the footer, /contact/, the 404 page and the schema. The footer and /contact/ list both numbers under "Call or WhatsApp", each with a tel: and a wa.me link. Single buttons still use +91 99005 79417.
-- [ ] 2. One-factory wording, including the meta descriptions, FAQ answers and project pages
+- [x] 2. One-factory wording: "Two materials, one factory" is now "Two materials, made in Bangalore". About 25 lines changed on home, /about/, /brands/, /manufacturing/, /products/, /industries/, /faq/, /contact/, the map partial and the meta descriptions. Where a split is useful, GRC is "made at our unit in Jakkur" and FRP "at FRP Bangalore's own factory". Brand regions follow the facts (Puducherry added; FRP across South India). Project pages say "These elements were made by RJ Interiors & Constructions (RJIC) in Bangalore." The hero animation's text changed; its drawing (one aisle, GRC left, FRP right) did not, which is a question for the user.
 - [ ] 3. GRC vs FRP link → https://www.gfrcinnovation.in/ ("GFRC Innovation: GRC and FRP across India")
 - [ ] 4. Email fallback: the address as plain text next to every email button
 - [ ] 5. Projects: new photo-based text, "Elements made", Sandur noindex, brand-site links, ASK-CLIENT tables

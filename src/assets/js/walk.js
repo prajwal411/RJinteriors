@@ -1470,7 +1470,7 @@
   let shown = '';
   const hud = () => {
     const walked = cam.d - START;
-    let text = 'Scroll to walk through the factory';
+    let text = 'Scroll to see how pieces are made';
     let pair = fine ? 'Move the mouse to look around' : '';
     if (cam.d > STOP - 30) {
       text = 'Casting bay';

@@ -289,7 +289,7 @@ async function build() {
       ].filter(Boolean).map(([term, value]) => `<div><dt>${term}</dt><dd>${value}</dd></div>`).join('\n');
     },
     'project-about': ({ project: p }) => [...p.description,
-      'Made by RJ Interiors & Constructions (RJIC) at its factory in Jakkur, Bangalore.',
+      'These elements were made by RJ Interiors & Constructions (RJIC) in Bangalore.',
     ].map((para) => `<p>${esc(para)}</p>`).join('\n'),
     'project-work': ({ project: p }) => (p.work.length
       ? `<h2 class="case__heading">What we made</h2>\n<ul class="work" role="list">\n${p.work.map((item) => {
@@ -414,8 +414,9 @@ async function build() {
         `${p.summary} ${p.name}${place}, by RJ Interiors & Constructions (RJIC), Bangalore.`,
         `${p.summary} ${p.name}${place}, by RJ Interiors & Constructions, Bangalore.`,
         `${p.summary} ${p.name}${place}, by RJIC, Bangalore.`,
-        `${p.summary} Made for ${p.name}${place} by RJ Interiors & Constructions (RJIC) at its factory in Jakkur, Bangalore.`,
-        `${p.summary} ${p.name}${place}: a project by RJ Interiors & Constructions (RJIC), made at its Jakkur factory in Bangalore.`,
+        `${p.summary} Made for ${p.name}${place} by RJ Interiors & Constructions (RJIC) in Bangalore.`,
+        `${p.summary} ${p.name}${place}: elements made by RJ Interiors & Constructions (RJIC) in Bangalore.`,
+        `${p.summary} ${p.name}${place}: architectural elements made by RJ Interiors & Constructions (RJIC) in Bangalore.`,
       ]),
       trail: [{ name: 'Projects', path: '/projects/' }, { name: p.name, path: p.url }],
       ctaDrawing: firstWork ? firstWork.drawing : 'dome',
