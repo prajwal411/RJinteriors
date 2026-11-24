@@ -18,7 +18,7 @@ There is one commit per step. To resume, start at the first unticked step.
   - **Sandur:** `noindex` in projects.json, so the page has a robots noindex tag and is left out of the sitemap and the /projects/ ItemList. It is still linked from /projects/. To list it again, delete that line once photos arrive.
   - **Brand sites:** each project has a `brandSite` and links to the matching product pages on it (project-types.json `brandSites`; all 39 URLs checked, 200). Kochi → GRC Kochi, Coimbatore → GRC Chennai, Dharmavaram (Andhra Pradesh) → GFRC Innovation. Everything else, including the 7 projects without a confirmed location, → GRC Bangalore.
   - **ASK-CLIENT.md:** one table per project (year, material, finish, size or quantity, scope), plus city or area where it is missing, and photos for Sandur.
-- [ ] 6. ASK-CLIENT.md: GRC BANGALORE share link, email spelling
+- [x] 6. ASK-CLIENT.md: question 1 now asks for the GRC BANGALORE Google profile share link, not an RJ Interiors listing. Question 2 asks whether grcbanglore@gmail.com is the real inbox. The hours question was dropped, because the hours are now a given fact.
 - [ ] 7. Structured data: Organization, areaServed India, no hasMap until the link arrives
 - [ ] 8. Sitemap lastmod (git date, or the build date)
 - [ ] 9. Images: the 5 thumbnails over 100 KB

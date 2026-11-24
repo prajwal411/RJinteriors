@@ -8,11 +8,14 @@ Hello Sir,
 
 The new RJ Interiors & Constructions website is almost ready for Google. A few details would help it rank better. Please send whatever you know; skip anything you're not sure about. We will only show what you confirm.
 
-**1. Google listing link**
-Open your "RJ Interiors & Constructions" listing in Google Maps, tap Share, and send me the link. It will be used for the "Read our reviews on Google" button and to connect the website to your listing.
+**1. GRC BANGALORE Google profile share link**
+Open the "GRC BANGALORE" profile at Jakkur in Google Maps, tap Share, and send me the link. Please send the GRC BANGALORE one, not an "RJ Interiors" listing. The link will be used for:
+- the map and "Get directions" on the Contact page;
+- a "Read our reviews on Google" link;
+- connecting the website to the profile.
 
-**2. Opening hours**
-Is it Monday to Saturday, 9 am to 6 pm? If not, please send the correct days and times.
+**2. Email**
+Is grcbanglore@gmail.com (spelt "banglore") the real inbox? Every email button on the website sends to it.
 
 **3. Products**
 a) Do you make FRP columns?
