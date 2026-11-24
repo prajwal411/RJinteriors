@@ -27,7 +27,11 @@ There is one commit per step. To resume, start at the first unticked step.
   - **Validation:** every page was checked against the schema.org vocabulary (types exist, every property allowed on its type): 0 errors, both with and without the profile link.
   - **Still to do when the link arrives:** the map embed and "Get directions" still search the address; switching them needs the profile's Place ID.
 - [x] 8. Sitemap lastmod: every URL now has one. It is the last commit date of the page's source files (the page, plus faq.json for /faq/, and projects.json and the project template for project pages). Where git can't give a reliable date, the build date is used instead: no git at all, or a shallow clone where the file's last commit is the clone's cut-off commit, as on Vercel. Tested in a --depth 2 clone.
-- [ ] 9. Images: the 5 thumbnails over 100 KB
+- [x] 9. Images: the 5 thumbnails over 100 KB are now 96-99 KB, and no thumbnail is over budget.
+  - **Tool change:** tools/project-images.py lowers the quality to 46 first (it was 50), then shrinks the short edge in 40px steps (to 480 at least) until the file fits.
+  - **Results:** bismilla 2 (quality only), indian-tiffin-club 1 (quality only) and 2 (600px), commercial-complex-malleswaram 1 and 2 (520px).
+  - **Display:** cards show thumbnails at most about 460px wide. Above 520px, srcset switches to the full photo.
+  - **Checking:** compared side by side at card size, with no visible difference. `--thumbs-over-budget` remakes only the heavy thumbnails and leaves every other file alone.
 - [ ] 10. GA4 check
 - [ ] 11. Remaining SEO-AUDIT.md items
 - [ ] 12. Finish: build, grep, before/after table, client message
