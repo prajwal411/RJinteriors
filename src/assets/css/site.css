@@ -457,6 +457,10 @@
   .contact-list a { font-size: var(--text-2); font-weight: 560; font-variation-settings: "SHRP" 100; text-decoration-color: var(--rule); text-decoration-thickness: 2px; }
   .contact-list a:hover { text-decoration-color: var(--ochre); }
   .contact-list--email a { font-size: var(--text-1); overflow-wrap: anywhere; }
+  /* A number followed by its WhatsApp link */
+  .phone-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.75rem; }
+  .phone-line .phone-line__wa { font-size: 0.875em; font-weight: 500; }
+  .contact-list .phone-line__wa { font-size: var(--text-1); }
 
   /* Footer */
   .site-footer { background: var(--night); color: var(--lime); }

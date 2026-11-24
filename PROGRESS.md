@@ -8,7 +8,7 @@ The facts in use are listed at the top of PLAN.md. Two of them replace earlier n
 
 There is one commit per step. To resume, start at the first unticked step.
 
-- [ ] 1. Phones: remove +91 78921 42197; list both numbers with Call and WhatsApp links
+- [x] 1. Phones: +91 78921 42197 removed from site.json, so it is gone from the footer, /contact/, the 404 page and the schema. The footer and /contact/ list both numbers under "Call or WhatsApp", each with a tel: and a wa.me link. Single buttons still use +91 99005 79417.
 - [ ] 2. One-factory wording, including the meta descriptions, FAQ answers and project pages
 - [ ] 3. GRC vs FRP link → https://www.gfrcinnovation.in/ ("GFRC Innovation: GRC and FRP across India")
 - [ ] 4. Email fallback: the address as plain text next to every email button

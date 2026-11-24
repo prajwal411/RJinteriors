@@ -229,8 +229,10 @@ async function build() {
   <h2 data-nocure>${esc(q)}</h2>
   <div class="faq-item__answer">${a}</div>
 </div>`).join('\n'),
+    // Every number takes calls and WhatsApp, so each one gets both links
     phones: () => site.phones
-      .map((ph) => `<li><a href="tel:${ph.tel}">${esc(ph.display)}</a></li>`).join('\n'),
+      .map((ph) => `<li class="phone-line"><a href="tel:${ph.tel}" aria-label="Call ${esc(ph.display)}">${esc(ph.display)}</a> ` +
+        `<a class="phone-line__wa" href="https://wa.me/${ph.tel.replace(/\D/g, '')}" target="_blank" rel="noopener" aria-label="WhatsApp ${esc(ph.display)}">WhatsApp</a></li>`).join('\n'),
     emails: () => site.emails
       .map((em) => `<li><a href="mailto:${em}">${esc(em)}</a></li>`).join('\n'),
     'brand-links': () => site.brands.map((b) => b.url
