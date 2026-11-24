@@ -33,163 +33,163 @@ Please fill in what you know for each project and leave the rest blank. You can 
 
 7 projects also need the city or area, and Sandur Manganese & Iron Ores needs photos.
 
-**1. Courtyard by Marriott, Bengaluru**
+**Project 1: Courtyard by Marriott, Bengaluru**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**2. 1 MG-Lido Mall, Bengaluru**
+**Project 2: 1 MG-Lido Mall, Bengaluru**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**3. Royal Convention Centre, Mysuru**
+**Project 3: Royal Convention Centre, Mysuru**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**4. Aero One, Devanahalli, Bengaluru**
+**Project 4: Aero One, Devanahalli, Bengaluru**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**5. KBN Hospital, Kalaburagi**
+**Project 5: KBN Hospital, Kalaburagi**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**6. Bismilla Green Masjid**
+**Project 6: Bismilla Green Masjid**
 
 | City or area | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|---|
 |   |   |   |   |   |   |
 
-**7. Indian Tiffin Club**
+**Project 7: Indian Tiffin Club**
 
 | City or area | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|---|
 |   |   |   |   |   |   |
 
-**8. Regal Jewellers, Bengaluru**
+**Project 8: Regal Jewellers, Bengaluru**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**9. Infant Jesus Shrine**
+**Project 9: Infant Jesus Shrine**
 
 | City or area | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|---|
 |   |   |   |   |   |   |
 
-**10. Harrow International School, Bengaluru**
+**Project 10: Harrow International School, Bengaluru**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**11. Veterinary College, Athani**
+**Project 11: Veterinary College, Athani**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**12. Venkatamma Ramaiah Kalyana Soudha**
+**Project 12: Venkatamma Ramaiah Kalyana Soudha**
 
 | City or area | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|---|
 |   |   |   |   |   |   |
 
-**13. Princess Golf**
+**Project 13: Princess Golf**
 
 | City or area | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|---|
 |   |   |   |   |   |   |
 
-**14. TDP Office**
+**Project 14: TDP Office**
 
 | City or area | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|---|
 |   |   |   |   |   |   |
 
-**15. Shriram Greenfield, Bidarahalli, Bengaluru**
+**Project 15: Shriram Greenfield, Bidarahalli, Bengaluru**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**16. Commercial Complex, Malleswaram, Bengaluru**
+**Project 16: Commercial Complex, Malleswaram, Bengaluru**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**17. Aayakar Bhavan, Kochi**
+**Project 17: Aayakar Bhavan, Kochi**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**18. Arabian Gold & Diamonds, Kochi**
+**Project 18: Arabian Gold & Diamonds, Kochi**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**19. Basil Wood International (ISKCON), Gunjur, Bengaluru**
+**Project 19: Basil Wood International (ISKCON), Gunjur, Bengaluru**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**20. ISKCON Temple, Coimbatore**
+**Project 20: ISKCON Temple, Coimbatore**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**21. Renaissance Hotel, Race Course Road, Bengaluru**
+**Project 21: Renaissance Hotel, Race Course Road, Bengaluru**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**22. Manyavar, Jayanagar 4th Block, Bengaluru**
+**Project 22: Manyavar, Jayanagar 4th Block, Bengaluru**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**23. Janatha Bazar, Basavana Bagewadi**
+**Project 23: Janatha Bazar, Basavana Bagewadi**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**24. Saree Manufacturer's Office, Dharmavaram, Andhra Pradesh**
+**Project 24: Saree Manufacturer's Office, Dharmavaram, Andhra Pradesh**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**25. CMH Hospital, Kolar**
+**Project 25: CMH Hospital, Kolar**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**26. Victoria Hospital, Bengaluru**
+**Project 26: Victoria Hospital, Bengaluru**
 
 | Year | Material | Finish | Size or quantity | Scope |
 |---|---|---|---|---|
 |   |   |   |   |   |
 
-**27. Sandur Manganese & Iron Ores**
+**Project 27: Sandur Manganese & Iron Ores**
 
 | City or area | Year | Material | Finish | Size or quantity | Scope | Photos (please send) |
 |---|---|---|---|---|---|---|
