@@ -32,7 +32,10 @@ There is one commit per step. To resume, start at the first unticked step.
   - **Results:** bismilla 2 (quality only), indian-tiffin-club 1 (quality only) and 2 (600px), commercial-complex-malleswaram 1 and 2 (520px).
   - **Display:** cards show thumbnails at most about 460px wide. Above 520px, srcset switches to the full photo.
   - **Checking:** compared side by side at card size, with no visible difference. `--thumbs-over-budget` remakes only the heavy thumbnails and leaves every other file alone.
-- [ ] 10. GA4 check
+- [x] 10. GA4: no code change needed.
+  - **Setup:** build.mjs reads `GA4_ID` (it must look like G-XXXXXXXXXX). When it is set, every page loads gtag.js and assets/js/analytics.js. That file sends `contact_click` with `method` = phone, email or whatsapp, and link_url without the message text, for every tel:, mailto: and https://wa.me/ link.
+  - **Test:** a build with GA4_ID=G-TEST12345, opened in headless Edge. Every such link on /, /contact/, /faq/, a project page and the 404 page was clicked (78 links), and there were 78 events. That includes wa.me/916363385312.
+  - **To do in Vercel:** Project → Settings → Environment Variables → `GA4_ID` = the property's G- ID, then redeploy.
 - [ ] 11. Remaining SEO-AUDIT.md items
 - [ ] 12. Finish: build, grep, before/after table, client message
 
