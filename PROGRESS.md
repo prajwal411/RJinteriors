@@ -19,7 +19,13 @@ There is one commit per step. To resume, start at the first unticked step.
   - **Brand sites:** each project has a `brandSite` and links to the matching product pages on it (project-types.json `brandSites`; all 39 URLs checked, 200). Kochi → GRC Kochi, Coimbatore → GRC Chennai, Dharmavaram (Andhra Pradesh) → GFRC Innovation. Everything else, including the 7 projects without a confirmed location, → GRC Bangalore.
   - **ASK-CLIENT.md:** one table per project (year, material, finish, size or quantity, scope), plus city or area where it is missing, and photos for Sandur.
 - [x] 6. ASK-CLIENT.md: question 1 now asks for the GRC BANGALORE Google profile share link, not an RJ Interiors listing. Question 2 asks whether grcbanglore@gmail.com is the real inbox. The hours question was dropped, because the hours are now a given fact.
-- [ ] 7. Structured data: Organization, areaServed India, no hasMap until the link arrives
+- [x] 7. Structured data:
+  - **Organization** (no LocalBusiness): legalName, alternateName RJIC, foundingDate 2008, the GRC unit as a PostalAddress, telephone +91-99005-79417, both numbers as contactPoints, areaServed India (Country), and the five brands as subOrganization.
+  - **Removed:** the address-search `hasMap` and the opening hours (a Place property, not an Organization one). The hours are still in the page text.
+  - **Once `googleListing` is set in site.json:** the Organization gets a `location` Place (the Jakkur unit) carrying `hasMap`, because hasMap is only valid on a Place. `geo` goes there too, once coordinates are set. The reviews link on /contact/ appears too. All of this was tested with a dummy link and reverted.
+  - **Build checks:** the build now fails on LocalBusiness, on any product, price, rating or review key at any depth, and on a Google Maps search link in the Organization.
+  - **Validation:** every page was checked against the schema.org vocabulary (types exist, every property allowed on its type): 0 errors, both with and without the profile link.
+  - **Still to do when the link arrives:** the map embed and "Get directions" still search the address; switching them needs the profile's Place ID.
 - [ ] 8. Sitemap lastmod (git date, or the build date)
 - [ ] 9. Images: the 5 thumbnails over 100 KB
 - [ ] 10. GA4 check

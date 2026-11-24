@@ -479,14 +479,22 @@ function checkJsonLd(html, where) {
   need(blocks.length === 1, `should be one block, found ${blocks.length}`);
   const data = JSON.parse(blocks[0][1]);
   need(data['@context'] === 'https://schema.org', 'has no schema.org context');
+  // No prices, ratings or reviews anywhere, at any depth
+  need(!/"(@type)?":\s*"(Product|Offer|AggregateRating|Review|Rating)"|"(aggregateRating|review|reviews|offers|price|priceRange)":/.test(blocks[0][1]),
+    'has product, price, rating or review markup');
   for (const node of data['@graph']) {
+    // The Organization may only point to the GRC BANGALORE profile (once site.json has its share link),
+    // never to a Google Maps search
+    need(node['@id']?.endsWith('#organization') ? !/google\.[a-z.]+\/maps\/(search|dir)|maps\.google|\/maps\?q=/.test(JSON.stringify(node)) : true,
+      'Organization links to a Google Maps search instead of the GRC BANGALORE profile');
     const type = [].concat(node['@type']);
-    need(!type.some((t) => ['Product', 'Offer', 'AggregateRating', 'Review'].includes(t)), 'has product, price or rating markup');
-    if (type.includes('LocalBusiness')) {
+    need(!type.includes('LocalBusiness'), 'uses LocalBusiness (RJIC is an Organization; the Google profile is GRC BANGALORE\'s)');
+    if (type.includes('Organization')) {
       const a = node.address || {};
-      need(node.name && node.telephone && a.streetAddress && a.addressLocality && a.postalCode && a.addressCountry,
-        'LocalBusiness is missing its name, phone or address');
-      need(node.subOrganization?.every((o) => o.name && o.url), 'has a brand without a name or URL');
+      need(node.name && node.legalName && node.telephone && a.streetAddress && a.addressLocality && a.postalCode && a.addressCountry,
+        'Organization is missing its name, legal name, phone or address');
+      need(node.contactPoint?.length === 2 && node.contactPoint.every((c) => c.telephone), 'Organization should have both phones as contactPoints');
+      need(node.subOrganization?.length === 5 && node.subOrganization.every((o) => o.name && o.url), 'should list the five brands, each with a name and URL');
     }
     if (type.includes('WebSite')) need(node.name && node.url, 'WebSite is missing its name or URL');
     if (type.includes('BreadcrumbList')) {
@@ -503,39 +511,42 @@ function checkJsonLd(html, where) {
 const dashed = (tel) => tel.replace(/^\+91(\d{5})(\d{5})$/, '+91-$1-$2');
 
 function jsonLd(site, page, absolute, projects, faq) {
-  // A LocalBusiness as well as an Organization, so the address and map can tie the site to the factory's
-  // Google Business Profile
+  // The GRC unit at Jakkur. The Google profile there belongs to GRC BANGALORE, so RJIC is an Organization,
+  // not a LocalBusiness.
+  const address = {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    addressLocality: site.address.locality,
+    postalCode: site.address.postalCode,
+    addressRegion: site.address.region,
+    addressCountry: site.address.countryCode,
+  };
   const org = {
-    '@type': ['Organization', 'LocalBusiness'],
+    '@type': 'Organization',
     '@id': absolute('/#organization'),
     name: site.name,
     alternateName: site.shortName,
+    legalName: site.name,
     url: absolute('/'),
     logo: absolute('/assets/img/icon-512.png'),
     image: absolute('/assets/img/og-image.png'),
-    legalName: site.name,
     foundingDate: site.founded,
-    hasMap: site.address.mapUrl,
     email: site.emails[0],
     telephone: dashed(site.phones[0].tel),
-    contactPoint: site.phones.map((ph) => ({ '@type': 'ContactPoint', telephone: dashed(ph.tel), contactType: 'sales', areaServed: site.areaServed })),
-    openingHoursSpecification: {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: site.openingHours.days,
-      opens: site.openingHours.opens,
-      closes: site.openingHours.closes,
-    },
-    // Only once the factory's map coordinates are confirmed and added to site.json
-    ...(site.geo ? { geo: { '@type': 'GeoCoordinates', latitude: site.geo.latitude, longitude: site.geo.longitude } } : {}),
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: site.address.street,
-      addressLocality: site.address.locality,
-      postalCode: site.address.postalCode,
-      addressRegion: site.address.region,
-      addressCountry: site.address.countryCode,
-    },
-    areaServed: site.areaServed.map((name) => ({ '@type': 'State', name })),
+    contactPoint: site.phones.map((ph) => ({ '@type': 'ContactPoint', telephone: dashed(ph.tel), contactType: 'sales', areaServed: 'IN' })),
+    address,
+    // hasMap belongs to a Place, so the GRC BANGALORE profile link goes on the unit as the Organization's
+    // location, and only once site.json has it (googleListing). Coordinates likewise, once confirmed (geo).
+    ...(site.googleListing || site.geo ? {
+      location: {
+        '@type': 'Place',
+        name: 'GRC unit, Jakkur, Bengaluru',
+        address,
+        ...(site.googleListing ? { hasMap: site.googleListing } : {}),
+        ...(site.geo ? { geo: { '@type': 'GeoCoordinates', latitude: site.geo.latitude, longitude: site.geo.longitude } } : {}),
+      },
+    } : {}),
+    areaServed: { '@type': 'Country', name: site.areaServed },
     knowsAbout: site.knowsAbout,
     // The five brand websites belong to RJIC; they are not the same entity, so not sameAs
     subOrganization: site.brands.map((b) => ({ '@type': 'Organization', name: b.name, url: b.url })),

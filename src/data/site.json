@@ -27,7 +27,7 @@
     { "name": "GRC Kochi", "url": "https://www.grckochi.in/", "domain": "grckochi.in" },
     { "name": "GFRC Innovation", "url": "https://www.gfrcinnovation.in/", "domain": "gfrcinnovation.in" }
   ],
-  "areaServed": ["Karnataka", "Tamil Nadu", "Kerala"],
+  "areaServed": "India",
   "knowsAbout": [
     "Glass fibre reinforced concrete (GRC, GFRC)",
     "Fibre reinforced plastic (FRP)",
